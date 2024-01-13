@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1048254137318",
+    "project_id": "raktacare",
+    "storage_bucket": "raktacare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048254137318:android:006d018db632abe59b0c27",
+        "android_client_info": {
+          "package_name": "com.example.blood_donation_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoGEPw_Z0e2ZMHBnylBwHJ1bNhnB4Qm90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
