@@ -100,7 +100,8 @@ class LoginScreen extends StatelessWidget {
                                     onChanged: (CountryCode code) {
                                       countryCode = code.dialCode ?? '';
                                     },
-                                    showDropDownButton: true,
+                                    showDropDownButton: false,
+                                    showFlag: false,
                                     showCountryOnly: false,
                                     flagWidth: 12,
                                     showOnlyCountryWhenClosed: false,

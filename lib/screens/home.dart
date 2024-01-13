@@ -1,4 +1,5 @@
 import 'package:blood_donation_app/screens/card.dart';
+import 'package:blood_donation_app/screens/custom_search_bar.dart';
 import 'package:blood_donation_app/screens/mycontroller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,9 @@ class Home extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showSearch(context: context, delegate: CustomSearchBar());
+                },
                 icon: const Icon(
                   Icons.search,
                   color: Colors.black,

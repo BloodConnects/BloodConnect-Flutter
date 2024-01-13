@@ -1,4 +1,5 @@
 import 'package:blood_donation_app/auth_module/opening_screen.dart';
+import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,10 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: OpeningScreen(),
+      home: VerificaationScreen(verificationId: '',),
     );
   }
 }

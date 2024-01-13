@@ -83,7 +83,7 @@ class RegisterationScreen extends StatelessWidget {
                             children: [
                               TextField(
                                 controller: fullNameController,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
@@ -97,7 +97,7 @@ class RegisterationScreen extends StatelessWidget {
                               ),
                               TextField(
                                 controller: mobileNumberController,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.phone,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
@@ -145,7 +145,7 @@ class RegisterationScreen extends StatelessWidget {
                               ),
                               TextField(
                                 controller: emailController,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.emailAddress,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
