@@ -17,7 +17,7 @@ Widget VerificationCard({
         borderRadius: BorderRadius.all(Radius.circular(12),        
       ),
     ),
-    child: TextField(
+    child: TextFormField(
       onChanged: (value) {
         if(value.length == 1){
           FocusScope.of(context).nextFocus();

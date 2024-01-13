@@ -3,8 +3,13 @@ import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class RegisterationScreen extends StatelessWidget {
+  List<Map<String, String>> genderList = [
+    {'name': 'Male', 'image': 'Assets/Images/male.png'},
+    {'name': 'Female', 'image': 'Assets/Images/female.png'},
+    {'name': 'Other', 'image': 'Assets/Images/other.png'},
+  ];
+  RxString selectedGender = ''.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +64,17 @@ class RegisterScreen extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(1.0, 2.0),
-                                  blurRadius: 2,
-                                  spreadRadius: 1.0)
-                            ],
-                            color: Colors.white),
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 2,
+                              spreadRadius: 1.0,
+                            )
+                          ],
+                          color: Colors.white,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
@@ -78,11 +85,12 @@ class RegisterScreen extends StatelessWidget {
                                 controller: fullNameController,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black)),
-                                    hintText: 'Enter your fullname',
-                                    prefixIcon: Icon(Icons.person)),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  hintText: 'Enter your fullname',
+                                  prefixIcon: Icon(Icons.person),
+                                ),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -91,11 +99,12 @@ class RegisterScreen extends StatelessWidget {
                                 controller: mobileNumberController,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black)),
-                                    hintText: 'Enter your Mobile Number',
-                                    prefixIcon: Icon(Icons.phone)),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  hintText: 'Enter your Mobile Number',
+                                  prefixIcon: Icon(Icons.phone),
+                                ),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -122,13 +131,13 @@ class RegisterScreen extends StatelessWidget {
                                     myController.onSelected(newValue!);
                                   },
                                   decoration: const InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                      ),
-                                      hintText: 'Select Blood Group',
-                                      prefixIcon:
-                                          Icon(Icons.bloodtype_rounded)),
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    hintText: 'Select Blood Group',
+                                    prefixIcon: Icon(Icons.bloodtype_rounded),
+                                  ),
                                 );
                               }),
                               const SizedBox(
@@ -138,11 +147,12 @@ class RegisterScreen extends StatelessWidget {
                                 controller: emailController,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black)),
-                                    hintText: 'Enter your Email Number',
-                                    prefixIcon: Icon(Icons.email)),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  hintText: 'Enter your Email Number',
+                                  prefixIcon: Icon(Icons.email),
+                                ),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -154,58 +164,30 @@ class RegisterScreen extends StatelessWidget {
                                   fontFamily: 'Inter',
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  // GestureDetector(
-                                  //   child: Image.asset(
-                                  //     'Assets/Images/female.png',
-                                  //     height: 40,
-                                  //     width: 40,
-                                  //   ),
-                                  //   onTap: () {
-                                  //     Image.asset('Assets/Images/female.png',
-                                  //     height: 40,
-                                  //     width: 40,
-                                  //     color: Colors.blue.withOpacity(0.5),);
-                                  //     // Stack(
-                                  //     //   children: [
-                                  //     //     Positioned(
-                                  //     //       top: 100,
-                                  //     //       right: 50,
-                                  //     //       bottom: 20,
-                                  //     //       child: Image.asset(
-                                  //     //           'Assets/Images/tick_mark.png'),
-                                  //     //     ),
-                                  //     //   ],
-                                  //     // );
-                                  //   },
-                                  // ),
-                                  // Chip(
-                                  //   label: Text('Female'),
-                                  //   avatar: CircleAvatar(
-                                  //     backgroundImage: AssetImage(
-                                  //         'Assets/Images/female.png'),
-                                  //   ),
-                                  //   side: BorderSide.none,
-                                  // ),
-                                  const SizedBox(
-                                    width: 10,
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Wrap(
+                                      spacing: 8,
+                                      children: genderList
+                                          .map(
+                                            (gender) => GestureDetector(
+                                              onTap: () {
+                                                selectedGender.value =
+                                                    gender['name']!;
+                                              },
+                                              child: genderWidget(
+                                                gender['image']!,
+                                                gender['name']!,
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
                                   ),
-                                  Image.asset(
-                                    'Assets/Images/male.png',
-                                    height: 39,
-                                    width: 39,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  // CircleAvatar(
-                                  //   radius: 30,
-                                  //   child: Icon(
-                                  //     Icons.fem
-                                  //   ),
-                                  // )
-                                ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -214,24 +196,28 @@ class RegisterScreen extends StatelessWidget {
                                 height: 40,
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                      Get.to(const HomeScreen());
-                                    },
-                                    style: const ButtonStyle(
-                                        shape: MaterialStatePropertyAll(
-                                            RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8)))),
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                Colors.red)),
-                                    child: const Text(
-                                      'Register',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Inter',
+                                  onPressed: () {
+                                    Get.to(const HomeScreen());
+                                  },
+                                  style: const ButtonStyle(
+                                    shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
                                       ),
-                                    )),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.red),
+                                  ),
+                                  child: const Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Inter',
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -250,14 +236,59 @@ class RegisterScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'By creating an account, you agree to the Terms of use ard Privacy Policy.',
+                'By creating an account, you agree to the Terms of use and Privacy Policy.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                  fontFamily: 'Inter',
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget genderWidget(String imageUrl, String genderType) {
+    return Stack(
+      children: [
+        Obx(
+          () {
+            return Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(imageUrl),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    selectedGender.value == genderType
+                        ? Colors.red.withOpacity(0.3)
+                        : Colors.transparent,
+                    BlendMode.darken,
+                  ),
+                ),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: selectedGender.value == genderType
+                      ? Colors.red
+                      : Colors.white12,
+                ),
+              ),
+              child: Visibility(
+                visible: selectedGender.value == genderType,
+                child: const Icon(
+                  Icons.check,
+                  size: 40,
+                  color: Colors.red,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

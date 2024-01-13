@@ -18,13 +18,13 @@ class ExploreScreen extends StatelessWidget {
         color: Colors.cyan,
         child: Stack(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 35,),
               child: SizedBox(
                 height: 42,
                 width: double.infinity,
-                child: TextField(
-                  decoration: InputDecoration(
+                child: TextFormField(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(22)),
                       borderSide: BorderSide.none,
@@ -39,7 +39,7 @@ class ExploreScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 65),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 85),
               child: Container(
                 height: 220,
                 width: double.infinity,
