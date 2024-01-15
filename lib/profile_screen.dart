@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,7 +12,8 @@ class ProfileScreen extends StatelessWidget {
         titleTextStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
-          fontFamily: 'Inter'
+          fontFamily: 'Inter',
+          color: Colors.black
         ),
         elevation: 3,
         centerTitle: false,

@@ -1,20 +1,16 @@
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VerificaationScreen extends StatelessWidget {
-  // final String verificationId;
-  // final int? resendToken;
+  final String verificationId;
   const VerificaationScreen({
-    super.key,
+    super.key, required this.verificationId,
   });
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController codeController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -98,7 +94,7 @@ class VerificaationScreen extends StatelessWidget {
                               // String code = codeController.text;
                               // AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code);
                               // await FirebaseAuth.instance.signInWithCredential(credential);
-                              Get.to(RegisterScreen());
+                              Get.to(RegisterationScreen());
                             },
                             style: const ButtonStyle(
                                 shape: MaterialStatePropertyAll(

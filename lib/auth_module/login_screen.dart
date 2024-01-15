@@ -1,4 +1,3 @@
-import 'package:blood_donation_app/auth_module/auth_service.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,9 +54,10 @@ class LoginScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontFamily: 'Inter',),
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontFamily: 'Inter',
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -100,8 +100,8 @@ class LoginScreen extends StatelessWidget {
                                     onChanged: (CountryCode code) {
                                       countryCode = code.dialCode ?? '';
                                     },
-                                    initialSelection: 'IN',
-                                    favorite: ['+91', 'IN'],
+                                    showDropDownButton: false,
+                                    showFlag: false,
                                     showCountryOnly: false,
                                     flagWidth: 12,
                                     showOnlyCountryWhenClosed: false,
@@ -110,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.55,
-                                    child: TextField(
+                                    child: TextFormField(
                                       controller: mobileNumberController,
                                       keyboardType: TextInputType.number,
                                       decoration: const InputDecoration(
@@ -138,13 +138,13 @@ class LoginScreen extends StatelessWidget {
                               width: double.infinity,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    // if(countryCode.isNotEmpty){
-                                    //   String phoneNumber = '+$countryCode${mobileNumberController.text}';
-                                    //   await _authService.verifyPhoneNumber(phoneNumber);
-                                    // }else{
-                                    //   print('Please select a country code');
-                                    // }
-                                    Get.to(VerificaationScreen());
+                                    if (countryCode.isNotEmpty) {
+                                      String phoneNumber =
+                                          '$countryCode${mobileNumberController.text}';
+                                      verifyNumber(phoneNumber);
+                                    } else {
+                                      print('Plase select a country code');
+                                    }
                                   },
                                   style: const ButtonStyle(
                                     shape: MaterialStatePropertyAll(
@@ -190,14 +190,6 @@ class LoginScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    // const Spacer(),
-                    // const SizedBox(
-                    //   height: 200,
-                    // ),
-
-                    // const SizedBox(
-                    //   height: 20,
-                    // )
                   ],
                 ),
               ),
@@ -226,23 +218,29 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void verifyNumber() {
-    mobileNumberController.text;
+  void verifyNumber(String phoneNumber) async {
     auth.verifyPhoneNumber(
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential).then(
-            (value) {
-              print('You are successfully logged in');
-            },
-          );
-        },
-        verificationFailed: (FirebaseAuthException exception) {
-          print(exception.message);
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          verificationIdReceived = verificationId;
-          otpCodeVisible = true;
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {});
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await auth.signInWithCredential(credential).then(
+          (value) {
+            print('You are successfully logged in');
+          },
+        );
+      },
+      verificationFailed: (FirebaseAuthException exception) {
+        print(exception.message);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        verificationIdReceived = verificationId;
+        otpCodeVisible = true;
+        Get.to(
+          VerificaationScreen(
+            verificationId: verificationIdReceived,
+          )
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 }
