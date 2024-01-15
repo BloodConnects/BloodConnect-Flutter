@@ -1,7 +1,6 @@
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -103,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                                     showDropDownButton: false,
                                     showFlag: false,
                                     showCountryOnly: false,
-                                    flagWidth: 12,
+                                    showFlag: false,
                                     showOnlyCountryWhenClosed: false,
                                     alignLeft: false,
                                   ),
