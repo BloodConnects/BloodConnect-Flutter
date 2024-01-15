@@ -100,6 +100,7 @@ class LoginScreen extends StatelessWidget {
                                       countryCode = code.dialCode ?? '';
                                     },
                                     showDropDownButton: false,
+                                    showFlag: false,
                                     showCountryOnly: false,
                                     showFlag: false,
                                     showOnlyCountryWhenClosed: false,
