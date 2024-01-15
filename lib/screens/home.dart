@@ -1,7 +1,6 @@
 import 'package:blood_donation_app/screens/card.dart';
 import 'package:blood_donation_app/screens/custom_search_bar.dart';
 import 'package:blood_donation_app/screens/mycontroller.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,7 +10,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyController mycontroller = Get.put(MyController());
+    final MyController mycontroller = Get.put(MyController());
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +35,7 @@ class Home extends StatelessWidget {
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
                 onPressed: () {
-                  showSearch(context: context, delegate: CustomSearchBar());
+                  // showSearch(context: context, delegate: CustomSearchBar());
                 },
                 icon: const Icon(
                   Icons.search,

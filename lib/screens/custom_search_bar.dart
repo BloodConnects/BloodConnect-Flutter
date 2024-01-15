@@ -7,8 +7,6 @@ class CustomSearchBar extends SearchDelegate {
     'banana',
     'Pear',
     'mango',
-    'Watermelon',
-    'Pineapple',
     'Blueberries',
     'Strawberries'
   ];
