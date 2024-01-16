@@ -102,7 +102,6 @@ class LoginScreen extends StatelessWidget {
                                     showDropDownButton: false,
                                     showFlag: false,
                                     showCountryOnly: false,
-                                    showFlag: false,
                                     showOnlyCountryWhenClosed: false,
                                     alignLeft: false,
                                   ),
