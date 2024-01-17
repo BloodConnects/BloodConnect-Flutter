@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/screens/maps.dart';
 import 'package:blood_donation_app/screens/mycontroller.dart';
 import 'package:blood_donation_app/screens/user_card.dart';
 import 'package:flutter/material.dart';
@@ -12,123 +13,136 @@ class ExploreScreen extends StatelessWidget {
     TextEditingController search = TextEditingController();
 
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.cyan,
-        child: Stack(
+        body: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 35,),
-              child: SizedBox(
-                height: 42,
-                width: double.infinity,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(22)),
-                      borderSide: BorderSide.none,
+            const MapScreen(),
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.transparent,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 38,),
+                    child: Container(
+                      height: 45,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(22)
+                        ),
+                        color: Color.fromARGB(255, 222, 221, 221),
+                      ),
+                      child: Center(
+                        child: TextFormField(
+                          textAlign: TextAlign.left,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(22)),
+                              borderSide: BorderSide.none,
+                            ),
+                            // filled: true,
+                            // fillColor: Color.fromARGB(255, 222, 221, 221),
+                            prefixIcon: Icon(Icons.search),
+                            hintText: 'Search',
+                          ),
+                        ),
+                      ),
                     ),
-                    filled: true,
-                    fillColor: Color.fromARGB(255, 222, 221, 221),
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 90),
+                    child: Container(
+                      height: 220,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                        color: Color.fromARGB(255, 222, 221, 221),
+                      ),
+                      child: ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Ahmedabad',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Inter',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  'Gujarat, India',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Inter',
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Divider(
+                                  indent: 0,
+                                  endIndent: 5,
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                        child: Row(
+                          children: [
+                            buildUserCard(
+                              name: 'Priyanka Fulwari',
+                              bloodType: 'A positive',
+                              gender: 'Female',
+                              location: 'Ahmedabad, Gujarat',
+                              imagePath: 'Assets/Images/images.jpeg',
+                              onContactPressed: () {},
+                            ),
+                            const SizedBox(width: 10),
+                            buildUserCard(
+                              name: 'Priyanka Fulwari',
+                              bloodType: 'A positive',
+                              gender: 'Female',
+                              location: 'Ahmedabad, Gujarat',
+                              imagePath: 'Assets/Images/images.jpeg',
+                              onContactPressed: () {},
+                            ),
+                            const SizedBox(width: 10),
+                            buildUserCard(
+                              name: 'Priyanka Fulwari',
+                              bloodType: 'A positive',
+                              gender: 'Female',
+                              location: 'Ahmedabad, Gujarat',
+                              imagePath: 'Assets/Images/images.jpeg',
+                              onContactPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 85),
-              child: Container(
-                height: 220,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                  color: Color.fromARGB(255, 222, 221, 221),
-                ),
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Ahmedabad',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            'Gujarat, India',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                            ),
-                          ),
-                          Divider(
-                            indent: 0,
-                            endIndent: 5,
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Row(
-                    children: [
-                      buildUserCard(
-                        name: 'Priyanka Fulwari',
-                        bloodType: 'A positive',
-                        gender: 'Female',
-                        location: 'Ahmedabad, Gujarat',
-                        imagePath: 'Assets/Images/images.jpeg',
-                        onContactPressed: () {},
-                      ),
-                      const SizedBox(width: 10),
-                      buildUserCard(
-                        name: 'Priyanka Fulwari',
-                        bloodType: 'A positive',
-                        gender: 'Female',
-                        location: 'Ahmedabad, Gujarat',
-                        imagePath: 'Assets/Images/images.jpeg',
-                        onContactPressed: () {},
-                      ),
-                      const SizedBox(width: 10),
-                      buildUserCard(
-                        name: 'Priyanka Fulwari',
-                        bloodType: 'A positive',
-                        gender: 'Female',
-                        location: 'Ahmedabad, Gujarat',
-                        imagePath: 'Assets/Images/images.jpeg',
-                        onContactPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
           ],
         ),
-      ),
     );
   }
 }

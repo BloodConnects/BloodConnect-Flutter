@@ -35,7 +35,7 @@ class Home extends StatelessWidget {
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
                 onPressed: () {
-                  // showSearch(context: context, delegate: CustomSearchBar());
+                  showSearch(context: context, delegate: CustomSearchBar());
                 },
                 icon: const Icon(
                   Icons.search,
@@ -143,7 +143,7 @@ class Home extends StatelessWidget {
                             child: Text(
                               'Your Donation Details',
                               style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 16,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
