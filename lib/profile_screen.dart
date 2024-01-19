@@ -15,7 +15,6 @@ class ProfileScreen extends StatelessWidget {
           fontFamily: 'Inter',
           color: Colors.black
         ),
-        elevation: 3,
         centerTitle: false,
         // actions: const [
         //   Padding(

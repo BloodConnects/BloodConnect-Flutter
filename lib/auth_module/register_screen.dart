@@ -88,6 +88,7 @@ class RegisterationScreen extends StatelessWidget {
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
+                                  labelText: 'Full Name',
                                   hintText: 'Enter your fullname',
                                   prefixIcon: Icon(Icons.person),
                                 ),
@@ -102,6 +103,7 @@ class RegisterationScreen extends StatelessWidget {
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
+                                  labelText: 'Mobile Number',
                                   hintText: 'Enter your Mobile Number',
                                   prefixIcon: Icon(Icons.phone),
                                 ),
@@ -150,6 +152,7 @@ class RegisterationScreen extends StatelessWidget {
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
+                                  labelText: 'Email Address',
                                   hintText: 'Enter your Email Number',
                                   prefixIcon: Icon(Icons.email),
                                 ),

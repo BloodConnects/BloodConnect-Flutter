@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             TextFormField(
                               controller: mobileNumberController,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
                                 labelText: 'Mobile Number',
                                 border: const OutlineInputBorder(
@@ -88,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.clear)),
+                                suffixIcon: IconButton(onPressed: (){}, icon: const Icon(Icons.clear)),
                                 hintText: 'Enter Mobile Number',
                                 prefixIcon: CountryCodePicker(
                                   onChanged: (CountryCode code) {
