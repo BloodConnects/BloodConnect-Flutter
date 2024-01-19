@@ -1,5 +1,6 @@
 import 'package:blood_donation_app/screens/card.dart';
 import 'package:blood_donation_app/screens/custom_search_bar.dart';
+import 'package:blood_donation_app/screens/find_donor_screen.dart';
 import 'package:blood_donation_app/screens/mycontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class Home extends StatelessWidget {
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
                 onPressed: () {
-                  // showSearch(context: context, delegate: CustomSearchBar());
+                  showSearch(context: context, delegate: CustomSearchBar());
                 },
                 icon: const Icon(
                   Icons.search,
@@ -69,7 +70,9 @@ class Home extends StatelessWidget {
                                     Radius.circular(12),
                                   ),
                                   color: Color.fromARGB(255, 222, 222, 222)),
-                              child: const Text('page 1',),
+                              child: const Text(
+                                'page 1',
+                              ),
                             ),
                             Container(
                               width: double.infinity,
@@ -97,9 +100,9 @@ class Home extends StatelessWidget {
                             enableInfiniteScroll: true,
                             reverse: false,
                             autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
+                                const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             scrollDirection: Axis.horizontal,
@@ -116,7 +119,7 @@ class Home extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.612,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -143,7 +146,7 @@ class Home extends StatelessWidget {
                             child: Text(
                               'Your Donation Details',
                               style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 16,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
@@ -152,37 +155,45 @@ class Home extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomContainer(
-                                title: 'Add \nDonation',
+                                title: '  Find \n  Donor',
                                 icon: Icons.medical_services,
+                                ontap: () {
+                                  Get.to(const FindDonorScreen());
+                                },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               CustomContainer(
                                 title: 'Health \nScreening',
                                 icon: Icons.health_and_safety_sharp,
+                                ontap: () {},
                               )
                             ],
                           ),
                           const SizedBox(
                             height: 8,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomContainer(
-                                  title: 'Emergency \n Cases',
-                                  icon: Icons.heart_broken),
-                              SizedBox(
+                                title: 'Emergency \n Cases',
+                                icon: Icons.heart_broken,
+                                ontap: () {},
+                              ),
+                              const SizedBox(
                                 width: 8,
                               ),
                               CustomContainer(
-                                  title: 'Donation \n Tips',
-                                  icon: Icons.tips_and_updates)
+                                title: 'Donation \n Tips',
+                                icon: Icons.tips_and_updates,
+                                ontap: () {},
+                              )
                             ],
                           ),
                           const SizedBox(
@@ -202,18 +213,21 @@ class Home extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomContainer(
-                                  title: 'Blood \nRequests',
-                                  icon: Icons.healing_outlined),
-                              SizedBox(
+                                title: 'Blood \nRequests',
+                                icon: Icons.healing_outlined,
+                                ontap: () {},
+                              ),
+                              const SizedBox(
                                 width: 8,
                               ),
                               CustomContainer(
                                 title: 'Appointment\nSchedule',
                                 icon: Icons.schedule,
+                                ontap: (){},
                               )
                             ],
                           ),

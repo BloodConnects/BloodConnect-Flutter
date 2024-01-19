@@ -18,7 +18,7 @@ class CustomSearchBar extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       )
     ];
   }
@@ -60,7 +60,9 @@ class CustomSearchBar extends SearchDelegate {
         matchQuery.add(fruit);
       }
     }
+
     return ListView.builder(
+      itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
