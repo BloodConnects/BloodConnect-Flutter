@@ -2,6 +2,7 @@ import 'package:blood_donation_app/auth_module/opening_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:blood_donation_app/firebase_options.dart';
 import 'package:blood_donation_app/screens/explore_screen.dart';
+import 'package:blood_donation_app/screens/find_donor_screen.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:blood_donation_app/screens/maps.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen()
+      home: OpeningScreen()
     );
   }
 }

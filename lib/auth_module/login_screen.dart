@@ -78,54 +78,28 @@ class LoginScreen extends StatelessWidget {
                             left: 10, right: 10, top: 10, bottom: 10),
                         child: Column(
                           children: [
-                            Container(
-                              height: 55,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: const Border.symmetric(
-                                  horizontal: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                  vertical: BorderSide(
-                                    color: Colors.grey,
+                            TextFormField(
+                              controller: mobileNumberController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: 'Mobile Number',
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
                                   ),
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CountryCodePicker(
-                                    onChanged: (CountryCode code) {
-                                      countryCode = code.dialCode ?? '';
-                                    },
-                                    showDropDownButton: false,
-                                    showFlag: false,
-                                    showCountryOnly: false,
-                                    showOnlyCountryWhenClosed: false,
-                                    alignLeft: false,
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.55,
-                                    child: TextFormField(
-                                      controller: mobileNumberController,
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        // border: OutlineInputBorder(
-                                        //   borderSide: BorderSide(
-                                        //     color: Colors.black,
-                                        //   ),
-                                        // ),
-                                        border: InputBorder.none,
-                                        hintText: 'Enter Mobile Number',
-                                        // prefixIcon: Icon(
-                                        //   Icons.phone,
-                                        // ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.clear)),
+                                hintText: 'Enter Mobile Number',
+                                prefixIcon: CountryCodePicker(
+                                  onChanged: (CountryCode code) {
+                                    countryCode = code.dialCode ?? '';
+                                  },
+                                  showDropDownButton: false,
+                                  showFlag: false,
+                                  showCountryOnly: false,
+                                  showOnlyCountryWhenClosed: false,
+                                  alignLeft: false,
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -232,11 +206,9 @@ class LoginScreen extends StatelessWidget {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdReceived = verificationId;
         otpCodeVisible = true;
-        Get.to(
-          VerificaationScreen(
-            verificationId: verificationIdReceived,
-          )
-        );
+        Get.to(VerificaationScreen(
+          verificationId: verificationIdReceived,
+        ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
