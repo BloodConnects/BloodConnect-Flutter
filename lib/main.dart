@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: OpeningScreen()
+      home: HomeScreen()
     );
   }
 }

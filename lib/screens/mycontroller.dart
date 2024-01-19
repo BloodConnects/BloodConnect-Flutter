@@ -9,7 +9,11 @@ class MyController extends GetxController {
   late Timer timer;
   int currentPage = 0;
   final PageController pageController = PageController();
+  RxBool isSecondContainerVisible = false.obs;
 
+  void toggleSecondContainerVisibility() {
+    isSecondContainerVisible.toggle();
+  }
 
   @override
   void onInit() {

@@ -10,7 +10,7 @@ Widget buildUserCard({
 }) {
   return Container(
     height: 135,
-    width: 300,
+    width: 310,
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(12)),
       color: Color.fromARGB(255, 203, 203, 203),

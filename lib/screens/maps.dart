@@ -42,6 +42,16 @@ class MapController extends GetxController {
     ),
   ];
 
+  // void onTapOfMarker(MarkerId markerId, InfoWindow customInfoWindow){
+  //    Marker(
+  //     markerId: MarkerId('1'),
+  //     position: LatLng(37.42796133580664, -122.085749655962),
+  //     infoWindow: InfoWindow(
+  //       title: 'My Position',
+  //     ),
+  //   );
+  // }
+
   @override
   void onInit() {
     super.onInit();
