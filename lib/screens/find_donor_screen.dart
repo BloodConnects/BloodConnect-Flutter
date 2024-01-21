@@ -1,5 +1,6 @@
+import 'package:blood_donation_app/screens/donor_list_screen.dart';
 import 'package:blood_donation_app/screens/maps.dart';
-import 'package:blood_donation_app/screens/slider_controller.dart';
+import 'package:blood_donation_app/controller/slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -234,7 +235,9 @@ class FindDonorScreen extends StatelessWidget {
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(const DonorListScreen());
+                  },
                   style: ButtonStyle(
                       backgroundColor:
                           const MaterialStatePropertyAll(Colors.red),

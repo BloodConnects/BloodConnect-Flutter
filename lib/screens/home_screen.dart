@@ -1,5 +1,5 @@
-import 'package:blood_donation_app/auth_module/controller.dart';
-import 'package:blood_donation_app/profile_screen.dart';
+import 'package:blood_donation_app/controller/controller.dart';
+import 'package:blood_donation_app/screens/profile_screen.dart';
 import 'package:blood_donation_app/screens/explore_screen.dart';
 import 'package:blood_donation_app/screens/home.dart';
 import 'package:blood_donation_app/screens/notification_screen.dart';

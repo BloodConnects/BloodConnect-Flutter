@@ -10,6 +10,16 @@ class MyController extends GetxController {
   int currentPage = 0;
   final PageController pageController = PageController();
   RxBool isSecondContainerVisible = false.obs;
+  RxBool isCheckBoxClicked = false.obs;
+  RxString selectedBloodGroup = 'A positive'.obs;
+
+  void onSelectedBloodGroup(String value) {
+    selectedBloodGroup.value = value;
+  }
+
+  void toggleCheckBoxClicked(){
+    isCheckBoxClicked.toggle();
+  }
 
   void toggleSecondContainerVisibility() {
     isSecondContainerVisible.toggle();

@@ -1,4 +1,7 @@
+import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
+import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
+import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +16,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
+    FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -80,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             TextFormField(
                               controller: mobileNumberController,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
                                 labelText: 'Mobile Number',
                                 border: const OutlineInputBorder(
@@ -88,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.clear)),
+                                suffixIcon: IconButton(onPressed: (){}, icon: const Icon(Icons.clear)),
                                 hintText: 'Enter Mobile Number',
                                 prefixIcon: CountryCodePicker(
                                   onChanged: (CountryCode code) {
@@ -147,18 +153,41 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 17,
-                          backgroundColor: Colors.white,
-                          child: Image.asset('Assets/Images/google.png'),
+                        GestureDetector(
+                          onTap: ()async {
+                            // Call the Google Sign-In method
+                            final user = await _googleSignInProvider.signInWithGoogle();
+
+                            if (user != null) {
+                              print('User signed in: ${user.displayName}');
+                              //after login check uid if already registered then go to home screen otherwise register screen
+                            } else {
+                              print('Google Sign-In failed.');
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 17,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('Assets/Images/google.png'),
+                          ),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        CircleAvatar(
-                          radius: 17,
-                          backgroundColor: Colors.white,
-                          child: Image.asset('Assets/Images/facebook.png'),
+                        GestureDetector(
+                          onTap: ()async{
+                            final user = await _facebookSignInProvider.signInWithFacebook();
+                            if(user != null){
+                              print('User Signed in: ${user.displayName}');
+                            }else{
+                              print('Facebook Sign-In failed.');
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 17,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('Assets/Images/facebook.png'),
+                          ),
                         )
                       ],
                     ),
