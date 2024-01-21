@@ -1,4 +1,6 @@
+import 'package:blood_donation_app/screens/blood_request_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomDialogBox extends StatelessWidget {
   const CustomDialogBox({super.key});
@@ -44,43 +46,36 @@ class CustomDialogBox extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10, ),
-                    child: Container(
-                      height: 190,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.grey[400]
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(const BloodRequestScreen());
+                      },
+                      child: Container(
+                        height: 190,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[400]
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Container(
-                      height: 190,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[400]
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(const BloodRequestScreen());
+                      },
+                      child: Container(
+                        height: 190,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.grey[400]
+                        ),
                       ),
                     ),
                   )
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     const FlutterLogo(
-                  //       size: 100,
-                  //     ),
-                  //     const Text(
-                  //       "Custom Dialog Example in Flutter",
-                  //       style: TextStyle(fontSize: 18, color: Colors.white),
-                  //     ),
-                  //     ElevatedButton(
-                  //         onPressed: () {
-                  //           Navigator.of(context).pop();
-                  //         },
-                  //         child: const Text("Okay"))
-                  //   ],
-                  // ),
                 ],
               ),
             ],

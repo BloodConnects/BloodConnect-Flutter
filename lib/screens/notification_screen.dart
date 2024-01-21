@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/screens/dynamic_gesture_button.dart';
+import 'package:blood_donation_app/custom_cards/dynamic_gesture_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,7 +45,7 @@ class NotificationScreen extends StatelessWidget {
           color: Colors.black,
           fontSize: 18,
           fontFamily: 'Inter',
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.bold,
         ),
         actions: const [
           Padding(

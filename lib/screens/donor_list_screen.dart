@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/screens/custom_donor_container.dart';
+import 'package:blood_donation_app/custom_cards/custom_donor_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,10 +1,11 @@
-import 'package:blood_donation_app/screens/card.dart';
-import 'package:blood_donation_app/screens/custom_search_bar.dart';
+import 'package:blood_donation_app/custom_cards/card.dart';
+import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
 import 'package:blood_donation_app/screens/find_donor_screen.dart';
-import 'package:blood_donation_app/screens/mycontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../controller/mycontroller.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key});

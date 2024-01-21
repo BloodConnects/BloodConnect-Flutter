@@ -1,5 +1,5 @@
-import 'package:blood_donation_app/screens/custom_dialog_box.dart';
-import 'package:blood_donation_app/screens/dynamic_info_widget.dart';
+import 'package:blood_donation_app/custom_cards/custom_dialog_box.dart';
+import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

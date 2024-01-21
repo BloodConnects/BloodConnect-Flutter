@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class DynamicInfoWidget extends StatelessWidget {
   final String title;
   final String subtitle;
+  final double radius;
 
   DynamicInfoWidget({
     required this.title,
-    required this.subtitle,
+    required this.subtitle, this.radius = 24,
   });
 
   @override
@@ -16,7 +17,7 @@ class DynamicInfoWidget extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 24,
+            radius: radius,
             backgroundColor: Colors.red[300],
           ),
           const SizedBox(

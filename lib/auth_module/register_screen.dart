@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/auth_module/controller.dart';
+import 'package:blood_donation_app/controller/controller.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -259,35 +259,47 @@ class RegisterationScreen extends StatelessWidget {
       children: [
         Obx(
           () {
-            return Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(imageUrl),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    selectedGender.value == genderType
-                        ? Colors.red.withOpacity(0.3)
-                        : Colors.transparent,
-                    BlendMode.darken,
+            return Column(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(imageUrl),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        selectedGender.value == genderType
+                            ? Colors.red.withOpacity(0.3)
+                            : Colors.transparent,
+                        BlendMode.darken,
+                      ),
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: selectedGender.value == genderType
+                          ? Colors.red
+                          : Colors.white12,
+                    ),
+                  ),
+                  child: Visibility(
+                    visible: selectedGender.value == genderType,
+                    child: const Icon(
+                      Icons.check,
+                      size: 40,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selectedGender.value == genderType
-                      ? Colors.red
-                      : Colors.white12,
-                ),
-              ),
-              child: Visibility(
-                visible: selectedGender.value == genderType,
-                child: const Icon(
-                  Icons.check,
-                  size: 40,
-                  color: Colors.red,
-                ),
-              ),
+                Text(
+                  genderType,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Inter',
+                    fontSize: 14,
+                  ),
+                )
+              ],
             );
           },
         ),

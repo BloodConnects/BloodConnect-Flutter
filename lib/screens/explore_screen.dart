@@ -1,9 +1,10 @@
 import 'package:blood_donation_app/screens/maps.dart';
-import 'package:blood_donation_app/screens/mycontroller.dart';
-import 'package:blood_donation_app/screens/user_card.dart';
+import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../controller/mycontroller.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
