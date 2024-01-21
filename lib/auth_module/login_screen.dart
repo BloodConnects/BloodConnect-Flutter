@@ -1,4 +1,6 @@
+import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
+import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -147,10 +151,24 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 17,
-                          backgroundColor: Colors.white,
-                          child: Image.asset('Assets/Images/google.png'),
+                        GestureDetector(
+                          onTap: ()async {
+                            // Call the Google Sign-In method
+                            final user = await _googleSignInProvider.signInWithGoogle();
+
+                            if (user != null) {
+                              print('User signed in: ${user.displayName}');
+                              //after login check uid if already registered then go to home screen otherwise register screen
+                              Get.to(const HomeScreen());
+                            } else {
+                              print('Google Sign-In failed.');
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 17,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('Assets/Images/google.png'),
+                          ),
                         ),
                         const SizedBox(
                           width: 10,
