@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
 import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
@@ -16,6 +17,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
+    FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +161,6 @@ class LoginScreen extends StatelessWidget {
                             if (user != null) {
                               print('User signed in: ${user.displayName}');
                               //after login check uid if already registered then go to home screen otherwise register screen
-                              Get.to(const HomeScreen());
                             } else {
                               print('Google Sign-In failed.');
                             }
@@ -173,10 +174,20 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        CircleAvatar(
-                          radius: 17,
-                          backgroundColor: Colors.white,
-                          child: Image.asset('Assets/Images/facebook.png'),
+                        GestureDetector(
+                          onTap: ()async{
+                            final user = await _facebookSignInProvider.signInWithFacebook();
+                            if(user != null){
+                              print('User Signed in: ${user.displayName}');
+                            }else{
+                              print('Facebook Sign-In failed.');
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 17,
+                            backgroundColor: Colors.white,
+                            child: Image.asset('Assets/Images/facebook.png'),
+                          ),
                         )
                       ],
                     ),
