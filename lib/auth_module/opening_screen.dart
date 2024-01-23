@@ -1,6 +1,9 @@
 import 'package:blood_donation_app/auth_module/login_screen.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class OpeningScreen extends StatelessWidget {
   const OpeningScreen({super.key});
@@ -30,8 +33,11 @@ class OpeningScreen extends StatelessWidget {
               width: 280,
               child: ElevatedButton(
                 onPressed: (){
-                  Get.to( LoginScreen());
-                }, 
+                  void gotoLogin() async {
+                    Get.to( LoginScreen());
+                  };
+                  gotoLogin();
+                },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.white),
                   shape: MaterialStatePropertyAll(
@@ -94,5 +100,17 @@ class OpeningScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String> _getCountryPhoneCode() async {
+    var response = await http.get(Uri.parse('http://ip-api.com/json'));
+    var jsonResponse = json.decode(response.body);
+    final isoCode = jsonResponse['countryCode'];
+    print("country code " + isoCode);
+    final countryList = CountryCodePicker().countryList;
+    return countryList
+            .firstWhere((element) => element["code"] == isoCode,
+            orElse: () => countryList.first)
+        ["dial_code"]!;
   }
 }
