@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/auth_module/add_location_screen.dart';
 import 'package:blood_donation_app/auth_module/opening_screen.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
@@ -14,9 +15,12 @@ import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:blood_donation_app/screens/maps.dart';
 import 'package:blood_donation_app/screens/profile_screen.dart';
 import 'package:blood_donation_app/screens/user_profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +45,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       home: OpeningScreen()

@@ -52,7 +52,7 @@ class CustomDialogBox extends StatelessWidget {
                       },
                       child: Container(
                         height: 190,
-                        width: 150,
+                        width: 145,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.grey[400]
@@ -68,7 +68,7 @@ class CustomDialogBox extends StatelessWidget {
                       },
                       child: Container(
                         height: 190,
-                        width: 150,
+                        width: 145,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.grey[400]

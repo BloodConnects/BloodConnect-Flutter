@@ -2,10 +2,13 @@ import 'package:blood_donation_app/screens/donor_list_screen.dart';
 import 'package:blood_donation_app/screens/maps.dart';
 import 'package:blood_donation_app/controller/slider_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import 'blood_group_model.dart';
+import 'blood_group_model.dart';
+
 class FindDonorScreen extends StatelessWidget {
-  const FindDonorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +72,7 @@ class FindDonorScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 0, bottom: 10),
+                          left: 10, right: 10, top: 5, bottom: 10),
                       child: GetBuilder<DonorController>(
                         init: DonorController(),
                         builder: (controller) => GridView.builder(
@@ -84,6 +87,7 @@ class FindDonorScreen extends StatelessWidget {
                             mainAxisExtent: 95,
                           ),
                           itemBuilder: (context, index) {
+                            BloodGroupModel bloodGroups = bloodGroupList[index];
                             return Obx(
                               () => GestureDetector(
                                 onTap: () {
@@ -94,20 +98,14 @@ class FindDonorScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: controller.isSelected(index)
-                                        ? Colors.red
-                                        : Colors.grey[350],
+                                        ? Colors.redAccent[100]
+                                        : Colors.grey[300],
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      'A+',
-                                      style: TextStyle(
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                        color: controller.isSelected(index)
-                                            ? Colors.grey[350]
-                                            : Colors.red,
-                                      ),
+                                    child: SvgPicture.asset(
+                                      bloodGroups.image,
+                                      height: 50,
+                                      width: 50,
                                     ),
                                   ),
                                 ),
@@ -187,7 +185,7 @@ class FindDonorScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(8),
                           child: const MapScreen(),
                         ),
                       ),
@@ -262,6 +260,17 @@ class FindDonorScreen extends StatelessWidget {
       ),
     );
   }
+
+  List<BloodGroupModel> bloodGroupList = [
+    BloodGroupModel(image: 'Assets/Images/o nagative.svg'),
+    BloodGroupModel(image: 'Assets/Images/o positive.svg'),
+    BloodGroupModel(image: 'Assets/Images/a negative.svg'),
+    BloodGroupModel(image: 'Assets/Images/A positive.svg'),
+    BloodGroupModel(image: 'Assets/Images/b nagative.svg'),
+    BloodGroupModel(image: 'Assets/Images/b positive.svg'),
+    BloodGroupModel(image: 'Assets/Images/ab nagative.svg'),
+    BloodGroupModel(image: 'Assets/Images/ab positive.svg'),
+  ];
 }
 
 class DonorController extends GetxController {

@@ -3,7 +3,10 @@ import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 
+import '../controller/map_controller.dart';
 import '../controller/mycontroller.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -13,8 +16,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MyController myController = Get.put(MyController());
     TextEditingController search = TextEditingController();
-    FocusNode searchFocusNode = FocusNode();
-    // MapController mapController = Get.put(MapController());
+    MapController mapController = Get.put(MapController());
 
     return Scaffold(
       body: Stack(
@@ -40,29 +42,54 @@ class ExploreScreen extends StatelessWidget {
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(22),
+                      Radius.circular(20),
                     ),
                     color: Color.fromARGB(255, 222, 221, 221),
                   ),
                   child: Center(
-                    child: TextFormField(
-                      focusNode: searchFocusNode,
-                      onTap: () {
-                        // Show the second container when clicking on the TextField
-                        myController.toggleSecondContainerVisibility();
-                      },
-                      textAlign: TextAlign.left,
-                      controller: search,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(22)),
-                          borderSide: BorderSide.none,
+                      child: GooglePlaceAutoCompleteTextField(
+                        textEditingController: search,
+                        googleAPIKey: "AIzaSyDUcE7HHtybPfZ8y6mPVjpJiDapJTCIoBA",
+                        inputDecoration: const InputDecoration(
+                          border: InputBorder.none
                         ),
-                        prefixIcon: Icon(Icons.search),
-                        hintText: 'Search',
-                      ),
-                    ),
+                        debounceTime: 800,
+                        countries: const ["in", "fr"],
+                        isLatLngRequired: true,
+                        getPlaceDetailWithLatLng: (Prediction prediction) {
+                          print("placeDetails${prediction.lng}");
+                        },
+                        itemClick: (Prediction prediction) {
+                          search.text = prediction.description!;
+                          search.selection = TextSelection.fromPosition(
+                              TextPosition(offset: prediction.description!.length));
+
+                          // mapController.moveCameraToLatLng(
+                          //   LatLng(prediction.lat as double, prediction.lng as double),
+                          // );
+                        },
+                        itemBuilder: (context, index, Prediction prediction) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.grey[300]
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.location_on),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                Expanded(child: Text(prediction.description ?? ""))
+                              ],
+                            ),
+                          );
+                        },
+                        seperatedBuilder: const Divider(),
+                        isCrossBtnShown: true,
+                        containerHorizontalPadding: 10,
+                      )
                   ),
                 ),
               ),

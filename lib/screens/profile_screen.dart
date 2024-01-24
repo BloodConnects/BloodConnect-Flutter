@@ -294,20 +294,20 @@ class ProfileScreen extends StatelessWidget {
                             },
                             child: Container(
                               color: Colors.transparent,
-                              child: const Row(
+                              child: Row(
                                 children: [
                                   Icon(
                                     Icons.logout,
-                                    color: Colors.black,
+                                    color: Colors.red[900],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 12,
                                   ),
                                   Text(
                                     'Log out',
                                     style: TextStyle(
                                       fontFamily: 'Inter',
-                                      color: Colors.black,
+                                      color: Colors.red[900],
                                       fontSize: 16
                                     ),
                                   )
