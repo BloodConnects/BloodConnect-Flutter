@@ -21,7 +21,6 @@ class FacebookSignInProvider {
         // Sign in with Firebase using FacebookAuthCredential
         final UserCredential authResult = await _auth.signInWithCredential(facebookAuthCredential);
         final User? user = authResult.user;
-
         return user;
       } else {
         print('Facebook Sign-In failed: ${loginResult.status}');

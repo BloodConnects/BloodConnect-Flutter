@@ -1,15 +1,16 @@
 import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
 import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController mobileNumberController = TextEditingController();
-  late String countryCode;
+  String countryCode = "+1";
   FirebaseAuth auth = FirebaseAuth.instance;
   String verificationIdReceived = '';
   bool otpCodeVisible = false;
@@ -18,6 +19,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
     FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -94,17 +97,25 @@ class LoginScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                suffixIcon: IconButton(onPressed: (){}, icon: const Icon(Icons.clear)),
+                                suffixIcon: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.clear)),
                                 hintText: 'Enter Mobile Number',
-                                prefixIcon: CountryCodePicker(
-                                  onChanged: (CountryCode code) {
-                                    countryCode = code.dialCode ?? '';
-                                  },
-                                  showDropDownButton: false,
-                                  showFlag: false,
-                                  showCountryOnly: false,
-                                  showOnlyCountryWhenClosed: false,
-                                  alignLeft: false,
+                                prefixIcon: FutureBuilder<String>(
+                                  future: _getCountryPhoneCode(),
+                                  builder: (context,snapshot) {
+                                    return CountryCodePicker(
+                                      onChanged: (CountryCode code) {
+                                        countryCode = code.dialCode ?? '';
+                                      },
+                                      showDropDownButton: false,
+                                      showFlag: false,
+                                      showCountryOnly: false,
+                                      showOnlyCountryWhenClosed: false,
+                                      alignLeft: false,
+                                      initialSelection:snapshot.data
+                                    );
+                                  }
                                 ),
                               ),
                             ),
@@ -154,9 +165,10 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: ()async {
+                          onTap: () async {
                             // Call the Google Sign-In method
-                            final user = await _googleSignInProvider.signInWithGoogle();
+                            final user =
+                                await _googleSignInProvider.signInWithGoogle();
 
                             if (user != null) {
                               print('User signed in: ${user.displayName}');
@@ -175,11 +187,12 @@ class LoginScreen extends StatelessWidget {
                           width: 10,
                         ),
                         GestureDetector(
-                          onTap: ()async{
-                            final user = await _facebookSignInProvider.signInWithFacebook();
-                            if(user != null){
+                          onTap: () async {
+                            final user = await _facebookSignInProvider
+                                .signInWithFacebook();
+                            if (user != null) {
                               print('User Signed in: ${user.displayName}');
-                            }else{
+                            } else {
                               print('Facebook Sign-In failed.');
                             }
                           },
@@ -242,4 +255,17 @@ class LoginScreen extends StatelessWidget {
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
+
+  Future<String> _getCountryPhoneCode() async {
+    var response = await http.get(Uri.parse('http://ip-api.com/json'));
+    var jsonResponse = json.decode(response.body);
+    final isoCode = jsonResponse['countryCode'];
+    print("country code " + isoCode);
+    final countryList = CountryCodePicker().countryList;
+    return countryList
+        .firstWhere((element) => element["code"] == isoCode,
+        orElse: () => countryList.first)
+    ["dial_code"]!;
+  }
+
 }
