@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/auth_module/add_location_screen.dart';
 import 'package:blood_donation_app/controller/controller.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +201,12 @@ class RegisterationScreen extends StatelessWidget {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Get.to(const HomeScreen());
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const AddLocationScreen();
+                                      },
+                                    );
                                   },
                                   style: const ButtonStyle(
                                     shape: MaterialStatePropertyAll(

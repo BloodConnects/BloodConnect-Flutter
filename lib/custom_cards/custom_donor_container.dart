@@ -12,7 +12,7 @@ class CustomDonorContainer extends StatelessWidget {
         Container(
           color: Colors.transparent,
           height: 200,
-          width: 40,
+          width: 35,
         ),
         GestureDetector(
           onTap: (){

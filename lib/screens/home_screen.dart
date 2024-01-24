@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
         controller: controller.pageController,
         onPageChanged: controller.onTabChanged,
         children: [
-          const Home(),
+           Home(),
           const ExploreScreen(),
           NotificationScreen(),
           const ProfileScreen()

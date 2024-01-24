@@ -122,7 +122,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: 315,
+                  width: 312,
                   child: Text(
                     'I Agree with the terms & conditions for blood request',
                     maxLines: 2,
@@ -166,14 +166,17 @@ class BloodRequestFormAnswer extends StatelessWidget {
               height: 10,
             ),
             TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Edit Detail',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ))
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                'Edit Detail',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
           ],
         ),
       ),
