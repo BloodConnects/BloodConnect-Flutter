@@ -20,8 +20,6 @@ class LoginScreen extends StatelessWidget {
     GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
     FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
 
-
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -262,10 +260,10 @@ class LoginScreen extends StatelessWidget {
     final isoCode = jsonResponse['countryCode'];
     print("country code " + isoCode);
     final countryList = CountryCodePicker().countryList;
-    return countryList
-        .firstWhere((element) => element["code"] == isoCode,
+    countryCode = countryList.firstWhere((element) => element["code"] == isoCode,
         orElse: () => countryList.first)
     ["dial_code"]!;
+    return countryCode;
   }
 
 }
