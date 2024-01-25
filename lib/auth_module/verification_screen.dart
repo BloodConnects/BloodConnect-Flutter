@@ -1,16 +1,25 @@
+import 'package:blood_donation_app/api/module/BaseResponse.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
+import 'package:blood_donation_app/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../api/UserRepositry.dart';
 
 class VerificaationScreen extends StatelessWidget {
   final String verificationId;
-  const VerificaationScreen({
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  VerificaationScreen({
     super.key, required this.verificationId,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    var otpController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -74,12 +83,12 @@ class VerificaationScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          VerificationCard(context: context),
-                          VerificationCard(context: context),
-                          VerificationCard(context: context),
-                          VerificationCard(context: context),
-                          VerificationCard(context: context),
-                          VerificationCard(context: context),
+                          VerificationCard(context: context,textEditingController: otpController),
+                          VerificationCard(context: context,textEditingController: otpController),
+                          VerificationCard(context: context,textEditingController: otpController),
+                          VerificationCard(context: context,textEditingController: otpController),
+                          VerificationCard(context: context,textEditingController: otpController),
+                          VerificationCard(context: context,textEditingController: otpController),
                         ],
                       ),
                       const SizedBox(
@@ -90,11 +99,7 @@ class VerificaationScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: () async {
-                              // Get.to(const RegisterScreen());
-                              // String code = codeController.text;
-                              // AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code);
-                              // await FirebaseAuth.instance.signInWithCredential(credential);
-                              Get.to(RegisterationScreen());
+                              verityOtp(verificationId,otpController.text);
                             },
                             style: const ButtonStyle(
                                 shape: MaterialStatePropertyAll(
@@ -142,4 +147,41 @@ class VerificaationScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> verityOtp(String verificationId,String otp) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+    await auth.signInWithCredential(credential);
+    if(auth.currentUser?.uid!=null) {
+      checkUserByUid(auth.currentUser!.uid);
+    } else {
+      Get.snackbar("","Invalid OTP or User");
+    }
+  }
+
+  Future<void> checkUserByUid(String uid) async {
+    var data = await checkUser(uid);
+    switch(data.status) {
+      case ApiStatus.SUCCESS: {
+        if(data.success) {
+          Get.to(const HomeScreen());
+        } else {
+          Get.to(RegisterationScreen());
+        }
+        break;
+      }
+      case ApiStatus.FAIL: {
+        Get.to(data.message);
+        break;
+      }
+      case ApiStatus.INTERNAL_SERVER_ERROR: {
+        Get.to(data.message);
+        break;
+      }
+      case ApiStatus.UNAUTH: {
+        Get.to(data.message);
+        break;
+      }
+    }
+  }
+
 }
