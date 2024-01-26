@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:blood_donation_app/api_module/api_constants.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
 import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
+import 'package:blood_donation_app/screens/blood_request_form_answer.dart';
+import 'package:blood_donation_app/screens/blood_request_screen.dart';
 import 'package:blood_donation_app/screens/find_donor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,12 +14,10 @@ import '../api_module/json_class.dart';
 import '../controller/mycontroller.dart';
 
 class Home extends StatelessWidget {
-
-  Future<String> fetchData() async{
-
+  Future<String> fetchData() async {
     final response = await http.get(Uri.parse(ApiConstants.baseUrl));
-    
-    if(response.statusCode == 200){
+
+    if (response.statusCode == 200) {
       return jsonDecode(response.body)['text'];
     } else {
       throw Exception('Failed to load Api');
@@ -66,266 +66,275 @@ class Home extends StatelessWidget {
         color: Colors.white,
         height: double.infinity,
         width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 200,
-                child: Expanded(
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: CarouselSlider(
-                          items: [
-                            Container(
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  color: Color.fromARGB(255, 222, 222, 222)),
-                              child: Center(
-                                child: FutureBuilder<String>(
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 200,
+              child: Expanded(
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CarouselSlider(
+                        items: [
+                          Container(
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                                color: Color.fromARGB(255, 222, 222, 222)),
+                            child: Center(
+                              child: FutureBuilder<String>(
                                   future: fetchData(),
                                   builder: (context, snapshot) {
-                                    if(snapshot.connectionState == ConnectionState.waiting){
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
                                       return CircularProgressIndicator();
-                                    } else if(snapshot.hasError){
-                                      return Text('Error : ${snapshot.error}');
-                                    } else{
-                                      return Text('API text : ${snapshot.data}');
+                                    } else if (snapshot.hasError) {
+                                      return Text(
+                                          'Error : ${snapshot.error}');
+                                    } else {
+                                      return Text(
+                                          'API text : ${snapshot.data}');
                                     }
-                                  }
-                                ),
-                              ),
+                                  }),
                             ),
-                            Container(
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                  color: Color.fromARGB(255, 222, 222, 222)),
-                              child: const Text('page 2'),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                  color: Color.fromARGB(255, 222, 222, 222)),
-                              child: const Text('page 3'),
-                            ),
-                          ],
-                          options: CarouselOptions(
-                            height: 200,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) {
-                              mycontroller.currentPage = index;
-                            },
                           ),
+                          Container(
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                                color: Color.fromARGB(255, 222, 222, 222)),
+                            child: const Text('page 2'),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
+                                color: Color.fromARGB(255, 222, 222, 222)),
+                            child: const Text('page 3'),
+                          ),
+                        ],
+                        options: CarouselOptions(
+                          height: 200,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (index, reason) {
+                            mycontroller.currentPage = index;
+                          },
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.612,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(248, 98, 98, 1),
+                      Color.fromRGBO(247, 30, 30, 1),
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.612,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromRGBO(248, 98, 98, 1),
-                        Color.fromRGBO(247, 30, 30, 1),
-                      ],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'Your Donation Details',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Your Donation Details',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomContainer(
-                                title: '  Find \n  Donor',
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: CustomContainer(
+                                title: 'Find \nDonor',
                                 icon: Icons.medical_services,
                                 ontap: () {
                                   Get.to(FindDonorScreen());
                                 },
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              CustomContainer(
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: CustomContainer(
                                 title: 'Health \nScreening',
                                 icon: Icons.health_and_safety_sharp,
                                 ontap: () {},
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomContainer(
-                                title: 'Emergency \n Cases',
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: CustomContainer(
+                                title: 'Emergency \nCases',
                                 icon: Icons.heart_broken,
                                 ontap: () {},
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              CustomContainer(
-                                title: 'Donation \n Tips',
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: CustomContainer(
+                                title: 'Donation \nTips',
                                 icon: Icons.tips_and_updates,
                                 ontap: () {},
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'Your Requests',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'Inter',
-                                  color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomContainer(
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        const Text(
+                          'Your Requests',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Inter',
+                              color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: CustomContainer(
                                 title: 'Blood \nRequests',
                                 icon: Icons.healing_outlined,
-                                ontap: () {},
+                                ontap: () {
+                                  Get.to(const BloodRequestScreen());
+                                },
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              CustomContainer(
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: CustomContainer(
                                 title: 'Appointment\nSchedule',
                                 icon: Icons.schedule,
-                                ontap: (){},
-                              )
-                            ],
+                                ontap: () {},
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        const Text(
+                          'Need Assistance?',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
                           ),
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          const Text(
-                            'Need Assistance?',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            height: 100,
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0.5, 0.5),
-                                      blurRadius: 1,
-                                      color: Colors.black)
-                                ],
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              child: Row(
-                                children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: Text(
-                                      'We will support you\n24 * 7',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'Inter',
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          height: 100,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0.5, 0.5),
+                                    blurRadius: 1,
+                                    color: Colors.black)
+                              ],
+                              color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12),
+                                  child: Text(
+                                    'We will support you \n24 / 7',
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Inter',
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                const Spacer(),
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
+                                  child: Expanded(
+                                    child: Image.asset(
+                                      'Assets/Images/support.png',
                                     ),
                                   ),
-                                  const Spacer(),
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    child: Expanded(
-                                      child: Image.asset(
-                                        'Assets/Images/support.png',
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

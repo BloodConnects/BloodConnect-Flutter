@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'blood_group_model.dart';
-import 'blood_group_model.dart';
 
 class FindDonorScreen extends StatelessWidget {
 
@@ -16,9 +15,9 @@ class FindDonorScreen extends StatelessWidget {
     final SliderController sliderController = Get.put(SliderController());
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
           child: Column(
             children: [
               Row(
@@ -40,7 +39,7 @@ class FindDonorScreen extends StatelessWidget {
                 ],
               ),
               Container(
-                height: 250,
+                height: 255,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(

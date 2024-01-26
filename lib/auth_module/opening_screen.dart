@@ -102,15 +102,15 @@ class OpeningScreen extends StatelessWidget {
     );
   }
 
-  Future<String> _getCountryPhoneCode() async {
-    var response = await http.get(Uri.parse('http://ip-api.com/json'));
-    var jsonResponse = json.decode(response.body);
-    final isoCode = jsonResponse['countryCode'];
-    print("country code " + isoCode);
-    final countryList = CountryCodePicker().countryList;
-    return countryList
-            .firstWhere((element) => element["code"] == isoCode,
-            orElse: () => countryList.first)
-        ["dial_code"]!;
-  }
+  // Future<String> _getCountryPhoneCode() async {
+  //   var response = await http.get(Uri.parse('http://ip-api.com/json'));
+  //   var jsonResponse = json.decode(response.body);
+  //   final isoCode = jsonResponse['countryCode'];
+  //   print("country code " + isoCode);
+  //   final countryList = CountryCodePicker().countryList;
+  //   return countryList
+  //           .firstWhere((element) => element["code"] == isoCode,
+  //           orElse: () => countryList.first)
+  //       ["dial_code"]!;
+  // }
 }

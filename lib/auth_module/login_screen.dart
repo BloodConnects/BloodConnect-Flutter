@@ -101,21 +101,16 @@ class LoginScreen extends StatelessWidget {
                                     onPressed: () {},
                                     icon: const Icon(Icons.clear)),
                                 hintText: 'Enter Mobile Number',
-                                prefixIcon: FutureBuilder<String>(
-                                  future: _getCountryPhoneCode(),
-                                  builder: (context,snapshot) {
-                                    return CountryCodePicker(
-                                      onChanged: (CountryCode code) {
-                                        countryCode = code.dialCode ?? '';
-                                      },
-                                      showDropDownButton: false,
-                                      showFlag: false,
-                                      showCountryOnly: false,
-                                      showOnlyCountryWhenClosed: false,
-                                      alignLeft: false,
-                                      initialSelection:snapshot.data
-                                    );
-                                  }
+                                prefixIcon: CountryCodePicker(
+                                  onChanged: (CountryCode code) {
+                                    countryCode = code.dialCode ?? '';
+                                  },
+                                  showDropDownButton: false,
+                                  showFlag: false,
+                                  showCountryOnly: false,
+                                  showOnlyCountryWhenClosed: false,
+                                  alignLeft: false,
+                                  // initialSelection:sna77pshot.data
                                 ),
                               ),
                             ),
@@ -248,24 +243,26 @@ class LoginScreen extends StatelessWidget {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdReceived = verificationId;
         otpCodeVisible = true;
-        Get.to(VerificaationScreen(
+        Get.to(VerificationScreen(
           verificationId: verificationIdReceived,
         ));
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+
+      },
     );
   }
 
-  Future<String> _getCountryPhoneCode() async {
-    var response = await http.get(Uri.parse('http://ip-api.com/json'));
-    var jsonResponse = json.decode(response.body);
-    final isoCode = jsonResponse['countryCode'];
-    print("country code " + isoCode);
-    final countryList = CountryCodePicker().countryList;
-    return countryList
-        .firstWhere((element) => element["code"] == isoCode,
-        orElse: () => countryList.first)
-    ["dial_code"]!;
-  }
+  // Future<String> _getCountryPhoneCode() async {
+  //   var response = await http.get(Uri.parse('http://ip-api.com/json'));
+  //   var jsonResponse = json.decode(response.body);
+  //   final isoCode = jsonResponse['countryCode'];
+  //   print("country code " + isoCode);
+  //   final countryList = CountryCodePicker().countryList;
+  //   return countryList
+  //       .firstWhere((element) => element["code"] == isoCode,
+  //       orElse: () => countryList.first)
+  //   ["dial_code"]!;
+  // }
 
 }
