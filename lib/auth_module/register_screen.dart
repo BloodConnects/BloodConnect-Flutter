@@ -14,14 +14,14 @@ class RegisterationScreen extends StatelessWidget {
     {'name': 'Other', 'image': 'Assets/Images/other.png','value':Gender.Other},
   ];
   Rx<Gender> selectedGender = Gender.Male.obs;
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  Controller myController = Get.put(Controller());
+  BloodGroupController bloodGroupController = Get.put(BloodGroupController());
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController fullNameController = TextEditingController();
-    TextEditingController mobileNumberController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    Controller myController = Get.put(Controller());
-    BloodGroupController bloodGroupController = Get.put(BloodGroupController());
 
     return Scaffold(
       appBar: AppBar(

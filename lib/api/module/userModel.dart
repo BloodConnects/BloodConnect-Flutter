@@ -1,4 +1,4 @@
-class UserModel {
+class UserModel extends BaseDataClass {
   String? uid;
   String? fullName;
   String? countryCode;
@@ -37,8 +37,8 @@ class UserModel {
     countryCode = json['countryCode'];
     mobileNumber = json['mobileNumber'];
     mailAddress = json['mailAddress'];
-    bloodGroup = json['bloodGroup'] as BloodGroup;
-    gender = json['gender'] as Gender;
+    bloodGroup = BloodGroup.values.byName(json['bloodGroup']);
+    gender = Gender.values.byName(json['gender']);
     birthDate = json['birthDate'];
     weight = json['weight'];
     locationKey = json['locationKey'];
@@ -55,8 +55,8 @@ class UserModel {
     if(countryCode!=null) data['countryCode'] = this.countryCode;
     if(mobileNumber!=null) data['mobileNumber'] = this.mobileNumber;
     if(mailAddress!=null) data['mailAddress'] = this.mailAddress;
-    if(bloodGroup!=null) data['bloodGroup'] = this.bloodGroup;
-    if(gender!=null) data['gender'] = this.gender;
+    if(bloodGroup!=null) data['bloodGroup'] = this.bloodGroup?.name;
+    if(gender!=null) data['gender'] = this.gender?.name;
     if(birthDate!=null) data['birthDate'] = this.birthDate;
     if(weight!=null) data['weight'] = this.weight;
     if(locationKey!=null) data['locationKey'] = this.locationKey;
@@ -65,6 +65,24 @@ class UserModel {
     if(deviceToken!=null) data['deviceToken'] = this.deviceToken;
     if(userToken!=null) data['userToken'] = this.userToken;
     return data;
+  }
+
+  @override
+  UserModel? fromJson(Map<String, dynamic> json) {
+    uid = json['uid'];
+    fullName = json['fullName'];
+    countryCode = json['countryCode'];
+    mobileNumber = json['mobileNumber'];
+    mailAddress = json['mailAddress'];
+    bloodGroup = BloodGroup.values.byName(json['bloodGroup']);
+    gender = Gender.values.byName(json['gender']);
+    birthDate = json['birthDate'];
+    weight = json['weight'];
+    locationKey = json['locationKey'];
+    location = json['location'];
+    profilePictureUrl = json['profilePictureUrl'];
+    deviceToken = json['deviceToken'];
+    userToken = json['userToken'];
   }
 }
 
@@ -108,11 +126,18 @@ enum BloodGroup {
       default: return "unknown";
     }
   }
-
+  
 }
 
 enum Gender {
   Male,
   Female,
-  Other,
+  Other;
+
+ 
+}
+
+abstract class BaseDataClass<T>{
+  T fromJson(Map<String, dynamic> json);
+
 }

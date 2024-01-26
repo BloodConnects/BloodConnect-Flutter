@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:blood_donation_app/api_module/api_constants.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
 import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
 import 'package:blood_donation_app/screens/blood_request_form_answer.dart';
@@ -10,19 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
-import '../api_module/json_class.dart';
+import '../api/module/api_constants.dart';
 import '../controller/mycontroller.dart';
 
 class Home extends StatelessWidget {
-  Future<String> fetchData() async {
-    final response = await http.get(Uri.parse(ApiConstants.baseUrl));
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body)['text'];
-    } else {
-      throw Exception('Failed to load Api');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,22 +74,7 @@ class Home extends StatelessWidget {
                                   Radius.circular(12),
                                 ),
                                 color: Color.fromARGB(255, 222, 222, 222)),
-                            child: Center(
-                              child: FutureBuilder<String>(
-                                  future: fetchData(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return CircularProgressIndicator();
-                                    } else if (snapshot.hasError) {
-                                      return Text(
-                                          'Error : ${snapshot.error}');
-                                    } else {
-                                      return Text(
-                                          'API text : ${snapshot.data}');
-                                    }
-                                  }),
-                            ),
+                            child: const Text('page 2'),
                           ),
                           Container(
                             width: double.infinity,

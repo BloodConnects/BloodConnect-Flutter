@@ -248,7 +248,7 @@ class LoginScreen extends StatelessWidget {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdReceived = verificationId;
         otpCodeVisible = true;
-        Get.to(VerificaationScreen(
+        Get.to(VerificationScreen(
           verificationId: verificationIdReceived,
         ));
       },

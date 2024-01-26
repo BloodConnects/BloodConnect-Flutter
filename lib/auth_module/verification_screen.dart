@@ -1,10 +1,16 @@
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../api/UserRepositry.dart';
+import '../api/module/BaseResponse.dart';
+import '../screens/home_screen.dart';
+
 class VerificationScreen extends StatelessWidget {
   final String verificationId;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final List<TextEditingController> codeControllers = List.generate(
     6,
         (index) => TextEditingController(),
@@ -82,7 +88,7 @@ class VerificationScreen extends StatelessWidget {
                               context: context,
                               textEditingController: codeControllers[i],
                               focusNode: i == 0 ? FocusNode() : null,
-                              onFilled: i == 5 ? () => verifyOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join()) : null,
+                              onFilled: i == 5 ? () => verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join()) : null,
                             ),
                         ],
                       ),
@@ -94,11 +100,11 @@ class VerificationScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            verifyOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
+                            verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
+                              const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(8)),
                               ),
                             ),
@@ -179,5 +185,4 @@ class VerificationScreen extends StatelessWidget {
       }
     }
   }
-
 }
