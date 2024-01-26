@@ -41,11 +41,12 @@ class CustomDialogBox extends StatelessWidget {
                   fontSize: 16
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, ),
+                  Expanded(
                     child: GestureDetector(
                       onTap: (){
                         Get.to(const BloodRequestScreen());
@@ -60,8 +61,10 @@ class CustomDialogBox extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
                     child: GestureDetector(
                       onTap: (){
                         Get.to(const BloodRequestScreen());

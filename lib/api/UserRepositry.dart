@@ -28,7 +28,7 @@ Future<BaseResponse<T>> safeApiCall<T>(Future<http.Response> Function() apiCall)
   try {
     final response = await apiCall();
     final decodedResponse = jsonDecode(response.body) as Map<String, dynamic>;
-    final data = decodedResponse['data'] as T?;
+    final data = (T as BaseDataClass).fromJson(decodedResponse['data']) ;
     final success = decodedResponse['success'] as bool;
     if(response.statusCode==200) {
       return BaseResponse(success: success,status: ApiStatus.SUCCESS, message: decodedResponse['message'], data: data);

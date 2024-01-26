@@ -30,154 +30,156 @@ class BloodRequestFormAnswer extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: ListView(
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1.0, 2.0),
+                      blurRadius: 2,
+                      spreadRadius: 1.0,
+                    )
+                  ],
+                  color: Colors.white,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(1.0, 2.0),
-                    blurRadius: 2,
-                    spreadRadius: 1.0,
-                  )
-                ],
-                color: Colors.white,
+                child: Column(
+                  children: [
+                    DynamicInfoWidget(
+                      title: 'Full Name',
+                      subtitle: 'Priyanka Fulwari',
+                      radius: 0,
+                    ),
+                    // const Divider(endIndent: 10, indent: 10,),
+                    DynamicInfoWidget(
+                      title: 'Mobile Number',
+                      subtitle: '+91 1234567890',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Email Address',
+                      subtitle: 'xyz@gmail.com',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Location',
+                      subtitle: 'Priyanka Fulwari',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Gender',
+                      subtitle: 'Female',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Blood Group',
+                      subtitle: 'O+',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Blood Units',
+                      subtitle: '500 ml',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Urgency',
+                      subtitle: 'High',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Reason',
+                      subtitle: 'Accident',
+                      radius: 0,
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Notes',
+                      subtitle: 'Some notes',
+                      radius: 0,
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
                 children: [
-                  DynamicInfoWidget(
-                    title: 'Full Name',
-                    subtitle: 'Priyanka Fulwari',
-                    radius: 0,
+                  Obx(
+                    () => Checkbox(
+                      activeColor: Colors.red,
+                      side: const BorderSide(color: Colors.black),
+                      value: myController.isCheckBoxClicked.value,
+                      onChanged: (value) {
+                        myController.toggleCheckBoxClicked();
+                      },
+                    ),
                   ),
-                  // const Divider(endIndent: 10, indent: 10,),
-                  DynamicInfoWidget(
-                    title: 'Mobile Number',
-                    subtitle: '+91 1234567890',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Email Address',
-                    subtitle: 'xyz@gmail.com',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Location',
-                    subtitle: 'Priyanka Fulwari',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Gender',
-                    subtitle: 'Female',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Blood Group',
-                    subtitle: 'O+',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Blood Units',
-                    subtitle: '500 ml',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Urgency',
-                    subtitle: 'High',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Reason',
-                    subtitle: 'Accident',
-                    radius: 0,
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Notes',
-                    subtitle: 'Some notes',
-                    radius: 0,
+                  const Expanded(
+                    child: Text(
+                      'I Agree with the terms & conditions for blood request',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                Obx(
-                  () => Checkbox(
-                    activeColor: Colors.red,
-                    side: const BorderSide(color: Colors.black),
-                    value: myController.isCheckBoxClicked.value,
-                    onChanged: (value) {
-                      myController.toggleCheckBoxClicked();
-                    },
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 45,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll(Colors.red),
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 312,
-                  child: Text(
-                    'I Agree with the terms & conditions for blood request',
-                    maxLines: 2,
+                  child: const Text(
+                    'Continue',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              height: 45,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: const MaterialStatePropertyAll(Colors.red),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                child: const Text(
-                  'Continue',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  'Edit Detail',
                   style: TextStyle(
-                    fontFamily: 'Inter',
                     fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(
-                'Edit Detail',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

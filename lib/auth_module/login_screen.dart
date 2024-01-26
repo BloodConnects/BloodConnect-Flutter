@@ -20,6 +20,8 @@ class LoginScreen extends StatelessWidget {
     GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
     FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
 
+
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -246,7 +248,7 @@ class LoginScreen extends StatelessWidget {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdReceived = verificationId;
         otpCodeVisible = true;
-        Get.to(VerificaationScreen(
+        Get.to(VerificationScreen(
           verificationId: verificationIdReceived,
         ));
       },

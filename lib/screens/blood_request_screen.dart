@@ -43,9 +43,9 @@ class BloodRequestScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
           child: Column(
             children: [
               Container(

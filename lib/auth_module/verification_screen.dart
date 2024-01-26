@@ -1,25 +1,25 @@
-import 'package:blood_donation_app/api/module/BaseResponse.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../api/UserRepositry.dart';
+import '../api/module/BaseResponse.dart';
+import '../screens/home_screen.dart';
 
-class VerificaationScreen extends StatelessWidget {
+class VerificationScreen extends StatelessWidget {
   final String verificationId;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final List<TextEditingController> codeControllers = List.generate(
+    6,
+        (index) => TextEditingController(),
+  );
 
-  VerificaationScreen({
-    super.key, required this.verificationId,
-  });
+  VerificationScreen({Key? key, required this.verificationId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    var otpController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -83,12 +83,13 @@ class VerificaationScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          VerificationCard(context: context,textEditingController: otpController),
-                          VerificationCard(context: context,textEditingController: otpController),
-                          VerificationCard(context: context,textEditingController: otpController),
-                          VerificationCard(context: context,textEditingController: otpController),
-                          VerificationCard(context: context,textEditingController: otpController),
-                          VerificationCard(context: context,textEditingController: otpController),
+                          for (var i = 0; i < 6; i++)
+                            VerificationCard(
+                              context: context,
+                              textEditingController: codeControllers[i],
+                              focusNode: i == 0 ? FocusNode() : null,
+                              onFilled: i == 5 ? () => verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join()) : null,
+                            ),
                         ],
                       ),
                       const SizedBox(
@@ -98,21 +99,22 @@ class VerificaationScreen extends StatelessWidget {
                         height: 40,
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () async {
-                              verityOtp(verificationId,otpController.text);
-                            },
-                            style: const ButtonStyle(
-                                shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)))),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.red)),
-                            child: const Text(
-                              'Verify',
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'Inter'),
-                            )),
+                          onPressed: () {
+                            verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                              ),
+                            ),
+                            backgroundColor: MaterialStateProperty.all(Colors.red),
+                          ),
+                          child: const Text(
+                            'Verify',
+                            style: TextStyle(color: Colors.white, fontFamily: 'Inter'),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -131,14 +133,14 @@ class VerificaationScreen extends StatelessWidget {
                         fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
                   ),
                   TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Resend Code',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontFamily: 'Inter'),
-                      ))
+                    onPressed: () {
+                      // Handle code for resending the code
+                    },
+                    child: const Text(
+                      'Resend Code',
+                      style: TextStyle(color: Colors.red, fontSize: 12, fontFamily: 'Inter'),
+                    ),
+                  )
                 ],
               ),
             ],
@@ -183,5 +185,4 @@ class VerificaationScreen extends StatelessWidget {
       }
     }
   }
-
 }

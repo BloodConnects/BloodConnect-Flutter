@@ -57,8 +57,8 @@ class UserProfileScreen extends StatelessWidget {
               height: 20,
             ),
             SizedBox(
-              height: 50,
-              width: 230,
+              height: 45,
+              width: 220,
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -74,7 +74,7 @@ class UserProfileScreen extends StatelessWidget {
                   'Blood Request',
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 22,
+                    fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -88,7 +88,7 @@ class UserProfileScreen extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey[350]),
+                  color: Colors.grey[300]),
               child: Column(
                 children: [
                   DynamicInfoWidget(

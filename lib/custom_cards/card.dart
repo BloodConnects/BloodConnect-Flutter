@@ -18,7 +18,7 @@ class CustomContainer extends StatelessWidget {
       onTap: ontap,
       child: Container(
         height: 90,
-        width: 174,
+        // width: 174,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(12),
@@ -33,16 +33,15 @@ class CustomContainer extends StatelessWidget {
           ]
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12 , right: 6, top: 8, bottom: 8),
-              child: Icon(
-                icon,
-                size: 36,
-              ),
+            Icon(
+              icon,
+              size: 36,
             ),
             const SizedBox(
-              width: 10,
+              width: 20,
             ),
             Text(
               title,
