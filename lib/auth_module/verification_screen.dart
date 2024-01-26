@@ -1,13 +1,7 @@
-import 'dart:convert';
-
-import 'package:blood_donation_app/api_module/api_constants.dart';
-import 'package:blood_donation_app/api_module/login_user.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../screens/home_screen.dart';
 
 class VerificationScreen extends StatelessWidget {
   final String verificationId;
@@ -29,7 +23,7 @@ class VerificationScreen extends StatelessWidget {
             size: 22,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
       ),
@@ -57,10 +51,7 @@ class VerificationScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontFamily: 'Inter',
-                ),
+                    fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
               ),
               const SizedBox(
                 height: 20,
@@ -68,20 +59,19 @@ class VerificationScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(1.0, 2.0),
-                      blurRadius: 2,
-                      spreadRadius: 1.0,
-                    )
-                  ],
-                  color: Colors.white,
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(1.0, 2.0),
+                        blurRadius: 2,
+                        spreadRadius: 1.0,
+                      )
+                    ],
+                    color: Colors.white),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                     children: [
                       Row(
@@ -92,7 +82,7 @@ class VerificationScreen extends StatelessWidget {
                               context: context,
                               textEditingController: codeControllers[i],
                               focusNode: i == 0 ? FocusNode() : null,
-                              onFilled: i == 5 ? () => _verifyCode(context) : null,
+                              onFilled: i == 5 ? () => verifyOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join()) : null,
                             ),
                         ],
                       ),
@@ -104,7 +94,7 @@ class VerificationScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            _verifyCode(context);
+                            verifyOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
@@ -133,7 +123,8 @@ class VerificationScreen extends StatelessWidget {
                   const Text(
                     "haven't received any code",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
+                    style: TextStyle(
+                        fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
                   ),
                   TextButton(
                     onPressed: () {
@@ -153,35 +144,40 @@ class VerificationScreen extends StatelessWidget {
     );
   }
 
-  void _verifyCode(BuildContext context) async {
-    try {
-      String smsCode = codeControllers.map((controller) => controller.text.trim()).join();
-
-      if (smsCode.isEmpty || smsCode.length != 6) {
-        Get.snackbar('', 'Please enter a valid 6-digit verification code!');
-        return;
-      }
-
-      AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: smsCode,
-      );
-
-      UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      // Check if the user is already authenticated
-      User? currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser != null) {
-        // User is already logged in, navigate to HomeScreen
-        Get.offAll(HomeScreen()); // Off all previous routes
-      } else {
-        // User is not logged in, navigate to RegisterationScreen
-        Get.to(RegisterationScreen());
-      }
-    } catch (e) {
-      print('Verification failed: $e');
-      // You might want to show an error message to the user
+  Future<void> verityOtp(String verificationId,String otp) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+    await auth.signInWithCredential(credential);
+    if(auth.currentUser?.uid!=null) {
+      checkUserByUid(auth.currentUser!.uid);
+    } else {
+      Get.snackbar("","Invalid OTP or User");
     }
   }
+
+  Future<void> checkUserByUid(String uid) async {
+    var data = await checkUser(uid);
+    switch(data.status) {
+      case ApiStatus.SUCCESS: {
+        if(data.success) {
+          Get.to(const HomeScreen());
+        } else {
+          Get.to(RegisterationScreen());
+        }
+        break;
+      }
+      case ApiStatus.FAIL: {
+        Get.to(data.message);
+        break;
+      }
+      case ApiStatus.INTERNAL_SERVER_ERROR: {
+        Get.to(data.message);
+        break;
+      }
+      case ApiStatus.UNAUTH: {
+        Get.to(data.message);
+        break;
+      }
+    }
+  }
+
 }
