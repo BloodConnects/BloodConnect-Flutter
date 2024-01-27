@@ -1,6 +1,7 @@
 import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
 import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
+import 'package:blood_donation_app/controller/verification_controller.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +9,34 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../auth_methods/auth_method.dart';
+
 class LoginScreen extends StatelessWidget {
   TextEditingController mobileNumberController = TextEditingController();
   String countryCode = "+1";
   FirebaseAuth auth = FirebaseAuth.instance;
   String verificationIdReceived = '';
   bool otpCodeVisible = false;
+  VerificationController verificationController = Get.put(VerificationController());
+
+  void loginUser() async {
+      verificationController.isLoading.value = true;
+
+    String res = await AuthMethod().loginUser(
+        phoneNumber: mobileNumberController.text);
+
+    if (res == 'success') {
+    } else {
+      Get.snackbar('', res);
+    }
+
+      verificationController.isLoading.value = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     GoogleSignInProvider _googleSignInProvider = GoogleSignInProvider();
     FacebookSignInProvider _facebookSignInProvider = FacebookSignInProvider();
-
-
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -250,6 +265,7 @@ class LoginScreen extends StatelessWidget {
         otpCodeVisible = true;
         Get.to(VerificationScreen(
           verificationId: verificationIdReceived,
+          phoneNumber: mobileNumberController.text,
         ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},

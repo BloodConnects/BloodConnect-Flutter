@@ -48,49 +48,52 @@ class ExploreScreen extends StatelessWidget {
                   ),
                   child: Center(
                       child: GooglePlaceAutoCompleteTextField(
-                        textEditingController: search,
-                        googleAPIKey: "AIzaSyDUcE7HHtybPfZ8y6mPVjpJiDapJTCIoBA",
-                        inputDecoration: const InputDecoration(
-                          border: InputBorder.none
-                        ),
-                        debounceTime: 800,
-                        countries: const ["in", "fr"],
-                        isLatLngRequired: true,
-                        getPlaceDetailWithLatLng: (Prediction prediction) {
-                          print("placeDetails${prediction.lng}");
-                        },
-                        itemClick: (Prediction prediction) {
-                          search.text = prediction.description!;
-                          search.selection = TextSelection.fromPosition(
-                              TextPosition(offset: prediction.description!.length));
+                    textEditingController: search,
+                    googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                    inputDecoration:
+                        const InputDecoration(border: InputBorder.none),
+                    debounceTime: 800,
+                    countries: const ["in", "fr"],
+                    isLatLngRequired: true,
+                    getPlaceDetailWithLatLng: (Prediction prediction) {
+                      print("placeDetails${prediction.lng}");
+                    },
+                    itemClick: (Prediction prediction) {
+                      search.text = prediction.description!;
+                      search.selection = TextSelection.fromPosition(
+                          TextPosition(offset: prediction.description!.length));
 
-                          // mapController.moveCameraToLatLng(
-                          //   LatLng(prediction.lat as double, prediction.lng as double),
-                          // );
-                        },
-                        itemBuilder: (context, index, Prediction prediction) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.grey[300]
+                      if (prediction.lat != null && prediction.lng != null) {
+                        mapController.moveCameraToLatLng(
+                          LatLng(prediction.lat as double,
+                              prediction.lng as double),
+                        );
+                      }else{
+                        Get.snackbar('', "Can't get latitude and longitude");
+                      }
+                    },
+                    itemBuilder: (context, index, Prediction prediction) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          // color: Colors.grey[300]
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            const SizedBox(
+                              width: 7,
                             ),
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.location_on),
-                                const SizedBox(
-                                  width: 7,
-                                ),
-                                Expanded(child: Text(prediction.description ?? ""))
-                              ],
-                            ),
-                          );
-                        },
-                        seperatedBuilder: const Divider(),
-                        isCrossBtnShown: true,
-                        containerHorizontalPadding: 10,
-                      )
-                  ),
+                            Expanded(child: Text(prediction.description ?? ""))
+                          ],
+                        ),
+                      );
+                    },
+                    seperatedBuilder: const Divider(),
+                    isCrossBtnShown: true,
+                    containerHorizontalPadding: 10,
+                  )),
                 ),
               ),
               Obx(
