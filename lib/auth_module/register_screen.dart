@@ -338,12 +338,15 @@ class RegisterationScreen extends StatelessWidget {
         break;
       }
       case ApiStatus.FAIL:{
+        Get.snackbar("title", response.message);
         break;
       }
       case ApiStatus.INTERNAL_SERVER_ERROR:{
+        Get.snackbar("title", response.message);
         break;
       }
       case ApiStatus.UNAUTH:{
+        Get.snackbar("title", response.message);
         break;
       }
     }
