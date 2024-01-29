@@ -1,9 +1,12 @@
+import 'package:blood_donation_app/api/UserRepositry.dart';
+import 'package:blood_donation_app/api/module/check_user_by_uid.dart';
 import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
 import 'package:blood_donation_app/auth_module/google_sign_in.dart';
 import 'package:blood_donation_app/auth_module/verification_screen.dart';
 import 'package:blood_donation_app/controller/verification_controller.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -186,8 +189,7 @@ class LoginScreen extends StatelessWidget {
                                 await _googleSignInProvider.signInWithGoogle();
 
                             if (user != null) {
-                              print('User signed in: ${user.displayName}');
-                              //after login check uid if already registered then go to home screen otherwise register screen
+                              CheckUser().checkUserByFirebaseUser(user);
                             } else {
                               print('Google Sign-In failed.');
                             }
@@ -283,5 +285,4 @@ class LoginScreen extends StatelessWidget {
     ["dial_code"]!;
     return countryCode;
   }
-
 }

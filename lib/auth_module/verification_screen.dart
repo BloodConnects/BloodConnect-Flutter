@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/api/module/check_user_by_uid.dart';
 import 'package:blood_donation_app/auth_module/login_screen.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
@@ -18,10 +19,17 @@ class VerificationScreen extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final List<TextEditingController> codeControllers = List.generate(
     6,
-        (index) => TextEditingController(),
+    (index) => TextEditingController(),
   );
-  VerificationScreen({Key? key, required this.verificationId, this.resendCode, required this.phoneNumber,}) : super(key: key);
-  final VerificationController verificationController = Get.put(VerificationController());
+
+  VerificationScreen({
+    Key? key,
+    required this.verificationId,
+    this.resendCode,
+    required this.phoneNumber,
+  }) : super(key: key);
+  final VerificationController verificationController =
+      Get.put(VerificationController());
   TextEditingController mobileController = TextEditingController();
 
   @override
@@ -71,16 +79,17 @@ class VerificationScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(1.0, 2.0),
-                        blurRadius: 2,
-                        spreadRadius: 1.0,
-                      )
-                    ],
-                    color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1.0, 2.0),
+                      blurRadius: 2,
+                      spreadRadius: 1.0,
+                    )
+                  ],
+                  color: Colors.white,
+                ),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -94,7 +103,14 @@ class VerificationScreen extends StatelessWidget {
                               context: context,
                               textEditingController: codeControllers[i],
                               focusNode: i == 0 ? FocusNode() : null,
-                              onFilled: i == 5 ? () => verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join()) : null,
+                              onFilled: i == 5
+                                  ? () => verityOtp(
+                                      verificationId,
+                                      codeControllers
+                                          .map((controller) =>
+                                              controller.text.trim())
+                                          .join())
+                                  : null,
                             ),
                         ],
                       ),
@@ -106,20 +122,27 @@ class VerificationScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
+                            verityOtp(
+                                verificationId,
+                                codeControllers
+                                    .map((controller) => controller.text.trim())
+                                    .join());
                             // LoginScreen().loginUser();
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
                               const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all(Colors.red),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
                           ),
                           child: const Text(
                             'Verify',
-                            style: TextStyle(color: Colors.white, fontFamily: 'Inter'),
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'Inter'),
                           ),
                         ),
                       ),
@@ -146,7 +169,8 @@ class VerificationScreen extends StatelessWidget {
                     },
                     child: const Text(
                       'Resend Code',
-                      style: TextStyle(color: Colors.red, fontSize: 12, fontFamily: 'Inter'),
+                      style: TextStyle(
+                          color: Colors.red, fontSize: 12, fontFamily: 'Inter'),
                     ),
                   )
                 ],
@@ -158,39 +182,14 @@ class VerificationScreen extends StatelessWidget {
     );
   }
 
-  Future<void> verityOtp(String verificationId,String otp) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+  Future<void> verityOtp(String verificationId, String otp) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: otp);
     await auth.signInWithCredential(credential);
-    if(auth.currentUser?.uid!=null) {
-      checkUserByUid(auth.currentUser!.uid);
+    if (auth.currentUser?.uid != null) {
+      CheckUser().checkUserByFirebaseUser(auth.currentUser!);
     } else {
-      Get.snackbar("","Invalid OTP or User");
-    }
-  }
-
-  Future<void> checkUserByUid(String uid) async {
-    var data = await checkUser(uid);
-    switch(data.status) {
-      case ApiStatus.SUCCESS: {
-        if(data.success) {
-          Get.to(const HomeScreen());
-        } else {
-          Get.to(RegisterationScreen());
-        }
-        break;
-      }
-      case ApiStatus.FAIL: {
-        Get.to(data.message);
-        break;
-      }
-      case ApiStatus.INTERNAL_SERVER_ERROR: {
-        Get.to(data.message);
-        break;
-      }
-      case ApiStatus.UNAUTH: {
-        Get.to(data.message);
-        break;
-      }
+      Get.snackbar("", "Invalid OTP or User");
     }
   }
 
@@ -198,8 +197,8 @@ class VerificationScreen extends StatelessWidget {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phone,
       timeout: const Duration(seconds: 30),
-      verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {  },
-      verificationFailed: (FirebaseAuthException error) {  },
+      verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
+      verificationFailed: (FirebaseAuthException error) {},
       codeSent: (String verificationId, int? forceResendingToken) {
         verificationId = verificationId;
         forceResendingToken = resendCode;
@@ -209,7 +208,6 @@ class VerificationScreen extends StatelessWidget {
       },
       forceResendingToken: resendCode,
     );
-    // debugprint("_verificationid: $_verificationid");
     return true;
   }
 }

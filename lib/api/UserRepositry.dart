@@ -10,9 +10,9 @@ Future<BaseResponse<String>> checkUser(String uid) async {
     'Content-Type': 'application/json',
   };
   try {
-    final response = await http.post(Uri.parse(ApiConstants.baseUrl+ApiConstants.user),body: params,headers: headers);
+    final response = await http.post(Uri.parse(ApiConstants.baseUrl+ApiConstants.checkUser),body: params,headers: headers);
     final decodedResponse = jsonDecode(response.body) as Map<String, dynamic>;
-    final data = decodedResponse['data'] as String;
+    final data = decodedResponse['data'] as String?;
     final success = decodedResponse['success'] as bool;
     if(response.statusCode==200) {
       return BaseResponse(success: success,status: ApiStatus.SUCCESS, message: decodedResponse['message'], data: data);

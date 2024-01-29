@@ -88,8 +88,6 @@ enum Gender {
   Male,
   Female,
   Other;
-
- 
 }
 
 abstract class BaseDataClass<T>{
