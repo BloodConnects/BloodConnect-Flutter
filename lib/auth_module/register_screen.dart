@@ -8,17 +8,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterationScreen extends StatelessWidget {
+
+  RegisterationScreen(this.userModel){
+    fullNameController = TextEditingController(text: userModel.fullName);
+    emailController = TextEditingController(text: userModel.mailAddress);
+    mobileNumberController = TextEditingController(text: userModel.mobileNumber);
+  }
+
   List<Map<String, dynamic>> genderList = [
     {'name': 'Male', 'image': 'Assets/Images/male.png','value':Gender.Male},
     {'name': 'Female', 'image': 'Assets/Images/female.png','value':Gender.Female},
     {'name': 'Other', 'image': 'Assets/Images/other.png','value':Gender.Other},
   ];
   Rx<Gender> selectedGender = Gender.Male.obs;
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  late TextEditingController fullNameController;
+  late TextEditingController mobileNumberController;
+  late TextEditingController emailController;
   Controller myController = Get.put(Controller());
   BloodGroupController bloodGroupController = Get.put(BloodGroupController());
+
+  UserModel userModel ;
 
   @override
   Widget build(BuildContext context) {
@@ -104,13 +113,14 @@ class RegisterationScreen extends StatelessWidget {
                               TextField(
                                 controller: mobileNumberController,
                                 keyboardType: TextInputType.phone,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
+                                  enabled: mobileNumberController.text.isNotEmpty,
                                   labelText: 'Mobile Number',
                                   hintText: 'Enter your Mobile Number',
-                                  prefixIcon: Icon(Icons.phone),
+                                  prefixIcon: const Icon(Icons.phone),
                                 ),
                               ),
                               const SizedBox(

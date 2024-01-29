@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:blood_donation_app/auth_module/add_location_screen.dart';
 import 'package:blood_donation_app/auth_module/opening_screen.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
@@ -16,11 +18,15 @@ import 'package:blood_donation_app/screens/maps.dart';
 import 'package:blood_donation_app/screens/profile_screen.dart';
 import 'package:blood_donation_app/screens/user_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+import 'firebase_clod_messaging/firebase_message.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +39,11 @@ void main() async {
     ),
   );
 
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("FCM Token: $token");
+
+  await FirebaseMessagingService().configure();
+
   runApp(const MyApp());
 }
 
@@ -44,7 +55,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen()
+      home: OpeningScreen()
     );
   }
 }
