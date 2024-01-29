@@ -27,12 +27,12 @@ class MapController extends GetxController {
     this.controller.complete(controller);
   }
 
-  // void moveCameraToLatLng(LatLng latLng) async {
-  //   final GoogleMapController mapController = await controller.future;
-  //
-  //   mapController.animateCamera(CameraUpdate.newLatLng(latLng));
-  //   currentLatLng.value = latLng;
-  // }
+  void moveCameraToLatLng(LatLng latLng) async {
+    final GoogleMapController mapController = await controller.future;
+
+    mapController.animateCamera(CameraUpdate.newLatLng(latLng));
+    currentLatLng.value = latLng;
+  }
 
   // void onTapOfMarker(MarkerId markerId, InfoWindow customInfoWindow){
   //    Marker(

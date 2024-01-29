@@ -1,22 +1,28 @@
+import 'package:blood_donation_app/auth_module/login_screen.dart';
 import 'package:blood_donation_app/auth_module/register_screen.dart';
 import 'package:blood_donation_app/auth_module/verification_card.dart';
+import 'package:blood_donation_app/controller/verification_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../api/UserRepositry.dart';
 import '../api/module/BaseResponse.dart';
+import '../auth_methods/auth_method.dart';
 import '../screens/home_screen.dart';
 
 class VerificationScreen extends StatelessWidget {
   final String verificationId;
+  final int? resendCode;
+  final String phoneNumber;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final List<TextEditingController> codeControllers = List.generate(
     6,
         (index) => TextEditingController(),
   );
-
-  VerificationScreen({Key? key, required this.verificationId}) : super(key: key);
+  VerificationScreen({Key? key, required this.verificationId, this.resendCode, required this.phoneNumber,}) : super(key: key);
+  final VerificationController verificationController = Get.put(VerificationController());
+  TextEditingController mobileController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +107,7 @@ class VerificationScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             verityOtp(verificationId,codeControllers.map((controller) => controller.text.trim()).join());
+                            // LoginScreen().loginUser();
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
@@ -135,6 +142,7 @@ class VerificationScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Handle code for resending the code
+                      resentOtp(phone: phoneNumber);
                     },
                     child: const Text(
                       'Resend Code',
@@ -184,5 +192,24 @@ class VerificationScreen extends StatelessWidget {
         break;
       }
     }
+  }
+
+  Future<bool> resentOtp({required String phone}) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phone,
+      timeout: const Duration(seconds: 30),
+      verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {  },
+      verificationFailed: (FirebaseAuthException error) {  },
+      codeSent: (String verificationId, int? forceResendingToken) {
+        verificationId = verificationId;
+        forceResendingToken = resendCode;
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        verificationId = verificationId;
+      },
+      forceResendingToken: resendCode,
+    );
+    // debugprint("_verificationid: $_verificationid");
+    return true;
   }
 }
