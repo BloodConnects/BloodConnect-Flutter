@@ -1,5 +1,6 @@
 import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -139,29 +140,10 @@ class BloodRequestFormAnswer extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor: const MaterialStatePropertyAll(Colors.red),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              DynamicButton(
+                onPressed: () {},
+                buttonText: 'Continue',
+                backgroundColor: Colors.red,
               ),
               const SizedBox(
                 height: 10,
@@ -170,7 +152,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                 onPressed: () {
                   Get.back();
                 },
-                child: Text(
+                child: const Text(
                   'Edit Detail',
                   style: TextStyle(
                     fontSize: 18,

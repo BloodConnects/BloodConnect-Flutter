@@ -7,13 +7,13 @@ class DynamicInfoWidget extends StatelessWidget {
 
   DynamicInfoWidget({
     required this.title,
-    required this.subtitle, this.radius = 24,
+    required this.subtitle, this.radius = 22,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
       child: Row(
         children: [
           CircleAvatar(

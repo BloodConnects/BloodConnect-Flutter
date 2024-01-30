@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:blood_donation_app/custom_cards/card.dart';
 import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
-import 'package:blood_donation_app/screens/blood_request_form_answer.dart';
-import 'package:blood_donation_app/screens/blood_request_screen.dart';
-import 'package:blood_donation_app/screens/find_donor_screen.dart';
+import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
+import 'package:blood_donation_app/screens/home/blood_request_screen.dart';
+import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
-import '../api/module/api_constants.dart';
-import '../controller/mycontroller.dart';
+import '../../api/api_constant/api_constants.dart';
+import '../../controller/mycontroller.dart';
 
 class Home extends StatelessWidget {
 
@@ -136,10 +136,10 @@ class Home extends StatelessWidget {
                     ],
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 10),
-                  child: SingleChildScrollView(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

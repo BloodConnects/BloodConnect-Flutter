@@ -1,3 +1,5 @@
+import '../../enum_classes/api_status.dart';
+
 class BaseResponse<T> {
   late bool success;
   late String message;
@@ -19,12 +21,4 @@ class BaseResponse<T> {
     data['data'] = this.data;
     return data;
   }
-
-}
-
-enum ApiStatus {
-  SUCCESS,
-  FAIL,
-  INTERNAL_SERVER_ERROR,
-  UNAUTH
 }

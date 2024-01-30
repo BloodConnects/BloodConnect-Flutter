@@ -1,12 +1,19 @@
-import 'package:blood_donation_app/auth_module/login_screen.dart';
+import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../api/model/userModel.dart';
+import 'login_screen.dart';
+
 class OpeningScreen extends StatelessWidget {
-  const OpeningScreen({super.key});
+  OpeningScreen({super.key});
+  late UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +41,7 @@ class OpeningScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: (){
                   void gotoLogin() async {
-                    Get.to( LoginScreen());
+                    Get.to(LoginScreen());
                   };
                   gotoLogin();
                 },
@@ -50,7 +57,8 @@ class OpeningScreen extends StatelessWidget {
                   'Login',
                   style: TextStyle(
                     color: Colors.red,
-                    fontFamily: 'Inter'
+                    fontFamily: 'Inter',
+                    fontSize: 16,
                   ),
                 )
               ),
@@ -62,8 +70,8 @@ class OpeningScreen extends StatelessWidget {
               height: 40,
               width: 280,
               child: ElevatedButton(
-                onPressed: (){}, 
-                style: const ButtonStyle(                  
+                onPressed: (){},
+                style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.red),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
@@ -75,6 +83,7 @@ class OpeningScreen extends StatelessWidget {
                   'Join Us',
                   style: TextStyle(
                     color: Colors.white,
+                    fontSize: 16,
                     fontFamily: 'Inter'
                   ),
                 )
@@ -101,16 +110,4 @@ class OpeningScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Future<String> _getCountryPhoneCode() async {
-  //   var response = await http.get(Uri.parse('http://ip-api.com/json'));
-  //   var jsonResponse = json.decode(response.body);
-  //   final isoCode = jsonResponse['countryCode'];
-  //   print("country code " + isoCode);
-  //   final countryList = CountryCodePicker().countryList;
-  //   return countryList
-  //           .firstWhere((element) => element["code"] == isoCode,
-  //           orElse: () => countryList.first)
-  //       ["dial_code"]!;
-  // }
 }

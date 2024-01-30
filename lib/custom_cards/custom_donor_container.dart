@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/screens/user_profile_screen.dart';
+import 'package:blood_donation_app/screens/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

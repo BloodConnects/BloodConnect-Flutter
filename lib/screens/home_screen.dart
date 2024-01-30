@@ -1,8 +1,8 @@
 import 'package:blood_donation_app/controller/controller.dart';
-import 'package:blood_donation_app/screens/profile_screen.dart';
-import 'package:blood_donation_app/screens/explore_screen.dart';
-import 'package:blood_donation_app/screens/home.dart';
-import 'package:blood_donation_app/screens/notification_screen.dart';
+import 'package:blood_donation_app/screens/profile/profile_screen.dart';
+import 'package:blood_donation_app/screens/explore/explore_screen.dart';
+import 'package:blood_donation_app/screens/home/home.dart';
+import 'package:blood_donation_app/screens/updates/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

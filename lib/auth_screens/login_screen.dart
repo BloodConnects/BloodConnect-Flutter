@@ -1,17 +1,16 @@
-import 'package:blood_donation_app/api/UserRepositry.dart';
-import 'package:blood_donation_app/api/module/check_user_by_uid.dart';
-import 'package:blood_donation_app/auth_module/facebook_sign_in.dart';
-import 'package:blood_donation_app/auth_module/google_sign_in.dart';
-import 'package:blood_donation_app/auth_module/verification_screen.dart';
-import 'package:blood_donation_app/controller/verification_controller.dart';
+import 'package:blood_donation_app/auth_methods/facebook_sign_in.dart';
+import 'package:blood_donation_app/auth_methods/google_sign_in.dart';
+import 'package:blood_donation_app/auth_screens/verification_screen.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../api/api_fuctions/check_user_by_uid.dart';
 import '../auth_methods/auth_method.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,21 +19,6 @@ class LoginScreen extends StatelessWidget {
   FirebaseAuth auth = FirebaseAuth.instance;
   String verificationIdReceived = '';
   bool otpCodeVisible = false;
-  VerificationController verificationController = Get.put(VerificationController());
-
-  void loginUser() async {
-      verificationController.isLoading.value = true;
-
-    String res = await AuthMethod().loginUser(
-        phoneNumber: mobileNumberController.text);
-
-    if (res == 'success') {
-    } else {
-      Get.snackbar('', res);
-    }
-
-      verificationController.isLoading.value = false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,73 +89,44 @@ class LoginScreen extends StatelessWidget {
                             left: 10, right: 10, top: 10, bottom: 10),
                         child: Column(
                           children: [
-                            TextFormField(
+                            DynamicTextField(
                               controller: mobileNumberController,
                               keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelText: 'Mobile Number',
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                suffixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.clear)),
-                                hintText: 'Enter Mobile Number',
-                                prefixIcon: FutureBuilder<String>(
-                                  future: _getCountryPhoneCode(),
-                                  builder: (context,snapshot) {
-                                    return CountryCodePicker(
-                                      onChanged: (CountryCode code) {
-                                        countryCode = code.dialCode ?? '';
-                                      },
-                                      showDropDownButton: false,
-                                      showFlag: false,
-                                      showCountryOnly: false,
-                                      showOnlyCountryWhenClosed: false,
-                                      alignLeft: false,
-                                      initialSelection:snapshot.data
-                                    );
-                                  }
-                                ),
+                              labelText: 'Mobile Number',
+                              hintText: 'Enter Mobile Number',
+                              prefixIcon: FutureBuilder<String>(
+                                future: _getCountryPhoneCode(),
+                                builder: (context, snapshot) {
+                                  return CountryCodePicker(
+                                    onChanged: (CountryCode code) {
+                                      countryCode = code.dialCode ?? '';
+                                    },
+                                    showDropDownButton: false,
+                                    showFlag: false,
+                                    showCountryOnly: false,
+                                    showOnlyCountryWhenClosed: false,
+                                    alignLeft: false,
+                                    initialSelection: snapshot.data,
+                                  );
+                                },
                               ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
-                              height: 40,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (countryCode.isNotEmpty) {
-                                      String phoneNumber =
-                                          '$countryCode${mobileNumberController.text}';
-                                      verifyNumber(phoneNumber);
-                                    } else {
-                                      print('Plase select a country code');
-                                    }
-                                  },
-                                  style: const ButtonStyle(
-                                    shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
-                                    ),
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.red),
-                                  ),
-                                  child: const Text(
-                                    'Continue',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Inter',
-                                    ),
-                                  )),
-                            )
+                            DynamicButton(
+                              onPressed: () async {
+                                if (countryCode.isNotEmpty) {
+                                  String phoneNumber =
+                                      '$countryCode${mobileNumberController.text}';
+                                  verifyNumber(phoneNumber);
+                                } else {
+                                  print('Please select a country code');
+                                }
+                              },
+                              backgroundColor: Colors.red,
+                              buttonText: "Continue",
+                            ),
                           ],
                         ),
                       ),
@@ -254,10 +209,8 @@ class LoginScreen extends StatelessWidget {
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then(
-          (value) {
-            print('You are successfully logged in');
-          },
-        );
+              (value) async {},
+            );
       },
       verificationFailed: (FirebaseAuthException exception) {
         print(exception.message);
@@ -280,9 +233,9 @@ class LoginScreen extends StatelessWidget {
     final isoCode = jsonResponse['countryCode'];
     print("country code " + isoCode);
     final countryList = CountryCodePicker().countryList;
-    countryCode = countryList.firstWhere((element) => element["code"] == isoCode,
-        orElse: () => countryList.first)
-    ["dial_code"]!;
+    countryCode = countryList.firstWhere(
+        (element) => element["code"] == isoCode,
+        orElse: () => countryList.first)["dial_code"]!;
     return countryCode;
   }
 }
