@@ -1,14 +1,14 @@
-import 'package:blood_donation_app/screens/donor_list_screen.dart';
-import 'package:blood_donation_app/screens/maps.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/screens/home/donor_list_screen.dart';
+import 'package:blood_donation_app/screens/explore/maps.dart';
 import 'package:blood_donation_app/controller/slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'blood_group_model.dart';
+import '../../api/model/blood_group_model.dart';
 
 class FindDonorScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
@@ -228,27 +228,12 @@ class FindDonorScreen extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(const DonorListScreen());
-                  },
-                  style: ButtonStyle(
-                      backgroundColor:
-                          const MaterialStatePropertyAll(Colors.red),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)))),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
+              DynamicButton(
+                onPressed: () {
+                  Get.to(const DonorListScreen());
+                },
+                buttonText: 'Continue',
+                backgroundColor: Colors.red,
               ),
               const SizedBox(
                 height: 8,

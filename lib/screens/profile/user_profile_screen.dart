@@ -1,5 +1,6 @@
 import 'package:blood_donation_app/custom_cards/custom_dialog_box.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -56,30 +57,19 @@ class UserProfileScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              height: 45,
-              width: 220,
-              child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const CustomDialogBox();
-                    },
-                  );
-                },
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.red)),
-                child: const Text(
-                  'Blood Request',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
+            DynamicButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const CustomDialogBox();
+                  },
+                );
+              },
+              width: 200,
+              borderRadius: BorderRadius.circular(22),
+              buttonText: 'Blood Request',
+              backgroundColor: Colors.red,
             ),
             const SizedBox(
               height: 15,

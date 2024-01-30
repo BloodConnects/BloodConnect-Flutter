@@ -1,10 +1,12 @@
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../screens/maps.dart';
+import '../screens/explore/maps.dart';
 
 class AddLocationScreen extends StatelessWidget {
   const AddLocationScreen({super.key});
@@ -97,91 +99,37 @@ class AddLocationScreen extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                TextField(
+                DynamicTextField(
                   controller: houseNoController,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    labelText: 'House No',
-                    hintText: 'Enter House No.',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Inter',
-                      color: Colors.black,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                  keyboardType: TextInputType.number,
+                  labelText: 'House Number',
+                  hintText: 'Enter House Number',
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                TextField(
+                DynamicTextField(
                   controller: streetController,
                   keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    labelText: 'Street',
-                    hintText: 'Enter Street',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Inter',
-                      color: Colors.black,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                  labelText: 'Street',
+                  hintText: 'Street',
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                TextField(
+                DynamicTextField(
                   controller: addressController,
                   keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    labelText: 'Address',
-                    hintText: 'Enter Address',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Inter',
-                      color: Colors.black,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                  labelText: 'Address',
+                  hintText: 'Enter Address',
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                SizedBox(
-                  height: 45,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(const HomeScreen());
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: const MaterialStatePropertyAll(Colors.red),
-                      shape: MaterialStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      'Save',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                DynamicButton(
+                  onPressed: () {},
+                  buttonText: 'Save',
+                  backgroundColor: Colors.red,
                 ),
               ],
             ),

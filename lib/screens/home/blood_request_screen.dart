@@ -1,10 +1,14 @@
+import 'package:blood_donation_app/controller/blood_group_controller.dart';
 import 'package:blood_donation_app/controller/blood_request_controller.dart';
 import 'package:blood_donation_app/controller/urgency_slider_controller.dart';
-import 'package:blood_donation_app/screens/blood_request_form_answer.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
+import 'package:blood_donation_app/enum_classes/blood_group.dart';
+import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'maps.dart';
+import '../explore/maps.dart';
 
 class BloodRequestScreen extends StatelessWidget {
   const BloodRequestScreen({super.key});
@@ -15,12 +19,11 @@ class BloodRequestScreen extends StatelessWidget {
     TextEditingController mobileNumberController = TextEditingController();
     TextEditingController emailAddressController = TextEditingController();
     TextEditingController searchController = TextEditingController();
-    TextEditingController genderController = TextEditingController();
-    TextEditingController bloodGroupController = TextEditingController();
-    TextEditingController bloodUnitsController = TextEditingController();
     UrgencySliderController urgencySliderController =
         Get.put(UrgencySliderController());
-    BloodRequestController bloodRequestController = Get.put(BloodRequestController());
+    BloodGroupController bloodGroupController = Get.put(BloodGroupController());
+    BloodRequestController bloodRequestController =
+        Get.put(BloodRequestController());
     TextEditingController reasonController = TextEditingController();
     TextEditingController notesController = TextEditingController();
 
@@ -69,62 +72,29 @@ class BloodRequestScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Column(
                     children: [
-                      TextField(
+                      DynamicTextField(
                         controller: nameController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          labelText: 'Full Name',
-                          hintText: 'Enter Full Name',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        labelText: 'Full Name',
+                        hintText: 'Enter Full Name',
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      DynamicTextField(
                         controller: mobileNumberController,
                         keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                          labelText: 'Mobile Number',
-                          hintText: 'Enter Mobile Number',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        labelText: 'Mobile Number',
+                        hintText: 'Enter Mobile Number',
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      DynamicTextField(
                         controller: emailAddressController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          labelText: 'Email Address',
-                          hintText: 'Enter Email Address',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        labelText: 'Email Address',
+                        hintText: 'Enter Email Address',
                       ),
                     ],
                   ),
@@ -246,11 +216,8 @@ class BloodRequestScreen extends StatelessWidget {
                       Obx(() {
                         return DropdownButtonFormField<String>(
                           value: bloodRequestController.selectedGender.value,
-                          items: const [
-                            'Male',
-                            'Female',
-                            'Other'
-                          ].map((String value) {
+                          items: const ['Male', 'Female', 'Other']
+                              .map((String value) {
                             return DropdownMenuItem(
                               value: value,
                               child: Text(value),
@@ -272,25 +239,28 @@ class BloodRequestScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Obx(() {
-                        return DropdownButtonFormField<String>(
-                          value: bloodRequestController.selectedBloodGroup.value,
+                        return DropdownButtonFormField<BloodGroup>(
+                          value:
+                              bloodGroupController.selectedValue.value,
                           items: const [
-                            'A Positiver',
-                            'A Negative',
-                            'B Positive',
-                            'B Negative',
-                            'O Positive',
-                            'O Negative',
-                            'AB Positive',
-                            'AB Negative'
-                          ].map((String value) {
+                            BloodGroup.oPositive,
+                            BloodGroup.oNegative,
+                            BloodGroup.aPositive,
+                            BloodGroup.aNegative,
+                            BloodGroup.bPositive,
+                            BloodGroup.bNegative,
+                            BloodGroup.abPositive,
+                            BloodGroup.abNegative,
+                            BloodGroup.unknown
+                          ].map((BloodGroup value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value),
+                              child: Text(value.toDisplayText()),
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            bloodRequestController.onSelectedBloodGroup(newValue!);
+                            bloodGroupController
+                                .onSelected(newValue!);
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -306,7 +276,8 @@ class BloodRequestScreen extends StatelessWidget {
                       ),
                       Obx(() {
                         return DropdownButtonFormField<String>(
-                          value: bloodRequestController.selectedBloodUnits.value,
+                          value:
+                              bloodRequestController.selectedBloodUnits.value,
                           items: const [
                             '200 ml',
                             '300 ml',
@@ -324,7 +295,8 @@ class BloodRequestScreen extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            bloodRequestController.onSelectedBloodUnits(newValue!);
+                            bloodRequestController
+                                .onSelectedBloodUnits(newValue!);
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -351,7 +323,8 @@ class BloodRequestScreen extends StatelessWidget {
                       ),
                       Obx(
                         () => Slider(
-                          value: urgencySliderController.urgentSliderValue.value,
+                          value:
+                              urgencySliderController.urgentSliderValue.value,
                           divisions: 10,
                           label: urgencySliderController.urgentSliderValue
                               .round()
@@ -367,41 +340,20 @@ class BloodRequestScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      DynamicTextField(
                         controller: reasonController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          labelText: 'Reason',
-                          hintText: 'Enter Reason... e.g.Accident',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Inter',
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        labelText: 'Reason',
+                        hintText: 'Enter Reason, e.g.Accident',
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      DynamicTextField(
                         controller: notesController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          labelText: 'Notes',
-                          hintText: 'Enter Notes',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        labelText: 'Notes',
+                        hintText: 'Enter Notes',
                       ),
                     ],
                   ),
@@ -410,31 +362,12 @@ class BloodRequestScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(const BloodRequestFormAnswer());
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: const MaterialStatePropertyAll(Colors.red),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              DynamicButton(
+                onPressed: () {
+                  Get.to(const BloodRequestFormAnswer());
+                },
+                buttonText: 'Continue',
+                backgroundColor: Colors.red,
               ),
             ],
           ),

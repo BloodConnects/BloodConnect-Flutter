@@ -1,24 +1,35 @@
-import 'package:blood_donation_app/api/UserRepositry.dart';
-import 'package:blood_donation_app/api/module/BaseResponse.dart';
-import 'package:blood_donation_app/api/module/userModel.dart';
+import 'package:blood_donation_app/api/api_fuctions/register_user.dart';
 import 'package:blood_donation_app/controller/controller.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../api/model/userModel.dart';
+import '../controller/blood_group_controller.dart';
+import '../enum_classes/blood_group.dart';
+import '../enum_classes/gender.dart';
 
 class RegisterationScreen extends StatelessWidget {
-
-  RegisterationScreen(this.userModel){
+  RegisterationScreen(this.userModel) {
     fullNameController = TextEditingController(text: userModel.fullName);
     emailController = TextEditingController(text: userModel.mailAddress);
-    mobileNumberController = TextEditingController(text: userModel.mobileNumber);
+    mobileNumberController =
+        TextEditingController(text: userModel.mobileNumber);
   }
 
   List<Map<String, dynamic>> genderList = [
-    {'name': 'Male', 'image': 'Assets/Images/male.png','value':Gender.Male},
-    {'name': 'Female', 'image': 'Assets/Images/female.png','value':Gender.Female},
-    {'name': 'Other', 'image': 'Assets/Images/other.png','value':Gender.Other},
+    {'name': 'Male', 'image': 'Assets/Images/male.png', 'value': Gender.Male},
+    {
+      'name': 'Female',
+      'image': 'Assets/Images/female.png',
+      'value': Gender.Female
+    },
+    {
+      'name': 'Other',
+      'image': 'Assets/Images/other.png',
+      'value': Gender.Other
+    },
   ];
   Rx<Gender> selectedGender = Gender.Male.obs;
   late TextEditingController fullNameController;
@@ -26,12 +37,10 @@ class RegisterationScreen extends StatelessWidget {
   late TextEditingController emailController;
   Controller myController = Get.put(Controller());
   BloodGroupController bloodGroupController = Get.put(BloodGroupController());
-
-  UserModel userModel ;
+  UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -95,40 +104,28 @@ class RegisterationScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextField(
+                              DynamicTextField(
                                 controller: fullNameController,
                                 keyboardType: TextInputType.text,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  labelText: 'Full Name',
-                                  hintText: 'Enter your fullname',
-                                  prefixIcon: Icon(Icons.person),
-                                ),
+                                labelText: 'Full Name',
+                                hintText: 'Enter Full Name',
                               ),
                               const SizedBox(
                                 height: 8,
                               ),
-                              TextField(
+                              DynamicTextField(
                                 controller: mobileNumberController,
                                 keyboardType: TextInputType.phone,
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  enabled: mobileNumberController.text.isNotEmpty,
-                                  labelText: 'Mobile Number',
-                                  hintText: 'Enter your Mobile Number',
-                                  prefixIcon: const Icon(Icons.phone),
-                                ),
+                                labelText: 'Mobile Number',
+                                hintText: 'Enter Mobile Number',
                               ),
                               const SizedBox(
                                 height: 8,
                               ),
                               Obx(() {
                                 return DropdownButtonFormField<BloodGroup>(
-                                  value: bloodGroupController.selectedValue.value,
+                                  value:
+                                      bloodGroupController.selectedValue.value,
                                   items: const [
                                     BloodGroup.oPositive,
                                     BloodGroup.oNegative,
@@ -161,17 +158,11 @@ class RegisterationScreen extends StatelessWidget {
                               const SizedBox(
                                 height: 8,
                               ),
-                              TextField(
+                              DynamicTextField(
                                 controller: emailController,
                                 keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  labelText: 'Email Address',
-                                  hintText: 'Enter your Email Number',
-                                  prefixIcon: Icon(Icons.email),
-                                ),
+                                labelText: 'Email Address',
+                                hintText: 'Enter Email Address',
                               ),
                               const SizedBox(
                                 height: 8,
@@ -198,10 +189,9 @@ class RegisterationScreen extends StatelessWidget {
                                                     gender['value']!;
                                               },
                                               child: genderWidget(
-                                                gender['image']!,
-                                                gender['name']!,
-                                                gender['value']
-                                              ),
+                                                  gender['image']!,
+                                                  gender['name']!,
+                                                  gender['value']),
                                             ),
                                           )
                                           .toList(),
@@ -212,45 +202,23 @@ class RegisterationScreen extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              SizedBox(
-                                height: 40,
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    /*showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return const AddLocationScreen();
-                                      },
-                                    );*/
-                                    registerUser(UserModel(
-                                        uid: FirebaseAuth.instance.currentUser?.uid,
-                                        fullName: fullNameController.text,
-                                        mobileNumber: mobileNumberController.text,
-                                        bloodGroup: bloodGroupController.selectedValue.value,
-                                        mailAddress: emailController.text,
-                                        gender: selectedGender.value
-                                    ));
-                                  },
-                                  style: const ButtonStyle(
-                                    shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
+                              DynamicButton(
+                                onPressed: () async {
+                                  RegisterUser().registerUser(
+                                    UserModel(
+                                      uid: FirebaseAuth
+                                          .instance.currentUser?.uid,
+                                      fullName: fullNameController.text,
+                                      mobileNumber: mobileNumberController.text,
+                                      bloodGroup: bloodGroupController
+                                          .selectedValue.value,
+                                      mailAddress: emailController.text,
+                                      gender: selectedGender.value,
                                     ),
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.red),
-                                  ),
-                                  child: const Text(
-                                    'Register',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Inter',
-                                    ),
-                                  ),
-                                ),
+                                  );
+                                },
+                                buttonText: 'Register',
+                                backgroundColor: Colors.red,
                               ),
                             ],
                           ),
@@ -284,7 +252,7 @@ class RegisterationScreen extends StatelessWidget {
     );
   }
 
-  Widget genderWidget(String imageUrl,String textValue, Gender genderType) {
+  Widget genderWidget(String imageUrl, String textValue, Gender genderType) {
     return Stack(
       children: [
         Obx(
@@ -336,30 +304,4 @@ class RegisterationScreen extends StatelessWidget {
       ],
     );
   }
-
-
-  void registerUser(UserModel userModel) async {
-    var response = await register(userModel);
-    switch(response.status) {
-      case ApiStatus.SUCCESS:{
-        //TODO Save User Model From Api to shard preference
-        var userModel = response.data;
-        Get.to(HomeScreen());
-        break;
-      }
-      case ApiStatus.FAIL:{
-        Get.snackbar("title", response.message);
-        break;
-      }
-      case ApiStatus.INTERNAL_SERVER_ERROR:{
-        Get.snackbar("title", response.message);
-        break;
-      }
-      case ApiStatus.UNAUTH:{
-        Get.snackbar("title", response.message);
-        break;
-      }
-    }
-  }
-
 }

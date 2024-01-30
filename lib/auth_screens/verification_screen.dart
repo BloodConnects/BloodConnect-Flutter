@@ -1,14 +1,13 @@
-import 'package:blood_donation_app/api/module/check_user_by_uid.dart';
-import 'package:blood_donation_app/auth_module/login_screen.dart';
-import 'package:blood_donation_app/auth_module/register_screen.dart';
-import 'package:blood_donation_app/auth_module/verification_card.dart';
+import 'package:blood_donation_app/custom_cards/verification_card.dart';
 import 'package:blood_donation_app/controller/verification_controller.dart';
+import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/UserRepositry.dart';
-import '../api/module/BaseResponse.dart';
+import '../api/model/UserRepositry.dart';
+import '../api/api_fuctions/check_user_by_uid.dart';
 import '../auth_methods/auth_method.dart';
 import '../screens/home_screen.dart';
 
@@ -21,6 +20,7 @@ class VerificationScreen extends StatelessWidget {
     6,
     (index) => TextEditingController(),
   );
+  dynamic credentials;
 
   VerificationScreen({
     Key? key,
@@ -28,8 +28,6 @@ class VerificationScreen extends StatelessWidget {
     this.resendCode,
     required this.phoneNumber,
   }) : super(key: key);
-  final VerificationController verificationController =
-      Get.put(VerificationController());
   TextEditingController mobileController = TextEditingController();
 
   @override
@@ -94,7 +92,17 @@ class VerificationScreen extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Text(
+                        'One Time Password',
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -104,7 +112,7 @@ class VerificationScreen extends StatelessWidget {
                               textEditingController: codeControllers[i],
                               focusNode: i == 0 ? FocusNode() : null,
                               onFilled: i == 5
-                                  ? () => verityOtp(
+                                  ? () => verifyOtp(
                                       verificationId,
                                       codeControllers
                                           .map((controller) =>
@@ -117,34 +125,16 @@ class VerificationScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 40,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            verityOtp(
-                                verificationId,
-                                codeControllers
-                                    .map((controller) => controller.text.trim())
-                                    .join());
-                            // LoginScreen().loginUser();
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                          ),
-                          child: const Text(
-                            'Verify',
-                            style: TextStyle(
-                                color: Colors.white, fontFamily: 'Inter'),
-                          ),
-                        ),
+                      DynamicButton(
+                        onPressed: () async {
+                          verifyOtp(
+                              verificationId,
+                              codeControllers
+                                  .map((controller) => controller.text.trim())
+                                  .join());
+                        },
+                        backgroundColor: Colors.red,
+                        buttonText: 'Verify',
                       ),
                     ],
                   ),
@@ -182,10 +172,11 @@ class VerificationScreen extends StatelessWidget {
     );
   }
 
-  Future<void> verityOtp(String verificationId, String otp) async {
+  Future<void> verifyOtp(String verificationId, String otp) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: otp);
     await auth.signInWithCredential(credential);
+
     if (auth.currentUser?.uid != null) {
       CheckUser().checkUserByFirebaseUser(auth.currentUser!);
     } else {

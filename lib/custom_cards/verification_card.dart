@@ -19,7 +19,7 @@ class VerificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48.0,
+      width: 45.0,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),

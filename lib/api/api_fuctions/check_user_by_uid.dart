@@ -1,10 +1,13 @@
-import 'package:blood_donation_app/api/module/userModel.dart';
+import 'package:blood_donation_app/api/model/userModel.dart';
+import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../../auth_module/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../auth_screens/register_screen.dart';
+import '../../enum_classes/api_status.dart';
 import '../../screens/home_screen.dart';
-import '../UserRepositry.dart';
-import 'BaseResponse.dart';
+import '../model/UserRepositry.dart';
+import '../model/BaseResponse.dart';
 
 class CheckUser {
   Future<void> checkUserByFirebaseUser(User user) async {
@@ -13,7 +16,9 @@ class CheckUser {
       case ApiStatus.SUCCESS:
         {
           if (data.success) {
-            Get.to(const HomeScreen());
+            var pref = await SharedPreferences.getInstance();
+            pref.setBool(SharePreferenceService.isSignIn, true);
+            Get.offAll(const HomeScreen());
           } else {
             //fullname = user.display
             Get.to(

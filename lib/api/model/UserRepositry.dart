@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:blood_donation_app/api/module/api_constants.dart';
-import 'package:blood_donation_app/api/module/userModel.dart';
-import 'module/BaseResponse.dart';
+import 'package:blood_donation_app/api/api_constant/api_constants.dart';
+import '../../enum_classes/api_status.dart';
+import 'BaseResponse.dart';
+import 'userModel.dart';
 import 'package:http/http.dart' as http;
 
 Future<BaseResponse<String>> checkUser(String uid) async {
