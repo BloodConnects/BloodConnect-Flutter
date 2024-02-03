@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../api/api_fuctions/check_user_by_uid.dart';
-import '../auth_methods/auth_method.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController mobileNumberController = TextEditingController();
@@ -205,26 +203,33 @@ class LoginScreen extends StatelessWidget {
   }
 
   void verifyNumber(String phoneNumber) async {
-    auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential).then(
-              (value) async {},
-            );
-      },
-      verificationFailed: (FirebaseAuthException exception) {
-        print(exception.message);
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        verificationIdReceived = verificationId;
-        otpCodeVisible = true;
-        Get.to(VerificationScreen(
-          verificationId: verificationIdReceived,
-          phoneNumber: mobileNumberController.text,
-        ));
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+    String completePhonenumber = '$countryCode${mobileNumberController.text}';
+
+    try{
+      auth.verifyPhoneNumber(
+        phoneNumber: completePhonenumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential).then(
+                (value) async {},
+          );
+        },
+        verificationFailed: (FirebaseAuthException exception) {
+          print(exception.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          verificationIdReceived = verificationId;
+          otpCodeVisible = true;
+          Get.to(VerificationScreen(
+            verificationId: verificationIdReceived,
+            phoneNumber: mobileNumberController.text,
+            countryCode: countryCode,
+          ));
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    }catch(e){
+      print('error while phone number verification : $e');
+    }
   }
 
   Future<String> _getCountryPhoneCode() async {

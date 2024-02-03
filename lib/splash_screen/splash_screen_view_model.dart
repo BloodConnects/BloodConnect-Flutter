@@ -45,7 +45,7 @@ class SplashScreenViewModel extends GetxController
 
 
     if (pref.getBool(SharePreferenceService.isSignIn) == true) {
-      Get.offAll(HomeScreen());
+      Get.offAll(const HomeScreen());
     } else {
       Get.off(OpeningScreen());
     }

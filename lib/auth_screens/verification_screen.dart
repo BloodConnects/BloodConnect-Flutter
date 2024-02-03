@@ -15,6 +15,7 @@ class VerificationScreen extends StatelessWidget {
   final String verificationId;
   final int? resendCode;
   final String phoneNumber;
+  final String countryCode;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final List<TextEditingController> codeControllers = List.generate(
     6,
@@ -27,6 +28,7 @@ class VerificationScreen extends StatelessWidget {
     required this.verificationId,
     this.resendCode,
     required this.phoneNumber,
+    required this.countryCode,
   }) : super(key: key);
   TextEditingController mobileController = TextEditingController();
 
@@ -153,9 +155,9 @@ class VerificationScreen extends StatelessWidget {
                         fontSize: 12, color: Colors.black, fontFamily: 'Inter'),
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle code for resending the code
-                      resentOtp(phone: phoneNumber);
+                      await resentOtp(phone: phoneNumber);
                     },
                     child: const Text(
                       'Resend Code',
