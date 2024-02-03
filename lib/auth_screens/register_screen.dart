@@ -14,8 +14,7 @@ class RegisterationScreen extends StatelessWidget {
   RegisterationScreen(this.userModel) {
     fullNameController = TextEditingController(text: userModel.fullName);
     emailController = TextEditingController(text: userModel.mailAddress);
-    mobileNumberController =
-        TextEditingController(text: userModel.mobileNumber);
+    mobileNumberController = TextEditingController(text: userModel.mobileNumber);
   }
 
   List<Map<String, dynamic>> genderList = [
@@ -174,29 +173,24 @@ class RegisterationScreen extends StatelessWidget {
                                   fontFamily: 'Inter',
                                 ),
                               ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: Wrap(
-                                      spacing: 8,
-                                      children: genderList
-                                          .map(
-                                            (gender) => GestureDetector(
-                                              onTap: () {
-                                                selectedGender.value =
-                                                    gender['value']!;
-                                              },
-                                              child: genderWidget(
-                                                  gender['image']!,
-                                                  gender['name']!,
-                                                  gender['value']),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Wrap(
+                                  spacing: 8,
+                                  children: genderList
+                                      .map(
+                                        (gender) => GestureDetector(
+                                          onTap: () {
+                                            selectedGender.value =
+                                                gender['value']!;
+                                          },
+                                          child: genderWidget(
+                                              gender['image']!,
+                                              gender['name']!,
+                                              gender['value']),
+                                        ),
+                                      )
+                                      .toList(),
                                 ),
                               ),
                               const SizedBox(

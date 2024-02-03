@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.9
   get: ^4.6.6
-  dots_indicator: ^3.0.0
   carousel_slider: ^4.2.1
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
@@ -107,6 +106,8 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,4 +1,5 @@
 import 'package:blood_donation_app/controller/controller.dart';
+import 'package:blood_donation_app/firebase_clod_messaging/firebase_messagin_controller.dart';
 import 'package:blood_donation_app/screens/profile/profile_screen.dart';
 import 'package:blood_donation_app/screens/explore/explore_screen.dart';
 import 'package:blood_donation_app/screens/home/home.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Controller controller = Get.put(Controller());
+    FirebaseMessagingController firebaseMessagingService = Get.put(FirebaseMessagingController());
 
     return Scaffold(
       body: PageView(
@@ -22,7 +24,7 @@ class HomeScreen extends StatelessWidget {
            Home(),
           const ExploreScreen(),
           NotificationScreen(),
-          const ProfileScreen()
+           ProfileScreen()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

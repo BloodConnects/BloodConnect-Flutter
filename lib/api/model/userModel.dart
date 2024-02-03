@@ -16,11 +16,12 @@ class UserModel {
   BloodGroup? bloodGroup;
   Gender? gender;
   int? birthDate;
-  int? weight;
+  double? weight;
   String? locationKey;
   String? profilePictureUrl;
   String? deviceToken;
   String? userToken;
+  double? height;
 
   UserModel(
       {this.uid,
@@ -35,7 +36,8 @@ class UserModel {
         this.locationKey,
         this.profilePictureUrl,
         this.deviceToken,
-        this.userToken
+        this.userToken,
+        this.height
       });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

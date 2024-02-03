@@ -1,29 +1,59 @@
+import 'dart:convert';
+
+import 'package:blood_donation_app/api/api_constant/api_constants.dart';
+import 'package:blood_donation_app/api/api_controller/update_data_controller.dart';
+import 'package:blood_donation_app/api/api_fuctions/login_user.dart';
+import 'package:blood_donation_app/api/api_fuctions/register_user.dart';
+import 'package:blood_donation_app/api/model/userModel.dart';
 import 'package:blood_donation_app/controller/blood_group_controller.dart';
 import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:blood_donation_app/enum_classes/blood_group.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../api/api_controller/editing_controller.dart';
+import '../../enum_classes/gender.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  List<Map<String, String>> genderList = [
-    {'name': 'Male', 'image': 'Assets/Images/male.png'},
-    {'name': 'Female', 'image': 'Assets/Images/female.png'},
-    {'name': 'Other', 'image': 'Assets/Images/other.png'},
+  List<Map<String, dynamic>> genderList = [
+    {'name': 'Male', 'image': 'Assets/Images/male.png', 'value': Gender.Male},
+    {
+      'name': 'Female',
+      'image': 'Assets/Images/female.png',
+      'value': Gender.Female
+    },
+    {
+      'name': 'Other',
+      'image': 'Assets/Images/other.png',
+      'value': Gender.Other
+    },
   ];
-  RxString selectedGender = ''.obs;
+
+  var editingController = Get.put(EditingController());
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController datOfBirthController = TextEditingController();
+  TextEditingController emailAddressController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+
+
+  //
+  // @override
+  // void onInit()async{
+  //   var userModel =  await getUserModel();
+  //   nameController.text = userModel.fullName ?? '';
+  //   super.onInit();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController mobileNumberController = TextEditingController();
-    TextEditingController datOfBirthController = TextEditingController();
-    TextEditingController emailAddressController = TextEditingController();
-    TextEditingController weightController = TextEditingController();
-    TextEditingController heightController = TextEditingController();
-    BloodGroupController bloodGroupController = Get.put(BloodGroupController());
-
     return Scaffold(
       appBar: AppBar(
         leading: const Padding(
@@ -48,12 +78,11 @@ class EditProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
-              const Center(
+              Center(
                 child: CircleAvatar(
                   radius: 70,
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                  ),
+                  backgroundImage:  NetworkImage(editingController.profilePicture.value)
+                  ,
                 ),
               ),
               const SizedBox(
@@ -82,7 +111,7 @@ class EditProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DynamicTextField(
-                        controller: nameController,
+                        controller: editingController.nameController,
                         keyboardType: TextInputType.text,
                         labelText: 'Full Name',
                         hintText: 'Enter Full Name',
@@ -91,7 +120,7 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicTextField(
-                        controller: mobileNumberController,
+                        controller: editingController.mobileController,
                         keyboardType: TextInputType.phone,
                         labelText: 'Mobile Number',
                         hintText: 'Enter Mobile Number',
@@ -100,7 +129,7 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicTextField(
-                        controller: emailAddressController,
+                        controller: editingController.emailAddressController,
                         keyboardType: TextInputType.emailAddress,
                         labelText: 'Email Address',
                         hintText: 'Enter Email Address',
@@ -110,7 +139,7 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                       Obx(() {
                         return DropdownButtonFormField<BloodGroup>(
-                          value: bloodGroupController.selectedValue.value,
+                          value: editingController.selectedBlood.value,
                           items: const [
                             BloodGroup.oPositive,
                             BloodGroup.oNegative,
@@ -128,7 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            bloodGroupController.onSelected(newValue!);
+                            editingController.onSelected(newValue!);
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -159,11 +188,12 @@ class EditProfileScreen extends StatelessWidget {
                                 .map(
                                   (gender) => GestureDetector(
                                     onTap: () {
-                                      selectedGender.value = gender['name']!;
+                                      editingController
+                                          .onSelectedGender(gender['value']);
                                     },
                                     child: genderWidget(
                                       gender['image']!,
-                                      gender['name']!,
+                                      gender['value']!,
                                     ),
                                   ),
                                 )
@@ -175,7 +205,7 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicTextField(
-                        controller: datOfBirthController,
+                        controller: editingController.birthDateController,
                         keyboardType: TextInputType.text,
                         labelText: 'Date Of Birth',
                         hintText: 'Enter Date Of Birth',
@@ -184,7 +214,7 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicTextField(
-                        controller: weightController,
+                        controller: editingController.weightController,
                         keyboardType: TextInputType.text,
                         labelText: 'Weight',
                         hintText: 'Enter Weight',
@@ -193,7 +223,7 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicTextField(
-                        controller: heightController,
+                        controller: editingController.heightController,
                         keyboardType: TextInputType.text,
                         labelText: 'Height',
                         hintText: 'Enter Height',
@@ -202,7 +232,23 @@ class EditProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       DynamicButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          RegisterUser().updateUserData(
+                            UserModel(
+                              uid: editingController.userModel.uid,
+                              fullName: editingController.nameController.text,
+                              mobileNumber: editingController.mobileController.text,
+                              mailAddress: editingController.emailAddressController.text,
+                              bloodGroup: editingController.selectedBlood.value,
+                              gender: editingController.selectedGender.value,
+                              birthDate: int.parse(editingController.birthDateController.text.toString()),
+                              weight: double.parse(editingController.weightController.text.toString()),
+                              profilePictureUrl: editingController.profilePicture.value,
+                              height: double.parse(editingController.heightController.text.toString()),
+                              userToken: editingController.userModel.userToken,
+                            ),
+                          );
+                        },
                         buttonText: 'Save',
                         backgroundColor: Colors.red,
                       ),
@@ -232,7 +278,7 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget genderWidget(String imageUrl, String genderType) {
+  Widget genderWidget(String imageUrl, Gender genderType) {
     return Stack(
       children: [
         Obx(
@@ -247,7 +293,7 @@ class EditProfileScreen extends StatelessWidget {
                       image: AssetImage(imageUrl),
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
-                        selectedGender.value == genderType
+                        editingController.selectedGender.value == genderType
                             ? Colors.red.withOpacity(0.3)
                             : Colors.transparent,
                         BlendMode.darken,
@@ -255,13 +301,15 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: selectedGender.value == genderType
-                          ? Colors.red
-                          : Colors.white12,
+                      color:
+                          editingController.selectedGender.value == genderType
+                              ? Colors.red
+                              : Colors.white12,
                     ),
                   ),
                   child: Visibility(
-                    visible: selectedGender.value == genderType,
+                    visible:
+                        editingController.selectedGender.value == genderType,
                     child: const Icon(
                       Icons.check,
                       size: 40,
@@ -270,7 +318,7 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  genderType,
+                  genderType.toDisplayText(),
                   style: const TextStyle(
                       fontFamily: 'Inter', fontSize: 14, color: Colors.black),
                 )
@@ -281,4 +329,11 @@ class EditProfileScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<UserModel> getUserModel() async {
+  var pref = await SharedPreferences.getInstance();
+  var temp = pref.getString('login');
+  var userModel = UserModel.fromJson(jsonDecode(temp!));
+  return userModel;
 }

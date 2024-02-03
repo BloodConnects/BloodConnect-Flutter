@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/api/api_fuctions/login_user.dart';
 import 'package:blood_donation_app/api/model/userModel.dart';
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,11 +17,8 @@ class CheckUser {
       case ApiStatus.SUCCESS:
         {
           if (data.success) {
-            var pref = await SharedPreferences.getInstance();
-            pref.setBool(SharePreferenceService.isSignIn, true);
-            Get.offAll(const HomeScreen());
+            LoginUser().loginUser(UserModel(uid: user.uid));
           } else {
-            //fullname = user.display
             Get.to(
               RegisterationScreen(
                 UserModel(
