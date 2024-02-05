@@ -129,7 +129,6 @@ class AddLocationScreen extends StatelessWidget {
                 DynamicButton(
                   onPressed: () {},
                   buttonText: 'Save',
-                  backgroundColor: Colors.red,
                 ),
               ],
             ),

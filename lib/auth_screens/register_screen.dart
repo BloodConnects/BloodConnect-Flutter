@@ -212,7 +212,6 @@ class RegisterationScreen extends StatelessWidget {
                                   );
                                 },
                                 buttonText: 'Register',
-                                backgroundColor: Colors.red,
                               ),
                             ],
                           ),

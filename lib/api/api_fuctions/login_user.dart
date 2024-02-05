@@ -17,8 +17,7 @@ class LoginUser{
         {
           var pref = await SharedPreferences.getInstance();
           pref.setBool(SharePreferenceService.isSignIn, true);
-          var temp = response.data?.toJson();
-          pref.setString('login', jsonEncode(temp));
+          SharePreferenceService().setUserModel(response.data!!);
           Get.offAll(const HomeScreen());
           break;
         }

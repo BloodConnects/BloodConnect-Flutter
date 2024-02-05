@@ -35,6 +35,9 @@ class FindDonorScreen extends StatelessWidget {
                   const Text(
                     'Find Donor Screen',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   )
                 ],
               ),
@@ -194,9 +197,10 @@ class FindDonorScreen extends StatelessWidget {
                       const Text(
                         'Full Address \nWith Zip Code and State',
                         style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 12,
-                            color: Colors.black),
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
                       ),
                       const Divider(),
                       const Text(
@@ -233,7 +237,6 @@ class FindDonorScreen extends StatelessWidget {
                   Get.to(const DonorListScreen());
                 },
                 buttonText: 'Continue',
-                backgroundColor: Colors.red,
               ),
               const SizedBox(
                 height: 8,

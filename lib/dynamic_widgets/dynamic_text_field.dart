@@ -5,12 +5,14 @@ Widget DynamicTextField({
   required TextInputType keyboardType,
   required String labelText,
   required String hintText,
+  VoidCallback? ontap,
   Color borderColor = Colors.black,
   Widget? prefixIcon,
 }) {
   return TextField(
     controller: controller,
     keyboardType: keyboardType,
+    onTap: ontap,
     decoration: InputDecoration(
       labelText: labelText,
       hintText: hintText,

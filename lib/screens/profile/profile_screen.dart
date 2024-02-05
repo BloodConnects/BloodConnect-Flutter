@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'package:blood_donation_app/api/model/userModel.dart';
 import 'package:blood_donation_app/auth_screens/opening_screen.dart';
 import 'package:blood_donation_app/controller/avatar_controller.dart';
 import 'package:blood_donation_app/dynamic_widgets/avatar_selector.dart';
 import 'package:blood_donation_app/dynamic_widgets/custom_profile_clickable_widget.dart';
 import 'package:blood_donation_app/screens/profile/edit_profille_screen.dart';
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,42 +35,42 @@ class ProfileScreen extends StatelessWidget {
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 5,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 6,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 7,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 8,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 9,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 10,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 11,
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'value': 12,
     },
   ];
@@ -114,7 +111,8 @@ class ProfileScreen extends StatelessWidget {
                                     child: GridView.builder(
                                       shrinkWrap: true,
                                       itemCount: avatarList2.length,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3,
                                         crossAxisSpacing: 10.0,
                                         mainAxisSpacing: 10.0,
@@ -122,8 +120,9 @@ class ProfileScreen extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            avatarController.selectedIndex.value =
-                                            avatarList2[index]['value'];
+                                            avatarController
+                                                    .selectedIndex.value =
+                                                avatarList2[index]['value'];
                                           },
                                           child: AvatarSelector(
                                             avatarList2[index]['image'],
@@ -153,23 +152,25 @@ class ProfileScreen extends StatelessWidget {
               ),
               Center(
                 child: FutureBuilder<String>(
-                  future: getUserFullName(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return const CircularProgressIndicator();
-                    }else{
-                      return Text(
-                        snapshot.data as String,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      );
-                    }
-                  }
-                ),
+                    future: getUserFullName(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data as String,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        );
+                      } else if (!snapshot.hasData) {
+                        print('snapshot does not have dataa');
+                      }
+                      return Text('error');
+                    }),
               ),
               const SizedBox(
                 height: 20,
@@ -177,8 +178,9 @@ class ProfileScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: const Color.fromARGB(255, 219, 218, 218)),
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color.fromARGB(255, 219, 218, 218),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: SingleChildScrollView(
@@ -189,7 +191,7 @@ class ProfileScreen extends StatelessWidget {
                           height: 6,
                         ),
                         CustomClickableWidget(
-                          onTap: (){
+                          onTap: () {
                             Get.to(EditProfileScreen());
                           },
                           icon: Icons.edit,
@@ -236,8 +238,8 @@ class ProfileScreen extends StatelessWidget {
                           onTap: () async {
                             var pref = await SharedPreferences.getInstance();
                             pref.remove(SharePreferenceService.isSignIn);
-                            pref.remove('login');
-                            Get.to(OpeningScreen());
+                            pref.remove(SharePreferenceService.userModel);
+                            Get.offAll(OpeningScreen());
                           },
                           icon: Icons.logout,
                           text: 'Log out',
@@ -259,11 +261,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<String> getUserFullName() async{
-    var pref = await SharedPreferences.getInstance();
-    var temp = pref.getString('login');
-    var userModel = UserModel.fromJson(jsonDecode(temp!));
-
-    return userModel.fullName ?? '';
+  Future<String> getUserFullName() async {
+    var user = await SharePreferenceService().getUserModel();
+    return user.fullName ?? '';
   }
 }

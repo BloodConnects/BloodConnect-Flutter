@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:blood_donation_app/custom_cards/card.dart';
 import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
-import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
-import 'package:blood_donation_app/screens/home/blood_request_screen.dart';
 import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
+import 'package:blood_donation_app/screens/home/health_screening.dart';
+import 'package:blood_donation_app/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:http/http.dart' as http;
-import '../../api/api_constant/api_constants.dart';
 import '../../controller/mycontroller.dart';
+import '../../custom_cards/custom_dialog_box.dart';
+import '../../share_preference/share_preference_service.dart';
 
 class Home extends StatelessWidget {
 
@@ -20,32 +18,41 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          child: Text(
-            'Hello \nThere!',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontFamily: 'Inter',
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: FutureBuilder<String>(
+              future: getUserFullName(),
+              builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const CircularProgressIndicator();
+                }else{
+                  return Text(
+                    'Hello \n${snapshot.data}',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                    ),
+                  );
+                }
+              }
           ),
         ),
-        backgroundColor: Colors.red[400],
-        elevation: 3,
-        leadingWidth: 150,
+        // backgroundColor: Colors.red[400],
+        // elevation: 3,
+        leadingWidth: 180,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: CircleAvatar(
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
                 onPressed: () {
-                  showSearch(context: context, delegate: CustomSearchBar());
+                  Get.to(ProfileScreen());
                 },
                 icon: const Icon(
-                  Icons.search,
-                  color: Colors.black,
+                  Icons.person,
+                  // color: Colors.black,
                 ),
               ),
             ),
@@ -64,7 +71,7 @@ class Home extends StatelessWidget {
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: CarouselSlider(
                         items: [
                           Container(
@@ -119,7 +126,7 @@ class Home extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 6),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.612,
                 width: double.infinity,
@@ -174,7 +181,9 @@ class Home extends StatelessWidget {
                               child: CustomContainer(
                                 title: 'Health \nScreening',
                                 icon: Icons.health_and_safety_sharp,
-                                ontap: () {},
+                                ontap: () {
+                                  Get.to(HealthScreening());
+                                },
                               ),
                             )
                           ],
@@ -226,7 +235,12 @@ class Home extends StatelessWidget {
                                 title: 'Blood \nRequests',
                                 icon: Icons.healing_outlined,
                                 ontap: () {
-                                  Get.to(const BloodRequestScreen());
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const CustomDialogBox();
+                                    },
+                                  );
                                 },
                               ),
                             ),
@@ -313,5 +327,10 @@ class Home extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String> getUserFullName()async {
+    var user =  await SharePreferenceService().getUserModel();
+    return user.fullName ?? '';
   }
 }

@@ -135,7 +135,6 @@ class VerificationScreen extends StatelessWidget {
                                   .map((controller) => controller.text.trim())
                                   .join());
                         },
-                        backgroundColor: Colors.red,
                         buttonText: 'Verify',
                       ),
                     ],

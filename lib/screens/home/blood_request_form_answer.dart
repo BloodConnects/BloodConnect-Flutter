@@ -143,7 +143,6 @@ class BloodRequestFormAnswer extends StatelessWidget {
               DynamicButton(
                 onPressed: () {},
                 buttonText: 'Continue',
-                backgroundColor: Colors.red,
               ),
               const SizedBox(
                 height: 10,

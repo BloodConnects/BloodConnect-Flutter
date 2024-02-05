@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../controller/map_controller.dart';
 
 class MapScreen extends GetView<MapController> {
@@ -17,6 +15,7 @@ class MapScreen extends GetView<MapController> {
         mapType: MapType.normal,
         initialCameraPosition: MapController.kGooglePlex,
         markers: Set<Marker>.of(mapController.marker),
+        zoomControlsEnabled: false,
         onMapCreated: (GoogleMapController controller) {
           mapController.controller.complete(controller);
         },

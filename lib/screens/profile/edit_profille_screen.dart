@@ -1,22 +1,15 @@
-import 'dart:convert';
-
-import 'package:blood_donation_app/api/api_constant/api_constants.dart';
-import 'package:blood_donation_app/api/api_controller/update_data_controller.dart';
-import 'package:blood_donation_app/api/api_fuctions/login_user.dart';
-import 'package:blood_donation_app/api/api_fuctions/register_user.dart';
+import 'package:blood_donation_app/api/api_fuctions/delete_user.dart';
+import 'package:blood_donation_app/api/api_fuctions/update_user.dart';
 import 'package:blood_donation_app/api/model/userModel.dart';
-import 'package:blood_donation_app/controller/blood_group_controller.dart';
-import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:blood_donation_app/enum_classes/blood_group.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../../api/api_controller/editing_controller.dart';
+import '../../controller/avatar_controller.dart';
+import '../../dynamic_widgets/avatar_selector.dart';
 import '../../enum_classes/gender.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -33,7 +26,6 @@ class EditProfileScreen extends StatelessWidget {
       'value': Gender.Other
     },
   ];
-
   var editingController = Get.put(EditingController());
 
   TextEditingController nameController = TextEditingController();
@@ -43,14 +35,70 @@ class EditProfileScreen extends StatelessWidget {
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
 
+  List<Map<String, dynamic>> avatarList2 = [
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 1,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 2,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 3,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 4,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 5,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 6,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 7,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 8,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 9,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 10,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 11,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'value': 12,
+    },
+  ];
 
-  //
-  // @override
-  // void onInit()async{
-  //   var userModel =  await getUserModel();
-  //   nameController.text = userModel.fullName ?? '';
-  //   super.onInit();
-  // }
+  AvatarController avatarController = Get.put(AvatarController());
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +127,58 @@ class EditProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage:  NetworkImage(editingController.profilePicture.value)
-                  ,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 15, bottom: 5, left: 15, right: 15),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 300,
+                                  width: double.infinity,
+                                  child: Expanded(
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: avatarList2.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 10.0,
+                                        mainAxisSpacing: 10.0,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            avatarController
+                                                    .selectedIndex.value =
+                                                avatarList2[index]['value'];
+                                          },
+                                          child: AvatarSelector(
+                                            avatarList2[index]['image'],
+                                            avatarList2[index]['value'],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundImage:
+                        NetworkImage(editingController.profilePicture.value),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -209,6 +305,25 @@ class EditProfileScreen extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         labelText: 'Date Of Birth',
                         hintText: 'Enter Date Of Birth',
+                        ontap: () async {
+                          var currentDate = DateFormat('yyyy-MM-dd').parse(editingController.birthDateController.text);
+                          var newDateTime = await showDatePicker(
+                            context: context,
+                            initialDate: currentDate,
+                            firstDate: DateTime(1950),
+                            lastDate: DateTime(2025),
+                          );
+                          if (newDateTime != null) {
+                            print(newDateTime);
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(newDateTime);
+                            editingController.birthDateController.text =
+                                formattedDate;
+                            editingController.update();
+                          } else {
+                            print('date is not selected');
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -233,24 +348,32 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                       DynamicButton(
                         onPressed: () {
-                          RegisterUser().updateUserData(
+                          UpdateUser().updateUserData(
                             UserModel(
                               uid: editingController.userModel.uid,
                               fullName: editingController.nameController.text,
-                              mobileNumber: editingController.mobileController.text,
-                              mailAddress: editingController.emailAddressController.text,
+                              mobileNumber:
+                                  editingController.mobileController.text,
+                              mailAddress:
+                                  editingController.emailAddressController.text,
                               bloodGroup: editingController.selectedBlood.value,
                               gender: editingController.selectedGender.value,
-                              birthDate: int.parse(editingController.birthDateController.text.toString()),
-                              weight: double.parse(editingController.weightController.text.toString()),
-                              profilePictureUrl: editingController.profilePicture.value,
-                              height: double.parse(editingController.heightController.text.toString()),
+                              birthDate: DateTime.parse(editingController
+                                      .birthDateController.text)
+                                  .millisecondsSinceEpoch,
+                              weight: double.parse(editingController
+                                  .weightController.text
+                                  .toString()),
+                              profilePictureUrl:
+                                  editingController.profilePicture.value,
+                              height: double.parse(editingController
+                                  .heightController.text
+                                  .toString()),
                               userToken: editingController.userModel.userToken,
                             ),
                           );
                         },
                         buttonText: 'Save',
-                        backgroundColor: Colors.red,
                       ),
                     ],
                   ),
@@ -260,7 +383,9 @@ class EditProfileScreen extends StatelessWidget {
                 height: 10,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  DeleteUser().deletAccount();
+                },
                 child: const Text(
                   'Delete Account',
                   style: TextStyle(
@@ -320,7 +445,10 @@ class EditProfileScreen extends StatelessWidget {
                 Text(
                   genderType.toDisplayText(),
                   style: const TextStyle(
-                      fontFamily: 'Inter', fontSize: 14, color: Colors.black),
+                    fontFamily: 'Inter',
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
                 )
               ],
             );
@@ -329,11 +457,4 @@ class EditProfileScreen extends StatelessWidget {
       ],
     );
   }
-}
-
-Future<UserModel> getUserModel() async {
-  var pref = await SharedPreferences.getInstance();
-  var temp = pref.getString('login');
-  var userModel = UserModel.fromJson(jsonDecode(temp!));
-  return userModel;
 }

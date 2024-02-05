@@ -1,18 +1,9 @@
-import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
-import 'package:blood_donation_app/screens/home/blood_request_screen.dart';
-import 'package:blood_donation_app/screens/home/health_screening.dart';
-import 'package:blood_donation_app/screens/profile/edit_profille_screen.dart';
-import 'package:blood_donation_app/screens/profile/profile_screen.dart';
 import 'package:blood_donation_app/splash_screen/splash_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'auth_methods/firebase_options.dart';
-import 'firebase_clod_messaging/firebase_message.dart';
-import 'dart:io' show Platform;
-
+import 'color_schemes.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,13 +15,10 @@ void main() async {
       projectId: 'raktacare',
     ),
   );
-  
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   String? token = await FirebaseMessaging.instance.getToken();
   print("FCM Token: $token");
-
-  // await FirebaseMessagingService().configure();
 
   runApp(const MyApp());
 }
@@ -44,10 +32,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
         title: 'Flutter Demo',
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()
+        home: const SplashScreen()
     );
   }
 }
