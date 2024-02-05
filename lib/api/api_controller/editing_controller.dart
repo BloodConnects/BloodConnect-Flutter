@@ -1,6 +1,8 @@
+import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 import '../../enum_classes/blood_group.dart';
 import '../../enum_classes/gender.dart';
 import '../../screens/profile/edit_profille_screen.dart';
@@ -33,7 +35,7 @@ class EditingController extends GetxController {
 
   @override
   void onInit() async {
-    userModel = await getUserModel();
+    userModel = await SharePreferenceService().getUserModel();
     nameController.text = userModel.fullName ?? '';
     selectedBlood.value = userModel.bloodGroup ?? BloodGroup.unknown;
     selectedGender.value = userModel.gender ?? Gender.Male;
@@ -44,7 +46,9 @@ class EditingController extends GetxController {
     } else {
       profilePicture.value = 'https://images.unsplash.com/photo-1662695090012-24ccea960995?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
     }
-    birthDateController.text = (userModel.birthDate ?? 0).toString();
+    var date = DateTime.fromMillisecondsSinceEpoch(userModel.birthDate ?? DateTime.now().millisecondsSinceEpoch);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    birthDateController.text = formattedDate;
     heightController.text = (userModel.height ?? 0.0).toString();
     weightController.text = (userModel.weight ?? 0.0).toString();
     super.onInit();

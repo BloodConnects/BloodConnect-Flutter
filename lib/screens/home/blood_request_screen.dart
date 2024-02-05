@@ -367,7 +367,6 @@ class BloodRequestScreen extends StatelessWidget {
                   Get.to(const BloodRequestFormAnswer());
                 },
                 buttonText: 'Continue',
-                backgroundColor: Colors.red,
               ),
             ],
           ),

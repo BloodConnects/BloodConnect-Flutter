@@ -69,7 +69,6 @@ class UserProfileScreen extends StatelessWidget {
               width: 200,
               borderRadius: BorderRadius.circular(22),
               buttonText: 'Blood Request',
-              backgroundColor: Colors.red,
             ),
             const SizedBox(
               height: 15,

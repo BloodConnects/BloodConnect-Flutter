@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:blood_donation_app/api/api_controller/update_data_controller.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../enum_classes/api_status.dart';
@@ -18,8 +16,7 @@ class RegisterUser {
           // var userModel = response.data;
           var pref = await SharedPreferences.getInstance();
           pref.setBool(SharePreferenceService.isSignIn, true);
-          var temp = response.data?.toJson();
-          pref.setString('login', jsonEncode(temp));
+          SharePreferenceService().setUserModel(response.data!);
           Get.offAll(const HomeScreen());
           break;
         }
@@ -38,21 +35,6 @@ class RegisterUser {
           Get.snackbar("", response.message);
           break;
         }
-    }
-  }
-
-  void updateUserData(UserModel userModel) async {
-    var response = await updateData(userModel);
-
-    switch (response.status) {
-      case ApiStatus.SUCCESS:
-        var pref = await SharedPreferences.getInstance();
-        var temp = response.data?.toJson();
-        pref.setString('login', jsonEncode(temp));
-        Get.back();
-        break;
-      default:
-        Get.snackbar('', response.message);
     }
   }
 }

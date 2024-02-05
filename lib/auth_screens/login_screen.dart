@@ -122,7 +122,6 @@ class LoginScreen extends StatelessWidget {
                                   print('Please select a country code');
                                 }
                               },
-                              backgroundColor: Colors.red,
                               buttonText: "Continue",
                             ),
                           ],

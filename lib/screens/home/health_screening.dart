@@ -66,7 +66,6 @@ class HealthScreening extends StatelessWidget {
                       color: radioButtonController.textColor(1),
                     ),
                   ),
-                  activeColor: Colors.red[900],
                   groupValue: radioButtonController.selectedVale.value,
                   onChanged: (value) =>
                       radioButtonController.onSelectValue(value!),
@@ -81,8 +80,8 @@ class HealthScreening extends StatelessWidget {
                 height: 56,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Colors.black38),
+                  borderRadius: BorderRadius.circular(5),
                   color: radioButtonController.backgroundColorOfContainer(2),
                 ),
                 child: RadioListTile(
@@ -96,7 +95,6 @@ class HealthScreening extends StatelessWidget {
                       color: radioButtonController.textColor(2),
                     ),
                   ),
-                  activeColor: Colors.red[900],
                   groupValue: radioButtonController.selectedVale.value,
                   onChanged: (value) =>
                       radioButtonController.onSelectValue(value!),
@@ -111,8 +109,8 @@ class HealthScreening extends StatelessWidget {
                 height: 56,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Colors.black38),
+                  borderRadius: BorderRadius.circular(5),
                   color: radioButtonController.backgroundColorOfContainer(3),
                 ),
                 child: RadioListTile(
@@ -126,7 +124,6 @@ class HealthScreening extends StatelessWidget {
                       color: radioButtonController.textColor(3),
                     ),
                   ),
-                  activeColor: Colors.red[900],
                   groupValue: radioButtonController.selectedVale.value,
                   onChanged: (value) =>
                       radioButtonController.onSelectValue(value!),
@@ -141,8 +138,8 @@ class HealthScreening extends StatelessWidget {
                 height: 56,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Colors.black38),
+                  borderRadius: BorderRadius.circular(5),
                   color: radioButtonController.backgroundColorOfContainer(4),
                 ),
                 child: RadioListTile(
@@ -156,7 +153,6 @@ class HealthScreening extends StatelessWidget {
                       color: radioButtonController.textColor(4),
                     ),
                   ),
-                  activeColor: Colors.red[900],
                   groupValue: radioButtonController.selectedVale.value,
                   onChanged: (value) =>
                       radioButtonController.onSelectValue(value!),
@@ -167,7 +163,6 @@ class HealthScreening extends StatelessWidget {
             DynamicButton(
               onPressed: () {},
               buttonText: 'Next',
-              backgroundColor: Colors.red,
             ),
           ],
         ),
