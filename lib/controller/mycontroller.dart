@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../api/model/UserRepositry.dart';
+import '../share_preference/share_preference_service.dart';
+
 class MyController extends GetxController {
   var selectedIndex = 0.obs;
   final int numPages = 3;
@@ -12,6 +15,8 @@ class MyController extends GetxController {
   RxBool isSecondContainerVisible = false.obs;
   RxBool isCheckBoxClicked = false.obs;
   RxString selectedBloodGroup = 'A positive'.obs;
+
+  late ValueChanged<int> showDialogs;
 
   void onSelectedBloodGroup(String value) {
     selectedBloodGroup.value = value;
@@ -26,9 +31,19 @@ class MyController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async{
     super.onInit();
     _startTimer();
+
+    var useLocation = await SharePreferenceService().getLocationModel();
+    if(useLocation == null){
+      var response = await getLocation();
+      if(response.success && response.data != null){
+        SharePreferenceService().setLocationModel(response.data!);
+      }else{
+        showDialogs(0);
+      }
+    }
   }
 
   void onChangendex(int index) {

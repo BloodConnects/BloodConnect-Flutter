@@ -35,7 +35,7 @@ class EditingController extends GetxController {
 
   @override
   void onInit() async {
-    userModel = await SharePreferenceService().getUserModel();
+    userModel = (await SharePreferenceService().getUserModel())!;
     nameController.text = userModel.fullName ?? '';
     selectedBlood.value = userModel.bloodGroup ?? BloodGroup.unknown;
     selectedGender.value = userModel.gender ?? Gender.Male;

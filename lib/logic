@@ -1,0 +1,14 @@
+checkUserLocation{
+    if(userLocationNotExistingInSharedPreference){
+        if(callUserLocationAPI){  //exist in database
+            SaveUserLocationInSharedPreference
+        }else{
+            showAddLocationDialog(
+                callAddLocationApi()
+                if(success){
+                    SaveUserLocationInSharedPreference
+                }
+            )
+        }
+    }
+}

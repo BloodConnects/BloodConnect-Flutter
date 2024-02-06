@@ -1,5 +1,8 @@
+import 'package:blood_donation_app/api/model/UserRepositry.dart';
+import 'package:blood_donation_app/auth_screens/add_location_screen.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
 import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
+import 'package:blood_donation_app/enum_classes/api_status.dart';
 import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
 import 'package:blood_donation_app/screens/home/health_screening.dart';
 import 'package:blood_donation_app/screens/profile/profile_screen.dart';
@@ -15,6 +18,17 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MyController mycontroller = Get.put(MyController());
+
+    void doSomething(int i){
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AddLocationScreen();
+        },
+      );
+    }
+
+    mycontroller.showDialogs = doSomething;
 
     return Scaffold(
       appBar: AppBar(
@@ -331,6 +345,6 @@ class Home extends StatelessWidget {
 
   Future<String> getUserFullName()async {
     var user =  await SharePreferenceService().getUserModel();
-    return user.fullName ?? '';
+    return user?.fullName ?? '';
   }
 }

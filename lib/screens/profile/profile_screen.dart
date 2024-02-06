@@ -263,6 +263,6 @@ class ProfileScreen extends StatelessWidget {
 
   Future<String> getUserFullName() async {
     var user = await SharePreferenceService().getUserModel();
-    return user.fullName ?? '';
+    return user?.fullName ?? '';
   }
 }
