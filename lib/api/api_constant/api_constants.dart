@@ -3,4 +3,5 @@ class ApiConstants{
   static String checkUser = 'User/Check';
   static String user = 'User';
   static String login = 'User/Login';
+  static String location = 'Location';
 }

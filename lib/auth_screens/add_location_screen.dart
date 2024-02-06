@@ -1,3 +1,5 @@
+import 'package:blood_donation_app/api/model/LocationModel.dart';
+import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:blood_donation_app/screens/home_screen.dart';
@@ -127,7 +129,11 @@ class AddLocationScreen extends StatelessWidget {
                   height: 8,
                 ),
                 DynamicButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addLocation(LocationModel(
+                       
+                    ));
+                  },
                   buttonText: 'Save',
                 ),
               ],
