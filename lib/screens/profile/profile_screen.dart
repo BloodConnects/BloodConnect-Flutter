@@ -167,9 +167,9 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         );
                       } else if (!snapshot.hasData) {
-                        print('snapshot does not have dataa');
+                        print('snapshot does not have data');
                       }
-                      return Text('error');
+                      return const Text('error');
                     }),
               ),
               const SizedBox(

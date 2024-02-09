@@ -4,10 +4,15 @@ class DynamicInfoWidget extends StatelessWidget {
   final String title;
   final String subtitle;
   final double radius;
+  final FontWeight fontWeight2;
+  final FontWeight fontWeight1;
 
-  DynamicInfoWidget({
+  const DynamicInfoWidget({super.key,
     required this.title,
-    required this.subtitle, this.radius = 22,
+    required this.subtitle,
+    this.radius = 22,
+    this.fontWeight2 = FontWeight.bold,
+    this.fontWeight1 = FontWeight.normal,
   });
 
   @override
@@ -28,8 +33,9 @@ class DynamicInfoWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Inter',
+                  fontWeight: fontWeight1,
                 ),
               ),
               const SizedBox(
@@ -37,11 +43,11 @@ class DynamicInfoWidget extends StatelessWidget {
               ),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 15,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: fontWeight2,
                 ),
               )
             ],

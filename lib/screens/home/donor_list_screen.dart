@@ -29,18 +29,18 @@ class DonorListScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: ListView(
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               height: 15,
             ),
-            CustomDonorContainer(),
-            SizedBox(height: 12,),
-            CustomDonorContainer(),
-            SizedBox(height: 12,),
-            CustomDonorContainer(),
-            SizedBox(height: 12,),
-            CustomDonorContainer(),
-            SizedBox(height: 12,),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                return const CustomDonorContainer();
+              },
+            ),
           ],
         ),
       ),

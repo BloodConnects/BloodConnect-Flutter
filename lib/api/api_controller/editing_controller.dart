@@ -1,11 +1,9 @@
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import '../../enum_classes/blood_group.dart';
 import '../../enum_classes/gender.dart';
-import '../../screens/profile/edit_profille_screen.dart';
 import '../model/userModel.dart';
 
 class EditingController extends GetxController {

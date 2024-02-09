@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:blood_donation_app/api/model/LocationModel.dart';
 import 'package:blood_donation_app/screens/explore/maps.dart';
 import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-
+import 'package:http/http.dart' as http;
 import '../../controller/map_controller.dart';
 import '../../controller/mycontroller.dart';
 
@@ -22,14 +25,6 @@ class ExploreScreen extends StatelessWidget {
       body: Stack(
         children: [
           const MapScreen(),
-          // GoogleMap(
-          //   mapType: MapType.normal,
-          //   initialCameraPosition: MapController.kGooglePlex,
-          //   markers: Set<Marker>.of(mapController.marker),
-          //   onMapCreated: (GoogleMapController controller) {
-          //     mapController.controller.complete(controller);
-          //   },
-          // ),
           Stack(
             children: [
               Padding(
@@ -47,52 +42,53 @@ class ExploreScreen extends StatelessWidget {
                     color: Color.fromARGB(255, 222, 221, 221),
                   ),
                   child: GooglePlaceAutoCompleteTextField(
-                                      textEditingController: search,
-                                      googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
-                                      inputDecoration:
-                    const InputDecoration(border: InputBorder.none),
-                                      debounceTime: 800,
-                                      countries: const ["in", "fr"],
-                                      isLatLngRequired: true,
-                                      getPlaceDetailWithLatLng: (Prediction prediction) {
-                  print("placeDetails${prediction.lng}");
-                                      },
-                                      itemClick: (Prediction prediction) {
-                  search.text = prediction.description!;
-                  search.selection = TextSelection.fromPosition(
-                      TextPosition(offset: prediction.description!.length));
+                    textEditingController: search,
+                    googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                    inputDecoration:
+                        const InputDecoration(border: InputBorder.none),
+                    debounceTime: 800,
+                    countries: const ["in", "fr"],
+                    isLatLngRequired: true,
+                    getPlaceDetailWithLatLng: (Prediction prediction) {
+                      print("placeDetails${prediction.lng}");
+                    },
+                    itemClick: (Prediction prediction) {
+                      prediction.toLocationModel();
+                      search.text = prediction.description!;
+                      search.selection = TextSelection.fromPosition(
+                          TextPosition(offset: prediction.description!.length));
 
-                  if (prediction.lat != null && prediction.lng != null) {
-                    mapController.moveCameraToLatLng(
-                      LatLng(prediction.lat as double,
-                          prediction.lng as double),
-                    );
-                  }else{
-                    Get.snackbar('', "Can't get latitude and longitude");
-                  }
-                                      },
-                                      itemBuilder: (context, index, Prediction prediction) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      // color: Colors.grey[300]
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_on),
-                        const SizedBox(
-                          width: 7,
+                      if (prediction.lat != null && prediction.lng != null) {
+                        mapController.moveCameraToLatLng(
+                          LatLng(prediction.lat as double,
+                              prediction.lng as double),
+                        );
+                      } else {
+                        Get.snackbar('', "Can't get latitude and longitude");
+                      }
+                    },
+                    itemBuilder: (context, index, Prediction prediction) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          // color: Colors.grey[300]
                         ),
-                        Expanded(child: Text(prediction.description ?? ""))
-                      ],
-                    ),
-                  );
-                                      },
-                                      seperatedBuilder: const Divider(),
-                                      isCrossBtnShown: true,
-                                      containerHorizontalPadding: 10,
-                                    ),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(child: Text(prediction.description ?? ""))
+                          ],
+                        ),
+                      );
+                    },
+                    seperatedBuilder: const Divider(),
+                    isCrossBtnShown: true,
+                    containerHorizontalPadding: 10,
+                  ),
                 ),
               ),
               Obx(
@@ -197,6 +193,20 @@ class ExploreScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+extension PredictionExtension on Prediction{
+  Future<LocationModel> toLocationModel()async{
+    String placeUrl = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.placeId}&key=AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o';
+    var reponse = await http.get(Uri.parse(placeUrl));
+    var data = jsonDecode(reponse.body) as Map<String, dynamic>;
+    data;
+    return LocationModel(
+      latitude: data['result']['geometry']['location']['lat'],
+      longitude: data['result']['geometry']['location']['lng'],
+      // street: data['result']['geometry']['location']['lng']
     );
   }
 }

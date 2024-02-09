@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../api/model/LocationModel.dart';
 import '../api/model/userModel.dart';
 

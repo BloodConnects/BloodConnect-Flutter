@@ -219,6 +219,7 @@ class EditProfileScreen extends StatelessWidget {
                         controller: editingController.mobileController,
                         keyboardType: TextInputType.phone,
                         labelText: 'Mobile Number',
+                        enable: false,
                         hintText: 'Enter Mobile Number',
                       ),
                       const SizedBox(
@@ -227,6 +228,7 @@ class EditProfileScreen extends StatelessWidget {
                       DynamicTextField(
                         controller: editingController.emailAddressController,
                         keyboardType: TextInputType.emailAddress,
+                        enable: false,
                         labelText: 'Email Address',
                         hintText: 'Enter Email Address',
                       ),

@@ -13,7 +13,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Controller controller = Get.put(Controller());
-    FirebaseMessagingController firebaseMessagingService = Get.put(FirebaseMessagingController());
 
     return Scaffold(
       body: PageView(
