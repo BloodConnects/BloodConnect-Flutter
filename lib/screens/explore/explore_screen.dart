@@ -11,6 +11,7 @@ import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 import '../../controller/map_controller.dart';
 import '../../controller/mycontroller.dart';
+import 'Pre.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -52,17 +53,14 @@ class ExploreScreen extends StatelessWidget {
                     getPlaceDetailWithLatLng: (Prediction prediction) {
                       print("placeDetails${prediction.lng}");
                     },
-                    itemClick: (Prediction prediction) {
-                      prediction.toLocationModel();
+                    itemClick: (Prediction prediction) async {
+                      var location = await prediction.toLocationModel();
                       search.text = prediction.description!;
                       search.selection = TextSelection.fromPosition(
                           TextPosition(offset: prediction.description!.length));
 
-                      if (prediction.lat != null && prediction.lng != null) {
-                        mapController.moveCameraToLatLng(
-                          LatLng(prediction.lat as double,
-                              prediction.lng as double),
-                        );
+                      if (location.latitude != null && location.longitude != null) {
+                        mapController.moveCameraToLatLng(LatLng(location.latitude as double, location.latitude as double));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -202,11 +200,15 @@ extension PredictionExtension on Prediction{
     String placeUrl = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.placeId}&key=AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o';
     var reponse = await http.get(Uri.parse(placeUrl));
     var data = jsonDecode(reponse.body) as Map<String, dynamic>;
-    data;
+    var temp = Pre.fromJson(data);
     return LocationModel(
-      latitude: data['result']['geometry']['location']['lat'],
-      longitude: data['result']['geometry']['location']['lng'],
-      // street: data['result']['geometry']['location']['lng']
+      latitude: temp.result?.geometry?.location?.lat,
+      longitude: temp.result?.geometry?.location?.lat,
+      street: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("political")==true).longName,
+      city: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("locality")==true).longName,
+      state: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("administrative_area_level_1")==true).longName,
+      country: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("country")==true).longName,
+      postalCode: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("postal_code")==true).longName
     );
   }
 }

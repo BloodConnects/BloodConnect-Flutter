@@ -2,11 +2,8 @@ import 'package:blood_donation_app/api/model/LocationModel.dart';
 import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../screens/explore/maps.dart';
 

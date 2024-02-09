@@ -29,7 +29,6 @@ class MapController extends GetxController {
 
   void moveCameraToLatLng(LatLng latLng) async {
     final GoogleMapController mapController = await controller.future;
-
     mapController.animateCamera(CameraUpdate.newLatLng(latLng));
     currentLatLng.value = latLng;
   }
