@@ -239,7 +239,7 @@ Future<BaseResponse<UserModel>> deleteUser() async {
   try {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${SharePreferenceService().getUserToken()}'
+      'Authorization': 'Bearer ${await SharePreferenceService().getUserToken()}'
     };
     var response = await http.delete(
       Uri.parse(ApiConstants.baseUrl + ApiConstants.user),

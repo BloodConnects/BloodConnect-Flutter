@@ -14,10 +14,13 @@ class BloodRequestFormAnswer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: (){
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -52,7 +55,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                   ],
                   color: Colors.white,
                 ),
-                child: Column(
+                child: const Column(
                   children: [
                     DynamicInfoWidget(
                       title: 'Full Name',
@@ -115,7 +118,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                 children: [
                   Obx(
                     () => Checkbox(
-                      activeColor: Colors.red,
+                      activeColor: Colors.red[900],
                       side: const BorderSide(color: Colors.black),
                       value: myController.isCheckBoxClicked.value,
                       onChanged: (value) {

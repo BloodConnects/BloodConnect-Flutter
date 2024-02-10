@@ -7,7 +7,8 @@ class DynamicInfoWidget extends StatelessWidget {
   final FontWeight fontWeight2;
   final FontWeight fontWeight1;
 
-  const DynamicInfoWidget({super.key,
+  const DynamicInfoWidget({
+    super.key,
     required this.title,
     required this.subtitle,
     this.radius = 22,
@@ -28,29 +29,33 @@ class DynamicInfoWidget extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontWeight: fontWeight1,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: fontWeight1,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 2,
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: fontWeight2,
+                const SizedBox(
+                  height: 2,
                 ),
-              )
-            ],
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: fontWeight2,
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),

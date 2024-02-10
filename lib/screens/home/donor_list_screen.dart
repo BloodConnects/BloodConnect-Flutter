@@ -1,6 +1,7 @@
 import 'package:blood_donation_app/custom_cards/custom_donor_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DonorListScreen extends StatelessWidget {
   const DonorListScreen({super.key});
@@ -9,10 +10,13 @@ class DonorListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: (){
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,

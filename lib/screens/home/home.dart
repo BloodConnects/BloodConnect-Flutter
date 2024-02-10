@@ -1,8 +1,5 @@
-import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:blood_donation_app/auth_screens/add_location_screen.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
-import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
-import 'package:blood_donation_app/enum_classes/api_status.dart';
 import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
 import 'package:blood_donation_app/screens/home/health_screening.dart';
 import 'package:blood_donation_app/screens/profile/profile_screen.dart';
@@ -14,6 +11,7 @@ import '../../custom_cards/custom_dialog_box.dart';
 import '../../share_preference/share_preference_service.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,6 @@ class Home extends StatelessWidget {
         },
       );
     }
-
     mycontroller.showDialogs = doSomething;
 
     return Scaffold(
@@ -43,7 +40,7 @@ class Home extends StatelessWidget {
                   return Text(
                     'Hello \n${snapshot.data}',
                     style: const TextStyle(
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
                     ),

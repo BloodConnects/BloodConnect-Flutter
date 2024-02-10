@@ -48,52 +48,40 @@ class CustomDonorContainer extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: 280,
-                              child: Text(
-                                'Fulwariya Priya,,,,,,,,,,nka Omprakash',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Inter',
-                                  fontSize: 18,
-                                ),
+                            Text(
+                              'Fulwariya Priya,,,,,,,,,,nka Omprakash',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Inter',
+                                fontSize: 18,
                               ),
                             ),
-                            SizedBox(
-                              width: 280,
-                              child: Text(
-                                'Science city Approach, Sola Bridge, Ghatlodia, Ahmedaabad, Gujarat - 380061',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Inter',
-                                ),
+                            Text(
+                              'Science city Approach, Sola Bridge, Ghatlodia, Ahmedaabad, Gujarat - 380061',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Inter',
                               ),
                             ),
-                            SizedBox(
-                              width: 280,
-                              child: Text(
-                                'Distance Information,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, of User',
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 14,
-                                ),
+                            Text(
+                              'Distance Information,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, of User',
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 14,
                               ),
                             ),
-                            SizedBox(
-                              width: 280,
-                              child: Text(
-                                'He is a healthy person according to our............... parameters ',
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Inter',
-                                ),
+                            Text(
+                              'He is a healthy person according to our............... parameters ',
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Inter',
                               ),
                             ),
                           ],

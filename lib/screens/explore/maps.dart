@@ -13,7 +13,7 @@ class MapScreen extends GetView<MapController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        mapType: MapType.hybrid,
+        mapType: MapType.normal,
         initialCameraPosition: MapController.kGooglePlex,
         markers: Set<Marker>.of(mapController.marker),
         zoomControlsEnabled: false,

@@ -1,8 +1,8 @@
 import 'package:blood_donation_app/custom_cards/custom_dialog_box.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -11,10 +11,13 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -76,9 +79,10 @@ class UserProfileScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey[300]),
-              child: Column(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[300],
+              ),
+              child: const Column(
                 children: [
                   DynamicInfoWidget(
                     title: 'Mobile Number',

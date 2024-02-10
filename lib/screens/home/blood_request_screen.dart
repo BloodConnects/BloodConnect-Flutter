@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'package:blood_donation_app/controller/blood_group_controller.dart';
 import 'package:blood_donation_app/controller/blood_request_controller.dart';
 import 'package:blood_donation_app/controller/urgency_slider_controller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:blood_donation_app/enum_classes/blood_group.dart';
+import 'package:blood_donation_app/screens/explore/explore_screen.dart';
 import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import '../../controller/map_controller.dart';
-import '../explore/maps.dart';
 
 class BloodRequestScreen extends StatelessWidget {
   const BloodRequestScreen({super.key});
@@ -27,15 +30,17 @@ class BloodRequestScreen extends StatelessWidget {
         Get.put(BloodRequestController());
     TextEditingController reasonController = TextEditingController();
     TextEditingController notesController = TextEditingController();
-    MapController mapController = Get.put(MapController());
-
+    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: (){
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -142,24 +147,65 @@ class BloodRequestScreen extends StatelessWidget {
                       Container(
                         height: 40,
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                            hintStyle: TextStyle(
-                              fontFamily: 'Inter',
-                              color: Colors.white,
-                            ),
-                            hintText: 'Search Location',
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
                           ),
-                          controller: searchController,
+                          color: Color.fromARGB(255, 222, 221, 221),
+                        ),
+                        child: GooglePlaceAutoCompleteTextField(
+                          textEditingController: searchController,
+                          googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                          boxDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          containerVerticalPadding: 1,
+                          inputDecoration: const InputDecoration(
+                              border: InputBorder.none,
+                            hintText: 'Search Location',
+                            isDense: true,
+                            prefixIcon: Icon(Icons.search, size: 22,),
+                          ),
+                          debounceTime: 800,
+                          countries: const ["in", "fr"],
+                          isLatLngRequired: true,
+                          getPlaceDetailWithLatLng: (Prediction prediction) {
+                            print("placeDetails${prediction.lng}");
+                          },
+                          itemClick: (Prediction prediction) async {
+                            var location = await prediction.toLocationModel();
+                            searchController.text = prediction.description!;
+                            searchController.selection = TextSelection.fromPosition(
+                                TextPosition(offset: prediction.description!.length));
+
+                            if (location.latitude != null && location.longitude != null) {
+                              var mapController = await controller.future;
+                              mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude!, location.longitude!),15));
+                            } else {
+                              Get.snackbar('', "Can't get latitude and longitude");
+                            }
+                          },
+                          itemBuilder: (context, index, Prediction prediction) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                // color: Colors.grey[300]
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.location_on),
+                                  const SizedBox(
+                                    width: 7,
+                                  ),
+                                  Expanded(child: Text(prediction.description ?? ""))
+                                ],
+                              ),
+                            );
+                          },
+                          seperatedBuilder: const Divider(),
+                          isCrossBtnShown: true,
+                          containerHorizontalPadding: 4,
                         ),
                       ),
                       const SizedBox(
@@ -173,7 +219,15 @@ class BloodRequestScreen extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: MapScreen(mapController),
+                          child: GoogleMap(
+                            mapType: MapType.normal,
+                            initialCameraPosition: MapController.kGooglePlex,
+                            zoomControlsEnabled: false,
+                            onMapCreated: (GoogleMapController googleMapController) {
+                              controller.complete(googleMapController);
+                            },
+                            myLocationButtonEnabled: true,
+                          ),
                         ),
                       ),
                       const SizedBox(

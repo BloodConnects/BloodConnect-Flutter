@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:blood_donation_app/api/model/LocationModel.dart';
-import 'package:blood_donation_app/screens/explore/maps.dart';
 import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +20,8 @@ class ExploreScreen extends StatelessWidget {
     MyController myController = Get.put(MyController());
     TextEditingController search = TextEditingController();
 
-    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+    Completer<GoogleMapController> controller =
+        Completer<GoogleMapController>();
 
     return Scaffold(
       body: Stack(
@@ -44,19 +43,30 @@ class ExploreScreen extends StatelessWidget {
                   vertical: 38,
                 ),
                 child: Container(
-                  height: 45,
+                  height: 48,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+                      Radius.circular(24),
                     ),
                     color: Color.fromARGB(255, 222, 221, 221),
                   ),
                   child: GooglePlaceAutoCompleteTextField(
                     textEditingController: search,
                     googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
-                    inputDecoration:
-                        const InputDecoration(border: InputBorder.none),
+                    boxDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    containerVerticalPadding: 1,
+                    inputDecoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      hintText: 'Search Location',
+                      prefixIcon: Icon(
+                        Icons.search,
+                        size: 28,
+                      ),
+                    ),
                     debounceTime: 800,
                     countries: const ["in", "fr"],
                     isLatLngRequired: true,
@@ -67,11 +77,14 @@ class ExploreScreen extends StatelessWidget {
                       var location = await prediction.toLocationModel();
                       search.text = prediction.description!;
                       search.selection = TextSelection.fromPosition(
-                          TextPosition(offset: prediction.description!.length));
-
-                      if (location.latitude != null && location.longitude != null) {
+                        TextPosition(offset: prediction.description!.length),
+                      );
+                      if (location.latitude != null &&
+                          location.longitude != null) {
                         var mapController = await controller.future;
-                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude!, location.longitude!),15));
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(
+                            LatLng(location.latitude!, location.longitude!),
+                            15));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -96,7 +109,7 @@ class ExploreScreen extends StatelessWidget {
                     },
                     seperatedBuilder: const Divider(),
                     isCrossBtnShown: true,
-                    containerHorizontalPadding: 10,
+                    containerHorizontalPadding: 4,
                   ),
                 ),
               ),
@@ -206,20 +219,35 @@ class ExploreScreen extends StatelessWidget {
   }
 }
 
-extension PredictionExtension on Prediction{
-  Future<LocationModel> toLocationModel()async{
-    String placeUrl = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.placeId}&key=AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o';
+extension PredictionExtension on Prediction {
+  Future<LocationModel> toLocationModel() async {
+    String placeUrl =
+        'https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.placeId}&key=AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o';
     var reponse = await http.get(Uri.parse(placeUrl));
     var data = jsonDecode(reponse.body) as Map<String, dynamic>;
     var temp = Pre.fromJson(data);
     return LocationModel(
-      latitude: temp.result?.geometry?.location?.lat,
-      longitude: temp.result?.geometry?.location?.lng,
-      street: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("political")==true).longName,
-      city: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("locality")==true).longName,
-      state: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("administrative_area_level_1")==true).longName,
-      country: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("country")==true).longName,
-      postalCode: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("postal_code")==true).longName
-    );
+        latitude: temp.result?.geometry?.location?.lat,
+        longitude: temp.result?.geometry?.location?.lng,
+        street: temp.result?.addressComponents
+            ?.firstWhere(
+                (element) => element.types?.contains("political") == true)
+            .longName,
+        city: temp.result?.addressComponents
+            ?.firstWhere(
+                (element) => element.types?.contains("locality") == true)
+            .longName,
+        state: temp.result?.addressComponents
+            ?.firstWhere((element) =>
+                element.types?.contains("administrative_area_level_1") == true)
+            .longName,
+        country: temp.result?.addressComponents
+            ?.firstWhere(
+                (element) => element.types?.contains("country") == true)
+            .longName,
+        postalCode: temp.result?.addressComponents
+            ?.firstWhere(
+                (element) => element.types?.contains("postal_code") == true)
+            .longName);
   }
 }

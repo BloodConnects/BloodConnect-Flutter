@@ -109,15 +109,12 @@ class NotificationScreen extends StatelessWidget {
                               shrinkWrap: true,
                               itemCount: 10,
                               itemBuilder: (context, index) {
-                                return const Column(
-                                  children: [
-                                    DynamicInfoWidget(
-                                      title: 'Jaypalsinh requested for B+ Blood from Dholka, Ahmedabad.',
-                                      fontWeight1: FontWeight.bold,
-                                      subtitle: 'Requested 10 min ago',
-                                      fontWeight2: FontWeight.normal,
-                                    ),
-                                  ],
+                                return const DynamicInfoWidget(
+                                  title:
+                                      'Jaypalsinh requested for B+ Blood from Dholka, Ahmedabad.',
+                                  fontWeight1: FontWeight.bold,
+                                  subtitle: 'Requested 10 min ago',
+                                  fontWeight2: FontWeight.normal,
                                 );
                               },
                             ),
