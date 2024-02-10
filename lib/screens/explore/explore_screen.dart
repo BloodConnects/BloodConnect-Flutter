@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:blood_donation_app/api/model/LocationModel.dart';
@@ -20,12 +21,21 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MyController myController = Get.put(MyController());
     TextEditingController search = TextEditingController();
-    MapController mapController = Get.put(MapController());
+
+    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
     return Scaffold(
       body: Stack(
         children: [
-          const MapScreen(),
+          GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: MapController.kGooglePlex,
+            zoomControlsEnabled: false,
+            onMapCreated: (GoogleMapController googleMapController) {
+              controller.complete(googleMapController);
+            },
+            myLocationButtonEnabled: true,
+          ),
           Stack(
             children: [
               Padding(
@@ -60,7 +70,8 @@ class ExploreScreen extends StatelessWidget {
                           TextPosition(offset: prediction.description!.length));
 
                       if (location.latitude != null && location.longitude != null) {
-                        mapController.moveCameraToLatLng(LatLng(location.latitude as double, location.latitude as double));
+                        var mapController = await controller.future;
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude!, location.longitude!),15));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -203,7 +214,7 @@ extension PredictionExtension on Prediction{
     var temp = Pre.fromJson(data);
     return LocationModel(
       latitude: temp.result?.geometry?.location?.lat,
-      longitude: temp.result?.geometry?.location?.lat,
+      longitude: temp.result?.geometry?.location?.lng,
       street: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("political")==true).longName,
       city: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("locality")==true).longName,
       state: temp.result?.addressComponents?.firstWhere((element) => element.types?.contains("administrative_area_level_1")==true).longName,

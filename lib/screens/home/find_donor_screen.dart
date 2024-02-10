@@ -7,12 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../api/model/blood_group_model.dart';
+import '../../controller/map_controller.dart';
 
 class FindDonorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
     final SliderController sliderController = Get.put(SliderController());
+    MapController mapController = Get.put(MapController());
+
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -188,7 +191,7 @@ class FindDonorScreen extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: const MapScreen(),
+                          child: MapScreen(mapController),
                         ),
                       ),
                       const SizedBox(

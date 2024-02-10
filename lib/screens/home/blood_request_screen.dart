@@ -8,6 +8,7 @@ import 'package:blood_donation_app/screens/home/blood_request_form_answer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controller/map_controller.dart';
 import '../explore/maps.dart';
 
 class BloodRequestScreen extends StatelessWidget {
@@ -26,6 +27,8 @@ class BloodRequestScreen extends StatelessWidget {
         Get.put(BloodRequestController());
     TextEditingController reasonController = TextEditingController();
     TextEditingController notesController = TextEditingController();
+    MapController mapController = Get.put(MapController());
+
 
     return Scaffold(
       appBar: AppBar(
@@ -170,7 +173,7 @@ class BloodRequestScreen extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: const MapScreen(),
+                          child: MapScreen(mapController),
                         ),
                       ),
                       const SizedBox(

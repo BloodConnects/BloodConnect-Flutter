@@ -4,20 +4,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../controller/map_controller.dart';
 
 class MapScreen extends GetView<MapController> {
-  const MapScreen({super.key});
+
+  late MapController mapController;
+
+  MapScreen(this.mapController, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    MapController mapController = Get.put(MapController());
-
     return Scaffold(
       body: GoogleMap(
-        mapType: MapType.normal,
+        mapType: MapType.hybrid,
         initialCameraPosition: MapController.kGooglePlex,
         markers: Set<Marker>.of(mapController.marker),
         zoomControlsEnabled: false,
         onMapCreated: (GoogleMapController controller) {
-          mapController.controller.complete(controller);
+          mapController.onMapCreated(controller);
         },
         myLocationButtonEnabled: true,
       ),

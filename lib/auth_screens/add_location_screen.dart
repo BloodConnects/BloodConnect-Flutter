@@ -1,9 +1,12 @@
 import 'package:blood_donation_app/api/model/LocationModel.dart';
 import 'package:blood_donation_app/api/model/UserRepositry.dart';
+import 'package:blood_donation_app/controller/map_controller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../screens/explore/maps.dart';
 
@@ -16,6 +19,7 @@ class AddLocationScreen extends StatelessWidget {
     TextEditingController houseNoController = TextEditingController();
     TextEditingController streetController = TextEditingController();
     TextEditingController addressController = TextEditingController();
+    MapController mapController = Get.put(MapController());
 
     return Dialog(
       child: Container(
@@ -92,7 +96,7 @@ class AddLocationScreen extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: const MapScreen(),
+                    child: MapScreen(mapController),
                   ),
                 ),
                 const SizedBox(
@@ -127,9 +131,7 @@ class AddLocationScreen extends StatelessWidget {
                 ),
                 DynamicButton(
                   onPressed: () {
-                    addLocation(LocationModel(
-                       
-                    ));
+                    addLocation(LocationModel());
                   },
                   buttonText: 'Save',
                 ),
