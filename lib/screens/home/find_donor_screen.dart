@@ -294,7 +294,7 @@ class FindDonorScreen extends StatelessWidget {
               ),
               DynamicButton(
                 onPressed: () {
-                  Get.to(const DonorListScreen());
+                  Get.to(DonorListScreen());
                 },
                 buttonText: 'Continue',
               ),

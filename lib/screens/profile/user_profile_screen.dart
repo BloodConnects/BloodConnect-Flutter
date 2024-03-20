@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/api/api_fuctions/donor_list.dart';
 import 'package:blood_donation_app/custom_cards/custom_dialog_box.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
@@ -5,7 +6,41 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+  UserProfileScreen({super.key});
+
+  DonorListController donorListController = Get.put(DonorListController());
+
+  int index = 0;
+
+  Future<String> getFullName() async{
+    var detail = donorListController.donor[index];
+    return detail.fullName.toString() ?? '';
+  }
+
+  String getMobileNumber() {
+    var detail = donorListController.donor[index];
+    return detail.mobileNumber.toString();
+  }
+
+  String getEmailAddress() {
+    var detail = donorListController.donor[index];
+    return detail.mailAddress.toString();
+  }
+
+  String getBirthData() {
+    var detail = donorListController.donor[index];
+    return detail.birthDate.toString();
+  }
+
+  String getBloodGroup() {
+    var detail = donorListController.donor[index];
+    return detail.bloodGroup.toString();
+  }
+
+  String getAddress() {
+    var detail = donorListController.donor[index];
+    return detail.locationKey.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +57,7 @@ class UserProfileScreen extends StatelessWidget {
         ),
         centerTitle: true,
         title: const Text(
-          'Profile',
+          'User Profile',
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 18,
@@ -39,24 +74,43 @@ class UserProfileScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 70,
                 backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2016.png?alt=media&token=4ed4b1cf-c496-4c24-8844-ec84a7c587cd',
                 ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            const Center(
+            Center(
               child: Text(
-                'User Full Name',
+                'Jaypalsinh Barad',
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontSize: 18,
                   fontFamily: 'Inter',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
                 ),
               ),
             ),
+            // Center(
+            //   child: FutureBuilder<String>(
+            //     future: getFullName(),
+            //     builder: (context, snapshot){
+            //       if(snapshot.connectionState == ConnectionState.waiting){
+            //         return const CircularProgressIndicator();
+            //       }else{
+            //         return Text(
+            //           '${snapshot.data}',
+            //           style: const TextStyle(
+            //             fontSize: 20,
+            //             fontFamily: 'Inter',
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.black,
+            //           ),
+            //         );
+            //       }
+            //     }
+            //   ),
+            // ),
             const SizedBox(
               height: 20,
             ),
@@ -82,29 +136,35 @@ class UserProfileScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.grey[300],
               ),
-              child: const Column(
-                children: [
-                  DynamicInfoWidget(
-                    title: 'Mobile Number',
-                    subtitle: '+91 1234567890',
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Email Address',
-                    subtitle: 'test@gmail.com',
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Age',
-                    subtitle: '20',
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Blood Group',
-                    subtitle: 'AB+',
-                  ),
-                  DynamicInfoWidget(
-                    title: 'Address',
-                    subtitle: 'Ahmedabad,Gujarat',
-                  ),
-                ],
+              child: Obx(
+                () => Column(
+                  children: [
+                    DynamicInfoWidget(
+                      title: 'Mobile Number',
+                      subtitle: getMobileNumber(),
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Email Address',
+                      // subtitle: getEmailAddress(),
+                      subtitle: 'jaypalsinhbarad@gmail.com',
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Age',
+                      // subtitle: getBirthData(),
+                      subtitle: '20',
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Blood Group',
+                      // subtitle: getBloodGroup(),
+                      subtitle: 'O negative',
+                    ),
+                    DynamicInfoWidget(
+                      title: 'Address',
+                      // subtitle: getAddress(),
+                      subtitle: 'Aryavart Bunglows, Kalikund, Dholka, Gujarat - 382225',
+                    ),
+                  ],
+                ),
               ),
             )
           ],

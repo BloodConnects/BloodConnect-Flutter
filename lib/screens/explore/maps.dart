@@ -15,7 +15,7 @@ class MapScreen extends GetView<MapController> {
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: MapController.kGooglePlex,
-        markers: Set<Marker>.of(mapController.marker),
+        markers: Set<Marker>.of(mapController.markers),
         zoomControlsEnabled: false,
         onMapCreated: (GoogleMapController controller) {
           mapController.onMapCreated(controller);

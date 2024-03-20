@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:blood_donation_app/api/model/LocationModel.dart';
+import 'package:blood_donation_app/controller/location_controller.dart';
 import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,38 +10,44 @@ import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 import '../../controller/map_controller.dart';
-import '../../controller/mycontroller.dart';
 import 'Pre.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+  ExploreScreen({super.key});
+
+  TextEditingController search = TextEditingController();
+  MapController mapController = Get.put(MapController());
+  // LocationController locationController = Get.put(LocationController());
+  Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+  Completer<GoogleMapController> completerController =
+      Completer<GoogleMapController>();
 
   @override
   Widget build(BuildContext context) {
-    MyController myController = Get.put(MyController());
-    TextEditingController search = TextEditingController();
-
-    Completer<GoogleMapController> controller =
-        Completer<GoogleMapController>();
-
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: MapController.kGooglePlex,
-            zoomControlsEnabled: false,
-            onMapCreated: (GoogleMapController googleMapController) {
-              controller.complete(googleMapController);
-            },
-            myLocationButtonEnabled: true,
+          Obx(
+            () => GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: MapController.kGooglePlex,
+              zoomControlsEnabled: false,
+              onMapCreated: (GoogleMapController googleMapController) {
+                controller.complete(googleMapController);
+              },
+              myLocationEnabled: true,
+              markers: Set.from(mapController.markers),
+              myLocationButtonEnabled: true,
+              compassEnabled: true,
+            ),
           ),
           Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 38,
+                padding: const EdgeInsets.only(
+                  left: 15, right: 15,
+                  top: 60,
                 ),
                 child: Container(
                   height: 48,
@@ -49,7 +56,8 @@ class ExploreScreen extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(24),
                     ),
-                    color: Color.fromARGB(255, 222, 221, 221),
+                    color: Colors.white,
+                    // color: Color.fromARGB(255, 222, 221, 221),
                   ),
                   child: GooglePlaceAutoCompleteTextField(
                     textEditingController: search,
@@ -88,6 +96,7 @@ class ExploreScreen extends StatelessWidget {
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
+
                     },
                     itemBuilder: (context, index, Prediction prediction) {
                       return Container(
@@ -113,58 +122,60 @@ class ExploreScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Obx(
-                () => Visibility(
-                  visible: myController.isSecondContainerVisible.value,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 90),
-                    child: Container(
-                      height: 220,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(12),
-                        ),
-                        color: Color.fromARGB(255, 222, 221, 221),
-                      ),
-                      child: ListView.separated(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 2),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Ahmedabad',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  'Gujarat, India',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Inter',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   right: 15,
+              //   top: 95,
+              //   child: SizedBox(
+              //     height: 60,
+              //     width: 60,
+              //     child: FloatingActionButton(
+              //       onPressed: () async{
+              //         Position position = await getUserCurrentLocation();
+              //         mapController.moveCameraToLatLng(position.latitude, position.longitude);
+              //         // getUserCurrentLocation().then((value) async {
+              //         //   print(value.latitude.toString() +
+              //         //       " " +
+              //         //       value.longitude.toString());
+              //         //
+              //         //   Position position =
+              //         //       await Geolocator.getCurrentPosition();
+              //         //   LatLng latLng =
+              //         //       LatLng(position.latitude, position.longitude);
+              //         //
+              //         //   // Move camera to user's current location
+              //         //   mapController.moveCameraToLatLng(latLng);
+              //         //
+              //         //   // Add marker for current user's location
+              //         //   mapController.markers.add(
+              //         //     Marker(
+              //         //       markerId: MarkerId("2"),
+              //         //       position: LatLng(value.latitude, value.longitude),
+              //         //       infoWindow: InfoWindow(
+              //         //         title: 'My Current Location',
+              //         //       ),
+              //         //     ),
+              //         //   );
+              //         //
+              //         //   // Specify current user's location
+              //         //   CameraPosition cameraPosition = CameraPosition(
+              //         //     target: LatLng(value.latitude, value.longitude),
+              //         //     zoom: 14,
+              //         //   );
+              //         //
+              //         //   final GoogleMapController controller =
+              //         //       await completerController.future;
+              //         //   controller.animateCamera(
+              //         //       CameraUpdate.newCameraPosition(cameraPosition));
+              //         //   Get.find<MapController>()
+              //         //       .updateCameraPosition(cameraPosition);
+              //         // });
+              //       },
+              //       child: const Center(
+              //         child: Icon(Icons.explore_outlined, size: 28,),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Stack(
                 children: [
                   Positioned(
@@ -210,12 +221,22 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+      print("ERROR" + error.toString());
+    });
+    return await Geolocator.getCurrentPosition();
   }
 }
 
@@ -227,27 +248,26 @@ extension PredictionExtension on Prediction {
     var data = jsonDecode(reponse.body) as Map<String, dynamic>;
     var temp = Pre.fromJson(data);
     return LocationModel(
-        latitude: temp.result?.geometry?.location?.lat,
-        longitude: temp.result?.geometry?.location?.lng,
-        street: temp.result?.addressComponents
-            ?.firstWhere(
-                (element) => element.types?.contains("political") == true)
-            .longName,
-        city: temp.result?.addressComponents
-            ?.firstWhere(
-                (element) => element.types?.contains("locality") == true)
-            .longName,
-        state: temp.result?.addressComponents
-            ?.firstWhere((element) =>
-                element.types?.contains("administrative_area_level_1") == true)
-            .longName,
-        country: temp.result?.addressComponents
-            ?.firstWhere(
-                (element) => element.types?.contains("country") == true)
-            .longName,
-        postalCode: temp.result?.addressComponents
-            ?.firstWhere(
-                (element) => element.types?.contains("postal_code") == true)
-            .longName);
+      latitude: temp.result?.geometry?.location?.lat,
+      longitude: temp.result?.geometry?.location?.lng,
+      street: temp.result?.addressComponents
+          ?.firstWhere(
+              (element) => element.types?.contains("political") == true)
+          .longName,
+      city: temp.result?.addressComponents
+          ?.firstWhere((element) => element.types?.contains("locality") == true)
+          .longName,
+      state: temp.result?.addressComponents
+          ?.firstWhere((element) =>
+              element.types?.contains("administrative_area_level_1") == true)
+          .longName,
+      country: temp.result?.addressComponents
+          ?.firstWhere((element) => element.types?.contains("country") == true)
+          .longName,
+      postalCode: temp.result?.addressComponents
+          ?.firstWhere(
+              (element) => element.types?.contains("postal_code") == true)
+          .longName,
+    );
   }
 }

@@ -18,7 +18,7 @@ class LoginUser{
           var pref = await SharedPreferences.getInstance();
           pref.setBool(SharePreferenceService.isSignIn, true);
           SharePreferenceService().setUserModel(response.data!!);
-          Get.offAll(const HomeScreen());
+          Get.offAll( HomeScreen());
           break;
         }
       case ApiStatus.FAIL:

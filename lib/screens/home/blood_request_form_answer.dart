@@ -1,6 +1,7 @@
 import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/screens/home/confirm_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -75,7 +76,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                     ),
                     DynamicInfoWidget(
                       title: 'Location',
-                      subtitle: 'Priyanka Fulwari',
+                      subtitle: 'Ahmedabad',
                       radius: 0,
                     ),
                     DynamicInfoWidget(
@@ -85,7 +86,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                     ),
                     DynamicInfoWidget(
                       title: 'Blood Group',
-                      subtitle: 'O+',
+                      subtitle: 'O Positive',
                       radius: 0,
                     ),
                     DynamicInfoWidget(
@@ -144,7 +145,9 @@ class BloodRequestFormAnswer extends StatelessWidget {
                 height: 15,
               ),
               DynamicButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(ConfirmScreen());
+                },
                 buttonText: 'Continue',
               ),
               const SizedBox(

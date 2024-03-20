@@ -41,9 +41,9 @@ class LoginScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
             color: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   children: [
                     const SizedBox(
@@ -129,49 +129,58 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 60,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            // Call the Google Sign-In method
-                            final user =
-                                await _googleSignInProvider.signInWithGoogle();
+                    SizedBox(
+                      height: 45,
+                      width: 250,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // Call the Google Sign-In method
+                          final user =
+                              await _googleSignInProvider.signInWithGoogle();
 
-                            if (user != null) {
-                              CheckUser().checkUserByFirebaseUser(user);
-                            } else {
-                              print('Google Sign-In failed.');
-                            }
-                          },
-                          child: CircleAvatar(
-                            radius: 17,
-                            backgroundColor: Colors.white,
-                            child: Image.asset('Assets/Images/google.png'),
-                          ),
+                          if (user != null) {
+                            CheckUser().checkUserByFirebaseUser(user);
+                          } else {
+                            print('Google Sign-In failed.');
+                          }
+                        },
+                        // style: ButtonStyle(
+                        //   shape: MaterialStatePropertyAll(
+                        //     RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(8),
+                        //     ),
+                        //   ),
+                        // ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'Assets/Images/google.png',
+                              height: 28,
+                              width: 28,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              'Sign in with Google',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final user = await _facebookSignInProvider
-                                .signInWithFacebook();
-                            if (user != null) {
-                              print('User Signed in: ${user.displayName}');
-                            } else {
-                              print('Facebook Sign-In failed.');
-                            }
-                          },
-                          child: CircleAvatar(
-                            radius: 17,
-                            backgroundColor: Colors.white,
-                            child: Image.asset('Assets/Images/facebook.png'),
-                          ),
-                        )
-                      ],
+                        // child: Text(
+                        //   radius: 17,
+                        //   backgroundColor: Colors.white,
+                        //   child: Image.asset('Assets/Images/google.png'),
+                        // ),
+                      ),
                     ),
                   ],
                 ),
@@ -204,13 +213,13 @@ class LoginScreen extends StatelessWidget {
   void verifyNumber(String phoneNumber) async {
     String completePhonenumber = '$countryCode${mobileNumberController.text}';
 
-    try{
+    try {
       auth.verifyPhoneNumber(
         phoneNumber: completePhonenumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential).then(
                 (value) async {},
-          );
+              );
         },
         verificationFailed: (FirebaseAuthException exception) {
           print(exception.message);
@@ -226,7 +235,7 @@ class LoginScreen extends StatelessWidget {
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
-    }catch(e){
+    } catch (e) {
       print('error while phone number verification : $e');
     }
   }

@@ -13,32 +13,35 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import '../../controller/map_controller.dart';
+import '../../enum_classes/gender.dart';
 
 class BloodRequestScreen extends StatelessWidget {
-  const BloodRequestScreen({super.key});
+  BloodRequestScreen({
+    super.key,
+  });
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailAddressController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  UrgencySliderController urgencySliderController =
+      Get.put(UrgencySliderController());
+  BloodGroupController bloodGroupController = Get.put(BloodGroupController());
+  BloodRequestController bloodRequestController =
+      Get.put(BloodRequestController());
+  TextEditingController reasonController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+  Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController mobileNumberController = TextEditingController();
-    TextEditingController emailAddressController = TextEditingController();
-    TextEditingController searchController = TextEditingController();
-    UrgencySliderController urgencySliderController =
-        Get.put(UrgencySliderController());
-    BloodGroupController bloodGroupController = Get.put(BloodGroupController());
-    BloodRequestController bloodRequestController =
-        Get.put(BloodRequestController());
-    TextEditingController reasonController = TextEditingController();
-    TextEditingController notesController = TextEditingController();
-    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
-
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(5.0),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            onPressed: (){
+            onPressed: () {
               Get.back();
             },
           ),
@@ -155,16 +158,20 @@ class BloodRequestScreen extends StatelessWidget {
                         ),
                         child: GooglePlaceAutoCompleteTextField(
                           textEditingController: searchController,
-                          googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                          googleAPIKey:
+                              "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
                           boxDecoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                           ),
                           containerVerticalPadding: 1,
                           inputDecoration: const InputDecoration(
-                              border: InputBorder.none,
+                            border: InputBorder.none,
                             hintText: 'Search Location',
                             isDense: true,
-                            prefixIcon: Icon(Icons.search, size: 22,),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 22,
+                            ),
                           ),
                           debounceTime: 800,
                           countries: const ["in", "fr"],
@@ -175,14 +182,21 @@ class BloodRequestScreen extends StatelessWidget {
                           itemClick: (Prediction prediction) async {
                             var location = await prediction.toLocationModel();
                             searchController.text = prediction.description!;
-                            searchController.selection = TextSelection.fromPosition(
-                                TextPosition(offset: prediction.description!.length));
+                            searchController.selection =
+                                TextSelection.fromPosition(TextPosition(
+                                    offset: prediction.description!.length));
 
-                            if (location.latitude != null && location.longitude != null) {
+                            if (location.latitude != null &&
+                                location.longitude != null) {
                               var mapController = await controller.future;
-                              mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude!, location.longitude!),15));
+                              mapController.animateCamera(
+                                  CameraUpdate.newLatLngZoom(
+                                      LatLng(location.latitude!,
+                                          location.longitude!),
+                                      15));
                             } else {
-                              Get.snackbar('', "Can't get latitude and longitude");
+                              Get.snackbar(
+                                  '', "Can't get latitude and longitude");
                             }
                           },
                           itemBuilder: (context, index, Prediction prediction) {
@@ -198,7 +212,8 @@ class BloodRequestScreen extends StatelessWidget {
                                   const SizedBox(
                                     width: 7,
                                   ),
-                                  Expanded(child: Text(prediction.description ?? ""))
+                                  Expanded(
+                                      child: Text(prediction.description ?? ""))
                                 ],
                               ),
                             );
@@ -223,7 +238,8 @@ class BloodRequestScreen extends StatelessWidget {
                             mapType: MapType.normal,
                             initialCameraPosition: MapController.kGooglePlex,
                             zoomControlsEnabled: false,
-                            onMapCreated: (GoogleMapController googleMapController) {
+                            onMapCreated:
+                                (GoogleMapController googleMapController) {
                               controller.complete(googleMapController);
                             },
                             myLocationButtonEnabled: true,
@@ -297,8 +313,7 @@ class BloodRequestScreen extends StatelessWidget {
                       ),
                       Obx(() {
                         return DropdownButtonFormField<BloodGroup>(
-                          value:
-                              bloodGroupController.selectedValue.value,
+                          value: bloodGroupController.selectedValue.value,
                           items: const [
                             BloodGroup.oPositive,
                             BloodGroup.oNegative,
@@ -316,8 +331,7 @@ class BloodRequestScreen extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            bloodGroupController
-                                .onSelected(newValue!);
+                            bloodGroupController.onSelected(newValue!);
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
