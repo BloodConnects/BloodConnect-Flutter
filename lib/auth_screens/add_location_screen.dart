@@ -96,9 +96,12 @@ class AddLocationScreen extends StatelessWidget {
                       searchController.selection = TextSelection.fromPosition(
                           TextPosition(offset: prediction.description!.length));
 
-                      if (location.latitude != null && location.longitude != null) {
+                      if (location?.latitude != null && location?.longitude != null) {
                         var mapController = await controller.future;
-                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude!, location.longitude!),15));
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location!.longitude!),15));
+                        houseNoController.text = location.houseNo.toString();
+                        streetController.text = location.street.toString();
+                        addressController.text = location.address.toString();
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }

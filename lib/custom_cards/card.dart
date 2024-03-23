@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
   final String title;
-  final String icon;
+  final String url;
   final VoidCallback ontap;
 
   const CustomContainer({
     Key? key,
     required this.title,
-    required this.icon,
+    required this.url,
     required this.ontap,
   }) : super(key: key);
 
@@ -36,7 +36,7 @@ class CustomContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              icon,
+              url,
               fit: BoxFit.cover,
               height: 45,
               width: 45,

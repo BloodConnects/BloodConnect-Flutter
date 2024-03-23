@@ -186,13 +186,13 @@ class BloodRequestScreen extends StatelessWidget {
                                 TextSelection.fromPosition(TextPosition(
                                     offset: prediction.description!.length));
 
-                            if (location.latitude != null &&
-                                location.longitude != null) {
+                            if (location?.latitude != null &&
+                                location?.longitude != null) {
                               var mapController = await controller.future;
                               mapController.animateCamera(
                                   CameraUpdate.newLatLngZoom(
-                                      LatLng(location.latitude!,
-                                          location.longitude!),
+                                      LatLng(location!.latitude!,
+                                          location!.longitude!),
                                       15));
                             } else {
                               Get.snackbar(

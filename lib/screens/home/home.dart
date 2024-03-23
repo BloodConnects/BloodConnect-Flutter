@@ -198,7 +198,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Find \n Donor',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/3434/3434958.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/3434/3434958.png',
                                 ontap: () {
                                   Get.to(FindDonorScreen());
                                 },
@@ -210,7 +210,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Health \nScreening',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/3663/3663433.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/3663/3663433.png',
                                 ontap: () {
                                   Get.to(HealthScreening());
                                 },
@@ -227,7 +227,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Emergency \nCases',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/2869/2869684.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/2869/2869684.png',
                                 ontap: () {},
                               ),
                             ),
@@ -237,7 +237,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Donation \nTips',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/9908/9908208.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/9908/9908208.png',
                                 ontap: () {},
                               ),
                             )
@@ -263,7 +263,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Blood \nRequests',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/10869/10869900.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/10869/10869900.png',
                                 ontap: () {
                                   showDialog(
                                     context: context,
@@ -280,7 +280,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Appointment\nSchedule',
-                                icon: 'https://cdn-icons-png.flaticon.com/128/9160/9160144.png',
+                                url: 'https://cdn-icons-png.flaticon.com/128/9160/9160144.png',
                                 ontap: () {},
                               ),
                             )

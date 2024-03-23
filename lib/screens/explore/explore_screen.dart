@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:blood_donation_app/api/api_constant/api_constants.dart';
+import 'package:blood_donation_app/api/model/BaseResponse.dart';
 import 'package:blood_donation_app/api/model/LocationModel.dart';
-import 'package:blood_donation_app/controller/location_controller.dart';
 import 'package:blood_donation_app/custom_cards/user_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 import '../../controller/map_controller.dart';
-import 'Pre.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../share_preference/share_preference_service.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
@@ -84,15 +86,14 @@ class ExploreScreen extends StatelessWidget {
                     itemClick: (Prediction prediction) async {
                       var location = await prediction.toLocationModel();
                       search.text = prediction.description!;
+                      prediction.placeId;
                       search.selection = TextSelection.fromPosition(
                         TextPosition(offset: prediction.description!.length),
                       );
-                      if (location.latitude != null &&
-                          location.longitude != null) {
+                      if (location?.latitude != null &&
+                          location?.longitude != null) {
                         var mapController = await controller.future;
-                        mapController.animateCamera(CameraUpdate.newLatLngZoom(
-                            LatLng(location.latitude!, location.longitude!),
-                            15));
+                        // mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location.longitude!),15));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -241,33 +242,18 @@ class ExploreScreen extends StatelessWidget {
 }
 
 extension PredictionExtension on Prediction {
-  Future<LocationModel> toLocationModel() async {
-    String placeUrl =
-        'https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.placeId}&key=AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o';
-    var reponse = await http.get(Uri.parse(placeUrl));
-    var data = jsonDecode(reponse.body) as Map<String, dynamic>;
-    var temp = Pre.fromJson(data);
-    return LocationModel(
-      latitude: temp.result?.geometry?.location?.lat,
-      longitude: temp.result?.geometry?.location?.lng,
-      street: temp.result?.addressComponents
-          ?.firstWhere(
-              (element) => element.types?.contains("political") == true)
-          .longName,
-      city: temp.result?.addressComponents
-          ?.firstWhere((element) => element.types?.contains("locality") == true)
-          .longName,
-      state: temp.result?.addressComponents
-          ?.firstWhere((element) =>
-              element.types?.contains("administrative_area_level_1") == true)
-          .longName,
-      country: temp.result?.addressComponents
-          ?.firstWhere((element) => element.types?.contains("country") == true)
-          .longName,
-      postalCode: temp.result?.addressComponents
-          ?.firstWhere(
-              (element) => element.types?.contains("postal_code") == true)
-          .longName,
-    );
+  Future<LocationModel?> toLocationModel() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await SharePreferenceService().getUserToken()}'
+    };
+    try{
+      String placeUrl = ApiConstants.baseUrl + ApiConstants.getLocation + '?placeId=' + placeId.toString();
+      var reponse = await http.get(Uri.parse(placeUrl),headers: headers);
+      var data = jsonDecode(reponse.body) as Map<String, dynamic>;
+      return LocationModel.fromJson(data['data']);
+    }catch (e){
+      print("error message: $e");
+    }
   }
 }

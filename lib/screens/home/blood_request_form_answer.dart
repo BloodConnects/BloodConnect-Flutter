@@ -56,7 +56,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                   ],
                   color: Colors.white,
                 ),
-                child: const Column(
+                child: Column(
                   children: [
                     DynamicInfoWidget(
                       title: 'Full Name',
