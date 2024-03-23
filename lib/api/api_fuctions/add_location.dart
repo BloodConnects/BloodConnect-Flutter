@@ -1,7 +1,7 @@
 import 'package:blood_donation_app/api/model/LocationModel.dart';
 import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:blood_donation_app/api/model/userModel.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
+import 'package:blood_donation_app/ui/home_screen.dart';
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

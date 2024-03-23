@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/splash_screen/splash_screen_view_model.dart';
+import 'package:blood_donation_app/ui/auth/splash_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 

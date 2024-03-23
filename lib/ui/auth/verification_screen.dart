@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/model/UserRepositry.dart';
-import '../api/api_fuctions/check_user_by_uid.dart';
-import '../auth_methods/auth_method.dart';
-import '../screens/home_screen.dart';
+import '../../api/api_fuctions/check_user_by_uid.dart';
 
 class VerificationScreen extends StatelessWidget {
   final String verificationId;

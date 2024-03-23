@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/screens/explore/explore_screen.dart';
-import 'package:blood_donation_app/screens/home/donor_list_screen.dart';
-import 'package:blood_donation_app/screens/explore/maps.dart';
 import 'package:blood_donation_app/controller/slider_controller.dart';
+import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,6 +12,7 @@ import 'package:google_places_flutter/model/prediction.dart';
 
 import '../../api/model/blood_group_model.dart';
 import '../../controller/map_controller.dart';
+import 'donor_list_screen.dart';
 
 class FindDonorScreen extends StatelessWidget {
   @override

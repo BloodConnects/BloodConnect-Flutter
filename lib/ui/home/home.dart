@@ -1,14 +1,14 @@
-import 'package:blood_donation_app/auth_screens/add_location_screen.dart';
+import 'package:blood_donation_app/ui/location/add_location_screen.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
-import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
-import 'package:blood_donation_app/screens/home/health_screening.dart';
-import 'package:blood_donation_app/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../controller/mycontroller.dart';
-import '../../custom_cards/custom_dialog_box.dart';
+import '../profile/profile_screen.dart';
+import 'blood_request_type__dialog.dart';
 import '../../share_preference/share_preference_service.dart';
+import 'find_donor_screen.dart';
+import 'health_screening.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

@@ -1,5 +1,5 @@
 import 'package:blood_donation_app/api/api_fuctions/donor_list.dart';
-import 'package:blood_donation_app/custom_cards/custom_dialog_box.dart';
+import 'package:blood_donation_app/ui/home/blood_request_type__dialog.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:flutter/material.dart';

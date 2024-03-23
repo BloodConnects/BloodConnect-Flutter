@@ -6,9 +6,9 @@ import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/model/userModel.dart';
-import '../auth_screens/opening_screen.dart';
-import '../screens/home_screen.dart';
+import '../../api/model/userModel.dart';
+import '../home_screen.dart';
+import 'opening_screen.dart';
 
 class SplashScreenViewModel extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -45,7 +45,7 @@ class SplashScreenViewModel extends GetxController
 
 
     if (pref.getBool(SharePreferenceService.isSignIn) == true) {
-      Get.offAll( HomeScreen());
+      Get.offAll(HomeScreen());
     } else {
       Get.off(OpeningScreen());
     }

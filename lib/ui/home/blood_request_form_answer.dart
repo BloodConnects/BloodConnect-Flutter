@@ -1,10 +1,10 @@
 import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/screens/home/confirm_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'confirm_screen.dart';
 
 class BloodRequestFormAnswer extends StatelessWidget {
   const BloodRequestFormAnswer({super.key});
@@ -146,7 +146,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
               ),
               DynamicButton(
                 onPressed: () {
-                  Get.to(ConfirmScreen());
+                  Get.to(const ConfirmScreen());
                 },
                 buttonText: 'Continue',
               ),

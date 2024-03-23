@@ -1,15 +1,11 @@
-import 'package:blood_donation_app/auth_screens/opening_screen.dart';
+import 'package:blood_donation_app/ui/auth/opening_screen.dart';
 import 'package:blood_donation_app/controller/avatar_controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/avatar_selector.dart';
 import 'package:blood_donation_app/dynamic_widgets/custom_profile_clickable_widget.dart';
-import 'package:blood_donation_app/screens/profile/edit_profille_screen.dart';
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../ThemeProvider.dart';
+import 'edit_profille_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});

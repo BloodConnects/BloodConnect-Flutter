@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/screens/home_screen.dart';
+import 'package:blood_donation_app/ui/home_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/model/userModel.dart';
+import '../../api/model/userModel.dart';
 import 'login_screen.dart';
 
 class OpeningScreen extends StatelessWidget {

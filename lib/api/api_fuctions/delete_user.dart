@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:blood_donation_app/api/model/UserRepositry.dart';
-import 'package:blood_donation_app/auth_screens/opening_screen.dart';
+import 'package:blood_donation_app/ui/auth/opening_screen.dart';
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../enum_classes/api_status.dart';
-import '../../screens/home_screen.dart';
+import '../../ui/home_screen.dart';
 import '../../share_preference/share_preference_service.dart';
 import '../model/UserRepositry.dart';
 import '../model/userModel.dart';

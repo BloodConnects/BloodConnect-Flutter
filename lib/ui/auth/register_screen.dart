@@ -5,10 +5,10 @@ import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../api/model/userModel.dart';
-import '../controller/blood_group_controller.dart';
-import '../enum_classes/blood_group.dart';
-import '../enum_classes/gender.dart';
+import '../../api/model/userModel.dart';
+import '../../controller/blood_group_controller.dart';
+import '../../enum_classes/blood_group.dart';
+import '../../enum_classes/gender.dart';
 
 class RegisterationScreen extends StatelessWidget {
   RegisterationScreen(this.userModel, {super.key}) {

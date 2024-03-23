@@ -1,4 +1,4 @@
-import 'package:blood_donation_app/splash_screen/splash_screen.dart';
+import 'package:blood_donation_app/ui/auth/splash_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

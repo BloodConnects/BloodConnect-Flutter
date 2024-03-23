@@ -1,6 +1,7 @@
-import 'package:blood_donation_app/screens/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../ui/profile/user_profile_screen.dart';
 
 class CustomDonorContainer extends StatelessWidget {
   final String userName;
@@ -34,7 +35,7 @@ class CustomDonorContainer extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Get.to( UserProfileScreen());
+                  Get.to(UserProfileScreen());
                 },
                 child: Container(
                   height: 170,

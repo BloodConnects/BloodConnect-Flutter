@@ -1,6 +1,6 @@
-import 'package:blood_donation_app/screens/home/blood_request_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'blood_request_screen.dart';
 
 class CustomDialogBox extends StatelessWidget {
   const CustomDialogBox({super.key});

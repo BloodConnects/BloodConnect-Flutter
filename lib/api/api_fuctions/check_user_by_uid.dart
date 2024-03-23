@@ -4,9 +4,9 @@ import 'package:blood_donation_app/share_preference/share_preference_service.dar
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../auth_screens/register_screen.dart';
+import '../../ui/auth/register_screen.dart';
 import '../../enum_classes/api_status.dart';
-import '../../screens/home_screen.dart';
+import '../../ui/home_screen.dart';
 import '../model/UserRepositry.dart';
 import '../model/BaseResponse.dart';
 

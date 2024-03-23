@@ -4,14 +4,13 @@ import 'package:blood_donation_app/api/model/LocationModel.dart';
 import 'package:blood_donation_app/controller/map_controller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
-import 'package:blood_donation_app/screens/explore/explore_screen.dart';
+import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
-import '../screens/explore/maps.dart';
 
 class AddLocationScreen extends StatelessWidget {
   const AddLocationScreen({super.key});
