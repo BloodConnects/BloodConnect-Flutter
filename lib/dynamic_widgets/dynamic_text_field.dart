@@ -6,6 +6,7 @@ Widget DynamicTextField({
   required String labelText,
   required String hintText,
   VoidCallback? ontap,
+  bool enable = true,
   Color borderColor = Colors.black,
   Widget? prefixIcon,
 }) {
@@ -15,6 +16,7 @@ Widget DynamicTextField({
     onTap: ontap,
     decoration: InputDecoration(
       labelText: labelText,
+      enabled: enable,
       hintText: hintText,
       prefixIcon: prefixIcon,
       hintStyle: const TextStyle(

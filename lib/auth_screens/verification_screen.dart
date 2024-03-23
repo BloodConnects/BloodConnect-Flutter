@@ -53,7 +53,7 @@ class VerificationScreen extends StatelessWidget {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Column(
+          child: ListView(
             children: [
               const SizedBox(
                 height: 40,

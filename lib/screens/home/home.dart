@@ -1,8 +1,5 @@
-import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:blood_donation_app/auth_screens/add_location_screen.dart';
 import 'package:blood_donation_app/custom_cards/card.dart';
-import 'package:blood_donation_app/custom_cards/custom_search_bar.dart';
-import 'package:blood_donation_app/enum_classes/api_status.dart';
 import 'package:blood_donation_app/screens/home/find_donor_screen.dart';
 import 'package:blood_donation_app/screens/home/health_screening.dart';
 import 'package:blood_donation_app/screens/profile/profile_screen.dart';
@@ -14,12 +11,13 @@ import '../../custom_cards/custom_dialog_box.dart';
 import '../../share_preference/share_preference_service.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     final MyController mycontroller = Get.put(MyController());
 
-    void doSomething(int i){
+    void doSomething(int i) {
       showDialog(
         context: context,
         builder: (context) {
@@ -36,21 +34,20 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: FutureBuilder<String>(
               future: getUserFullName(),
-              builder: (context, snapshot){
-                if(snapshot.connectionState == ConnectionState.waiting){
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
-                }else{
+                } else {
                   return Text(
                     'Hello \n${snapshot.data}',
                     style: const TextStyle(
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
                     ),
                   );
                 }
-              }
-          ),
+              }),
         ),
         // backgroundColor: Colors.red[400],
         // elevation: 3,
@@ -95,7 +92,13 @@ class Home extends StatelessWidget {
                                   Radius.circular(12),
                                 ),
                                 color: Color.fromARGB(255, 222, 222, 222)),
-                            child: const Text('page 2'),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                'https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=1883&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           Container(
                             width: double.infinity,
@@ -104,7 +107,13 @@ class Home extends StatelessWidget {
                                   Radius.circular(12),
                                 ),
                                 color: Color.fromARGB(255, 222, 222, 222)),
-                            child: const Text('page 2'),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                'https://demographica.co.za/wp-content/uploads/2022/06/Donating-Blood-is-the-easiest-way-to-make-a-difference.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           Container(
                             width: double.infinity,
@@ -112,7 +121,13 @@ class Home extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12)),
                                 color: Color.fromARGB(255, 222, 222, 222)),
-                            child: const Text('page 3'),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                'https://nazeerhospital.com/wp-content/uploads/2022/11/Things-to-Avoid-Before-Donating-Blood.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ],
                         options: CarouselOptions(
@@ -146,8 +161,9 @@ class Home extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -181,8 +197,8 @@ class Home extends StatelessWidget {
                           children: [
                             Expanded(
                               child: CustomContainer(
-                                title: 'Find \nDonor',
-                                icon: Icons.medical_services,
+                                title: 'Find \n Donor',
+                                url: 'https://cdn-icons-png.flaticon.com/128/3434/3434958.png',
                                 ontap: () {
                                   Get.to(FindDonorScreen());
                                 },
@@ -194,7 +210,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Health \nScreening',
-                                icon: Icons.health_and_safety_sharp,
+                                url: 'https://cdn-icons-png.flaticon.com/128/3663/3663433.png',
                                 ontap: () {
                                   Get.to(HealthScreening());
                                 },
@@ -211,7 +227,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Emergency \nCases',
-                                icon: Icons.heart_broken,
+                                url: 'https://cdn-icons-png.flaticon.com/128/2869/2869684.png',
                                 ontap: () {},
                               ),
                             ),
@@ -221,7 +237,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Donation \nTips',
-                                icon: Icons.tips_and_updates,
+                                url: 'https://cdn-icons-png.flaticon.com/128/9908/9908208.png',
                                 ontap: () {},
                               ),
                             )
@@ -247,7 +263,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Blood \nRequests',
-                                icon: Icons.healing_outlined,
+                                url: 'https://cdn-icons-png.flaticon.com/128/10869/10869900.png',
                                 ontap: () {
                                   showDialog(
                                     context: context,
@@ -264,7 +280,7 @@ class Home extends StatelessWidget {
                             Expanded(
                               child: CustomContainer(
                                 title: 'Appointment\nSchedule',
-                                icon: Icons.schedule,
+                                url: 'https://cdn-icons-png.flaticon.com/128/9160/9160144.png',
                                 ontap: () {},
                               ),
                             )
@@ -304,8 +320,7 @@ class Home extends StatelessWidget {
                             child: Row(
                               children: [
                                 const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12),
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
                                   child: Text(
                                     'We will support you \n24 / 7',
                                     maxLines: 2,
@@ -343,8 +358,8 @@ class Home extends StatelessWidget {
     );
   }
 
-  Future<String> getUserFullName()async {
-    var user =  await SharePreferenceService().getUserModel();
+  Future<String> getUserFullName() async {
+    var user = await SharePreferenceService().getUserModel();
     return user?.fullName ?? '';
   }
 }

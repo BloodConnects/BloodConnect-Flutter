@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DynamicButton extends StatelessWidget {
+class DynamicGestureButton extends StatelessWidget {
+  final VoidCallback ontap;
   final RxBool isButtonPressed;
   final String buttonText;
   final Color pressedColor;
   final Color unpressedColor;
 
-  DynamicButton({
+  const DynamicGestureButton({
+    super.key,
+    required this.ontap,
     required this.isButtonPressed,
     required this.buttonText,
     required this.pressedColor,
@@ -17,14 +20,12 @@ class DynamicButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        isButtonPressed.toggle();
-      },
+      onTap: ontap, // Call the provided onTap function
       child: Obx(
         () => Container(
-          height: 30,
+          height: 35,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(18),
             border: isButtonPressed.value
                 ? Border.all(color: Colors.transparent)
                 : Border.all(color: Colors.black),
@@ -32,11 +33,14 @@ class DynamicButton extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-            child: Text(
-              buttonText,
-              style: TextStyle(
-                color: isButtonPressed.value ? Colors.white : Colors.black,
-                fontFamily: 'Inter'
+            child: Center(
+              child: Text(
+                buttonText,
+                style: TextStyle(
+                  color: isButtonPressed.value ? Colors.white : Colors.black,
+                  fontFamily: 'Inter',
+                  fontSize: 16,
+                ),
               ),
             ),
           ),

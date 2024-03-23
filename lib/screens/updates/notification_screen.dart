@@ -1,38 +1,15 @@
 import 'package:blood_donation_app/custom_cards/dynamic_gesture_button.dart';
+import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class NotificationScreenController extends GetxController {
-  final RxBool _requestedIsButtonPressed = false.obs;
-  final RxBool _articlesButtonPressed = false.obs;
-  final RxBool _eventButtonPressed = false.obs;
-
-  RxBool get requestedIsButtonPressed => _requestedIsButtonPressed;
-  RxBool get articlesButtonPressed => _articlesButtonPressed;
-  RxBool get eventButtonPressed => _eventButtonPressed;
-
-  void toggleRequestedButton() {
-    _requestedIsButtonPressed.toggle();
-    _articlesButtonPressed.value = false;
-    _eventButtonPressed.value = false;
-  }
-
-  void toggleArticlesButton() {
-    _requestedIsButtonPressed.value = false;
-    _articlesButtonPressed.toggle();
-    _eventButtonPressed.value = false;
-  }
-
-  void toggleEventButton() {
-    _requestedIsButtonPressed.value = false;
-    _articlesButtonPressed.value = false;
-    _eventButtonPressed.toggle();
-  }
-}
+import '../../color_schemes.g.dart';
+import '../../controller/notification_controller.dart';
 
 class NotificationScreen extends StatelessWidget {
+  NotificationScreen({super.key});
+
   final NotificationScreenController controller =
-      NotificationScreenController();
+      Get.put(NotificationScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,46 +44,125 @@ class NotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: () {
+                DynamicGestureButton(
+                  isButtonPressed: controller.requestedIsButtonPressed,
+                  buttonText: 'Requests',
+                  pressedColor: Colors.red,
+                  unpressedColor: Colors.white,
+                  ontap: () {
                     controller.toggleRequestedButton();
+                    controller.navigationTapped(0);
                   },
-                  child: DynamicButton(
-                    isButtonPressed: controller.requestedIsButtonPressed,
-                    buttonText: 'Requests',
-                    pressedColor: Colors.red,
-                    unpressedColor: Colors.white,
-                  ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                GestureDetector(
-                  onTap: () {
+                DynamicGestureButton(
+                  isButtonPressed: controller.articlesButtonPressed,
+                  buttonText: 'Articles',
+                  pressedColor: Colors.red,
+                  unpressedColor: Colors.white,
+                  ontap: () {
                     controller.toggleArticlesButton();
+                    controller.navigationTapped(1);
                   },
-                  child: DynamicButton(
-                    isButtonPressed: controller.articlesButtonPressed,
-                    buttonText: 'Articles',
-                    pressedColor: Colors.red,
-                    unpressedColor: Colors.white,
-                  ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                GestureDetector(
-                  onTap: () {
+                DynamicGestureButton(
+                  isButtonPressed: controller.eventButtonPressed,
+                  buttonText: 'Events',
+                  pressedColor: Colors.red,
+                  unpressedColor: Colors.white,
+                  ontap: () {
                     controller.toggleEventButton();
+                    controller.navigationTapped(2);
                   },
-                  child: DynamicButton(
-                    isButtonPressed: controller.eventButtonPressed,
-                    buttonText: 'Events',
-                    pressedColor: Colors.red,
-                    unpressedColor: Colors.white,
-                  ),
                 ),
               ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              child: PageView(
+                controller: controller.pageController,
+                onPageChanged: controller.onTabChanged,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[300],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 0),
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 10,
+                              itemBuilder: (context, index) {
+                                return const DynamicInfoWidget(
+                                  title:
+                                      'Jaypalsinh requested for B+ Blood from Dholka, Ahmedabad.',
+                                  fontWeight1: FontWeight.bold,
+                                  subtitle: 'Requested 10 min ago',
+                                  fontWeight2: FontWeight.normal,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[300],
+                    ),
+                    child: const Column(
+                      children: [
+                        Text(
+                          'Page 2 Content',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Inter',
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[300],
+                    ),
+                    child: const Column(
+                      children: [
+                        Text(
+                          'Page 3 Content',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Inter',
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

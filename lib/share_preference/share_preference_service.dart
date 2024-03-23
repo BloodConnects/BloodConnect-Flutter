@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../api/model/LocationModel.dart';
 import '../api/model/userModel.dart';
 
@@ -10,6 +8,7 @@ class SharePreferenceService extends GetxService {
   static const String isSignIn = 'isSignIn';
   static const String userModel = 'userModel';
   static const String locationModel = 'locationModel';
+  static const String profilePicture = 'profilePicture';
 
   Future<UserModel?> getUserModel() async {
     var pref = await SharedPreferences.getInstance();

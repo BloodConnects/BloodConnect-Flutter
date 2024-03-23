@@ -11,7 +11,7 @@ import '../enum_classes/blood_group.dart';
 import '../enum_classes/gender.dart';
 
 class RegisterationScreen extends StatelessWidget {
-  RegisterationScreen(this.userModel) {
+  RegisterationScreen(this.userModel, {super.key}) {
     fullNameController = TextEditingController(text: userModel.fullName);
     emailController = TextEditingController(text: userModel.mailAddress);
     mobileNumberController = TextEditingController(text: userModel.mobileNumber);

@@ -3,7 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'color_schemes.g.dart';
+import 'package:provider/provider.dart';
+import 'ThemeProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,10 @@ void main() async {
   String? token = await FirebaseMessaging.instance.getToken();
   print("FCM Token: $token");
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider<ThemeProvider>(
+    create: (_) => ThemeProvider(),
+    child: const MyApp(),
+  ),);
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -32,12 +36,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreen()
+    return Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return GetMaterialApp(
+              title: 'Flutter Demo',
+              debugShowCheckedModeBanner: false,
+              theme: themeProvider.themeData,
+              home: const SplashScreen()
+          );
+        }
     );
   }
 }

@@ -11,4 +11,6 @@ checkUserLocation{
             )
         }
     }
+
+    data['result']['address_components'][3]['types']
 }

@@ -1,11 +1,10 @@
 import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../enum_classes/blood_group.dart';
 import '../../enum_classes/gender.dart';
-import '../../screens/profile/edit_profille_screen.dart';
 import '../model/userModel.dart';
 
 class EditingController extends GetxController {
@@ -18,6 +17,20 @@ class EditingController extends GetxController {
   var birthDateController  = TextEditingController();
   var heightController = TextEditingController();
   var weightController = TextEditingController();
+
+  //profile picture
+  // RxString profile_picture = ''.obs;
+
+  void loadProfilePicture()async{
+    var pref = await SharedPreferences.getInstance();
+    pref.getString(SharePreferenceService.profilePicture) ?? '';
+  }
+
+  void setProfilePicture(String imageUrl)async{
+    var pref = await SharedPreferences.getInstance();
+    pref.setString(SharePreferenceService.profilePicture, imageUrl);
+    profilePicture.value = imageUrl;
+  }
 
   Rx<BloodGroup> selectedBlood = BloodGroup.abPositive.obs;
 

@@ -1,12 +1,15 @@
+import 'dart:async';
+import 'package:blood_donation_app/api/api_fuctions/add_location.dart';
 import 'package:blood_donation_app/api/model/LocationModel.dart';
-import 'package:blood_donation_app/api/model/UserRepositry.dart';
+import 'package:blood_donation_app/controller/map_controller.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
-import 'package:blood_donation_app/screens/home_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:blood_donation_app/screens/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 
 import '../screens/explore/maps.dart';
 
@@ -19,6 +22,9 @@ class AddLocationScreen extends StatelessWidget {
     TextEditingController houseNoController = TextEditingController();
     TextEditingController streetController = TextEditingController();
     TextEditingController addressController = TextEditingController();
+    MapController mapController = Get.put(MapController());
+
+    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
     return Dialog(
       child: Container(
@@ -42,23 +48,16 @@ class AddLocationScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
-                  children: [
-                    Text(
-                      'Add Location',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Spacer(),
-                    CircleAvatar(
-                      radius: 16,
-                    )
-                  ],
+                const Text(
+                  'Add Location',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(
                   height: 8,
@@ -66,22 +65,68 @@ class AddLocationScreen extends StatelessWidget {
                 Container(
                   height: 40,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                      hintStyle:
-                          TextStyle(fontFamily: 'Inter', color: Colors.white),
-                      hintText: 'Search Location',
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
-                    controller: searchController,
+                    color: Color.fromARGB(255, 222, 221, 221),
+                  ),
+                  child: GooglePlaceAutoCompleteTextField(
+                    textEditingController: searchController,
+                    googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                    boxDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    containerVerticalPadding: 1,
+                    inputDecoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      hintText: 'Search Location',
+                      prefixIcon: Icon(Icons.search, size: 24,),
+                    ),
+                    debounceTime: 800,
+                    countries: const ["in", "fr"],
+                    isLatLngRequired: true,
+                    getPlaceDetailWithLatLng: (Prediction prediction) {
+                      print("placeDetails${prediction.lng}");
+                    },
+                    itemClick: (Prediction prediction) async {
+                      var location = await prediction.toLocationModel();
+                      searchController.text = prediction.description!;
+                      searchController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: prediction.description!.length));
+
+                      if (location?.latitude != null && location?.longitude != null) {
+                        var mapController = await controller.future;
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location!.longitude!),15));
+                        houseNoController.text = location.houseNo.toString();
+                        streetController.text = location.street.toString();
+                        addressController.text = location.address.toString();
+                      } else {
+                        Get.snackbar('', "Can't get latitude and longitude");
+                      }
+                    },
+                    itemBuilder: (context, index, Prediction prediction) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          // color: Colors.grey[300]
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(child: Text(prediction.description ?? ""))
+                          ],
+                        ),
+                      );
+                    },
+                    seperatedBuilder: const Divider(),
+                    isCrossBtnShown: true,
+                    containerHorizontalPadding: 4,
                   ),
                 ),
                 const SizedBox(
@@ -95,7 +140,15 @@ class AddLocationScreen extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: const MapScreen(),
+                    child: GoogleMap(
+                      mapType: MapType.normal,
+                      initialCameraPosition: MapController.kGooglePlex,
+                      zoomControlsEnabled: false,
+                      onMapCreated: (GoogleMapController googleMapController) {
+                        controller.complete(googleMapController);
+                      },
+                      myLocationButtonEnabled: true,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -129,10 +182,22 @@ class AddLocationScreen extends StatelessWidget {
                   height: 8,
                 ),
                 DynamicButton(
-                  onPressed: () {
-                    addLocation(LocationModel(
-                       
-                    ));
+                  onPressed: () async {
+                    AddLocation().addLocationFunction(
+                        LocationModel(
+                          street: streetController.text,
+                          latitude: mapController.currentLatLng.value.latitude,
+                          longitude:
+                              mapController.currentLatLng.value.longitude,
+                          houseNo: houseNoController.text,
+                          address: addressController.text,
+                          city: '',
+                          country: '',
+                          state: '',
+                          type: LocationType.HOME,
+                        ), onClose: () {
+                      Get.back();
+                    });
                   },
                   buttonText: 'Save',
                 ),

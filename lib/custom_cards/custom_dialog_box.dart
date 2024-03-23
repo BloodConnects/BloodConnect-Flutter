@@ -10,8 +10,7 @@ class CustomDialogBox extends StatelessWidget {
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.green,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Container(
         height: 240,
         width: 400,
@@ -35,11 +34,10 @@ class CustomDialogBox extends StatelessWidget {
               const Text(
                 'Select blood request for',
                 style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 16
-                ),
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 16),
               ),
               const SizedBox(
                 height: 10,
@@ -48,15 +46,31 @@ class CustomDialogBox extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(const BloodRequestScreen());
+                      onTap: () {
+                        Get.to(BloodRequestScreen());
                       },
                       child: Container(
                         height: 190,
                         width: 145,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[400]
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.grey[300]),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset('Assets/Images/avatars_3.jpg'),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            const Text(
+                                'for YourSelf',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter',
+                                  fontSize: 18,
+                                ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -66,16 +80,33 @@ class CustomDialogBox extends StatelessWidget {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(const BloodRequestScreen());
+                      onTap: () {
+                        Get.to(BloodRequestScreen());
                       },
                       child: Container(
                         height: 190,
                         width: 145,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey[400]
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[300],
                         ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset('Assets/Images/avatars_2.jpg'),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              const Text(
+                                'for Relative',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter',
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          )
                       ),
                     ),
                   )

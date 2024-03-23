@@ -25,7 +25,7 @@ class SplashScreenViewModel extends GetxController
 
   animationInitialization() {
     animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeOut)
             .obs
@@ -45,7 +45,7 @@ class SplashScreenViewModel extends GetxController
 
 
     if (pref.getBool(SharePreferenceService.isSignIn) == true) {
-      Get.offAll(const HomeScreen());
+      Get.offAll( HomeScreen());
     } else {
       Get.off(OpeningScreen());
     }

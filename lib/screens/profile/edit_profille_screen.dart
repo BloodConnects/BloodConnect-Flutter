@@ -37,64 +37,52 @@ class EditProfileScreen extends StatelessWidget {
 
   List<Map<String, dynamic>> avatarList2 = [
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2023.png?alt=media&token=5eddaf21-4e66-40e5-8a7a-938d13ee43d5',
+      'value': 0,
+    },
+    {
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2014.png?alt=media&token=6fb548b0-b5d8-4d75-9606-c1824d9db263',
       'value': 1,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%204.png?alt=media&token=e9a1b8e7-99a1-4125-baca-b60a58f0bd9f',
       'value': 2,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%208.png?alt=media&token=1decca6e-b9f7-4a10-a480-757a3f0de274',
       'value': 3,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%201.png?alt=media&token=b6a74a2f-736d-442f-bd0f-8f245d1cfef8',
       'value': 4,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2010.png?alt=media&token=8f333c24-bc7e-41de-917f-9614d1a6ee61',
       'value': 5,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2015.png?alt=media&token=996cea62-1d8e-4536-9385-d7442350629e',
       'value': 6,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2020.png?alt=media&token=22147322-e847-47c2-9aad-92d77298e9c6',
       'value': 7,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2019.png?alt=media&token=28adaa59-bc9e-456f-ba1a-3ca460b68dff',
       'value': 8,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%205.png?alt=media&token=bed1249f-1b24-4233-a9f7-b58aeb6f8f4a',
       'value': 9,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2016.png?alt=media&token=4ed4b1cf-c496-4c24-8844-ec84a7c587cd',
       'value': 10,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'image': 'https://firebasestorage.googleapis.com/v0/b/confab-3868.appspot.com/o/Profile%20Pictures%2FAsset%2018.png?alt=media&token=be2052b7-1009-457d-a07c-bde65dc20f65',
       'value': 11,
-    },
-    {
-      'image':
-          'https://images.unsplash.com/photo-1648295194728-cb01f46ff985?q=80&w=449&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'value': 12,
     },
   ];
 
@@ -104,10 +92,13 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -154,11 +145,9 @@ class EditProfileScreen extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            avatarController
-                                                    .selectedIndex.value =
-                                                avatarList2[index]['value'];
+                                            avatarController.onSelectedImage(index);
                                           },
-                                          child: AvatarSelector(
+                                          child: avatarSelector(
                                             avatarList2[index]['image'],
                                             avatarList2[index]['value'],
                                           ),
@@ -174,11 +163,24 @@ class EditProfileScreen extends StatelessWidget {
                       },
                     );
                   },
-                  child: CircleAvatar(
-                    radius: 70,
-                    backgroundImage:
-                        NetworkImage(editingController.profilePicture.value),
+                  child: Obx(
+                    () => CircleAvatar(
+                      radius: 70,
+                      backgroundImage: NetworkImage(
+                        avatarList2[avatarController.selectedIndex.value]
+                            ['image'],
+                      ),
+                    ),
                   ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                'Select Avatar',
+                style: TextStyle(
+                  fontFamily: 'Inter',
                 ),
               ),
               const SizedBox(
@@ -219,6 +221,7 @@ class EditProfileScreen extends StatelessWidget {
                         controller: editingController.mobileController,
                         keyboardType: TextInputType.phone,
                         labelText: 'Mobile Number',
+                        enable: false,
                         hintText: 'Enter Mobile Number',
                       ),
                       const SizedBox(
@@ -227,6 +230,7 @@ class EditProfileScreen extends StatelessWidget {
                       DynamicTextField(
                         controller: editingController.emailAddressController,
                         keyboardType: TextInputType.emailAddress,
+                        enable: false,
                         labelText: 'Email Address',
                         hintText: 'Enter Email Address',
                       ),
@@ -306,7 +310,8 @@ class EditProfileScreen extends StatelessWidget {
                         labelText: 'Date Of Birth',
                         hintText: 'Enter Date Of Birth',
                         ontap: () async {
-                          var currentDate = DateFormat('yyyy-MM-dd').parse(editingController.birthDateController.text);
+                          var currentDate = DateFormat('yyyy-MM-dd').parse(
+                              editingController.birthDateController.text);
                           var newDateTime = await showDatePicker(
                             context: context,
                             initialDate: currentDate,

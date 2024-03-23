@@ -1,6 +1,7 @@
 import 'package:blood_donation_app/controller/mycontroller.dart';
 import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
 import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/screens/home/confirm_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,10 +15,13 @@ class BloodRequestFormAnswer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 12,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: (){
+              Get.back();
+            },
           ),
         ),
         centerTitle: true,
@@ -72,7 +76,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                     ),
                     DynamicInfoWidget(
                       title: 'Location',
-                      subtitle: 'Priyanka Fulwari',
+                      subtitle: 'Ahmedabad',
                       radius: 0,
                     ),
                     DynamicInfoWidget(
@@ -82,7 +86,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                     ),
                     DynamicInfoWidget(
                       title: 'Blood Group',
-                      subtitle: 'O+',
+                      subtitle: 'O Positive',
                       radius: 0,
                     ),
                     DynamicInfoWidget(
@@ -115,7 +119,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                 children: [
                   Obx(
                     () => Checkbox(
-                      activeColor: Colors.red,
+                      activeColor: Colors.red[900],
                       side: const BorderSide(color: Colors.black),
                       value: myController.isCheckBoxClicked.value,
                       onChanged: (value) {
@@ -141,7 +145,9 @@ class BloodRequestFormAnswer extends StatelessWidget {
                 height: 15,
               ),
               DynamicButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(ConfirmScreen());
+                },
                 buttonText: 'Continue',
               ),
               const SizedBox(

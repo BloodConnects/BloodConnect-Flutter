@@ -1,5 +1,6 @@
 import 'package:blood_donation_app/api/model/UserRepositry.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'LocationModel.g.dart';
 
 @JsonSerializable()
