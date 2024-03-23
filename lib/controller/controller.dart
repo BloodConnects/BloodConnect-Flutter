@@ -1,6 +1,8 @@
-import 'package:blood_donation_app/api/module/userModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../api/model/userModel.dart';
+import '../enum_classes/blood_group.dart';
 
 class Controller extends GetxController {
   RxString selectedValue = 'A positive'.obs;
@@ -36,13 +38,4 @@ class Controller extends GetxController {
   void onTabChanged(int tab){
     currentTab.value = tab;
   }
-}
-
-class BloodGroupController extends GetxController {
-  Rx<BloodGroup> selectedValue = BloodGroup.abPositive.obs;
-
-  void onSelected(BloodGroup bloodGroup) {
-    selectedValue.value = bloodGroup;
-  }
-
 }
