@@ -1,18 +1,17 @@
 import 'dart:async';
-import 'package:blood_donation_app/controller/blood_group_controller.dart';
-import 'package:blood_donation_app/controller/blood_request_controller.dart';
-import 'package:blood_donation_app/controller/urgency_slider_controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
-import 'package:blood_donation_app/enum_classes/blood_group.dart';
+import 'package:blood_donation_app/ui/donor/blood_group_controller.dart';
+import 'package:blood_donation_app/ui/donor/blood_request_controller.dart';
+import 'package:blood_donation_app/ui/donor/urgency_slider_controller.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-import '../../controller/map_controller.dart';
-import '../../enum_classes/gender.dart';
+import '../../data/enum_classes/blood_group.dart';
+import '../explore/map_controller.dart';
 import 'blood_request_form_answer.dart';
 
 class BloodRequestScreen extends StatelessWidget {

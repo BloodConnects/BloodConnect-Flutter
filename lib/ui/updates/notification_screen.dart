@@ -1,15 +1,15 @@
-import 'package:blood_donation_app/custom_cards/dynamic_gesture_button.dart';
-import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
+import 'package:blood_donation_app/ui/updates/updates_chip.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../color_schemes.g.dart';
-import '../../controller/notification_controller.dart';
+import '../color_schemes.g.dart';
+import 'updates_controller.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
 
-  final NotificationScreenController controller =
-      Get.put(NotificationScreenController());
+  final UpdatesController controller =
+      Get.put(UpdatesController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +44,12 @@ class NotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                DynamicGestureButton(
-                  isButtonPressed: controller.requestedIsButtonPressed,
+                UpdatesChip(
+                  isButtonChecked: controller.requestedIsButtonPressed,
                   buttonText: 'Requests',
                   pressedColor: Colors.red,
                   unpressedColor: Colors.white,
-                  ontap: () {
+                  onTap: () {
                     controller.toggleRequestedButton();
                     controller.navigationTapped(0);
                   },
@@ -57,12 +57,12 @@ class NotificationScreen extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                DynamicGestureButton(
-                  isButtonPressed: controller.articlesButtonPressed,
+                UpdatesChip(
+                  isButtonChecked: controller.articlesButtonPressed,
                   buttonText: 'Articles',
                   pressedColor: Colors.red,
                   unpressedColor: Colors.white,
-                  ontap: () {
+                  onTap: () {
                     controller.toggleArticlesButton();
                     controller.navigationTapped(1);
                   },
@@ -70,12 +70,12 @@ class NotificationScreen extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                DynamicGestureButton(
-                  isButtonPressed: controller.eventButtonPressed,
+                UpdatesChip(
+                  isButtonChecked: controller.eventButtonPressed,
                   buttonText: 'Events',
                   pressedColor: Colors.red,
                   unpressedColor: Colors.white,
-                  ontap: () {
+                  onTap: () {
                     controller.toggleEventButton();
                     controller.navigationTapped(2);
                   },

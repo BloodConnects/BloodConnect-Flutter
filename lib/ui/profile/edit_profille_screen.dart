@@ -1,16 +1,16 @@
-import 'package:blood_donation_app/api/api_fuctions/delete_user.dart';
-import 'package:blood_donation_app/api/api_fuctions/update_user.dart';
-import 'package:blood_donation_app/api/model/userModel.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
-import 'package:blood_donation_app/enum_classes/blood_group.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../api/api_controller/editing_controller.dart';
-import '../../controller/avatar_controller.dart';
-import '../../dynamic_widgets/avatar_selector.dart';
-import '../../enum_classes/gender.dart';
+import '../../data/api/api_controller/editing_controller.dart';
+import '../../data/api/api_fuctions/delete_user.dart';
+import '../../data/api/api_fuctions/update_user.dart';
+import '../../data/api/model/userModel.dart';
+import '../../data/enum_classes/blood_group.dart';
+import '../../data/enum_classes/gender.dart';
+import 'avatar_controller.dart';
+import 'avatar_selector.dart';
 
 class EditProfileScreen extends StatelessWidget {
   List<Map<String, dynamic>> genderList = [

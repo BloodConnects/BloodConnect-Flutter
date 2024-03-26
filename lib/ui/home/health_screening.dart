@@ -1,7 +1,8 @@
-import 'package:blood_donation_app/controller/radio_button_controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../controller/radio_button_controller.dart';
 
 class HealthScreening extends StatelessWidget {
   HealthScreening({super.key});

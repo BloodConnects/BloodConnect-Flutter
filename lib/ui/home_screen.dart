@@ -1,5 +1,5 @@
-import 'package:blood_donation_app/controller/controller.dart';
-import 'package:blood_donation_app/controller/map_controller.dart';
+import 'package:blood_donation_app/ui/home_controller.dart';
+import 'package:blood_donation_app/ui/explore/map_controller.dart';
 import 'package:blood_donation_app/ui/profile/profile_screen.dart';
 import 'package:blood_donation_app/ui/updates/notification_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   var markers = <Marker>[].obs;
   MapController mapController = Get.put(MapController());
-  Controller controller = Get.put(Controller());
+  HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

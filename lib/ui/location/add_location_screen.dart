@@ -1,15 +1,16 @@
 import 'dart:async';
-import 'package:blood_donation_app/api/api_fuctions/add_location.dart';
-import 'package:blood_donation_app/api/model/LocationModel.dart';
-import 'package:blood_donation_app/controller/map_controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
+import 'package:blood_donation_app/ui/explore/map_controller.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+
+import '../../data/api/api_fuctions/add_location.dart';
+import '../../data/api/model/LocationModel.dart';
 
 
 class AddLocationScreen extends StatelessWidget {

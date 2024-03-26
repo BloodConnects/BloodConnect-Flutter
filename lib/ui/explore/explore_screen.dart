@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:blood_donation_app/api/api_constant/api_constants.dart';
-import 'package:blood_donation_app/api/model/BaseResponse.dart';
-import 'package:blood_donation_app/api/model/LocationModel.dart';
-import 'package:blood_donation_app/custom_cards/user_card.dart';
+import 'package:blood_donation_app/ui/explore/explore_list_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:get/get.dart';
@@ -11,9 +8,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
-import '../../controller/map_controller.dart';
+import '../../data/api/api_constant/api_constants.dart';
+import '../../data/api/model/LocationModel.dart';
+import '../../domain/share_preference/share_preference_service.dart';
+import 'map_controller.dart';
 import 'package:geolocator/geolocator.dart';
-import '../../share_preference/share_preference_service.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
@@ -190,7 +189,7 @@ class ExploreScreen extends StatelessWidget {
                             horizontal: 15, vertical: 10),
                         child: Row(
                           children: [
-                            buildUserCard(
+                            ExploreListContainer(
                               name: 'Priyanka Fulwari',
                               bloodType: 'A positive',
                               gender: 'Female',
@@ -199,7 +198,7 @@ class ExploreScreen extends StatelessWidget {
                               onContactPressed: () {},
                             ),
                             const SizedBox(width: 10),
-                            buildUserCard(
+                            ExploreListContainer(
                               name: 'Priyanka Fulwari',
                               bloodType: 'A positive',
                               gender: 'Female',
@@ -208,7 +207,7 @@ class ExploreScreen extends StatelessWidget {
                               onContactPressed: () {},
                             ),
                             const SizedBox(width: 10),
-                            buildUserCard(
+                            ExploreListContainer(
                               name: 'Priyanka Fulwari',
                               bloodType: 'A positive',
                               gender: 'Female',

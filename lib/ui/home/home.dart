@@ -1,13 +1,13 @@
 import 'package:blood_donation_app/ui/location/add_location_screen.dart';
-import 'package:blood_donation_app/custom_cards/card.dart';
+import 'package:blood_donation_app/ui/home/home_menu_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../controller/mycontroller.dart';
+import '../../domain/share_preference/share_preference_service.dart';
+import 'banner_controller.dart';
 import '../profile/profile_screen.dart';
-import 'blood_request_type__dialog.dart';
-import '../../share_preference/share_preference_service.dart';
-import 'find_donor_screen.dart';
+import 'blood_request_type_dialog.dart';
+import '../donor/find_donor_screen.dart';
 import 'health_screening.dart';
 
 class Home extends StatelessWidget {
@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyController mycontroller = Get.put(MyController());
+    final BannerController mycontroller = Get.put(BannerController());
 
     void doSomething(int i) {
       showDialog(
@@ -196,7 +196,7 @@ class Home extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Find \n Donor',
                                 url: 'https://cdn-icons-png.flaticon.com/128/3434/3434958.png',
                                 ontap: () {
@@ -208,7 +208,7 @@ class Home extends StatelessWidget {
                               width: 8,
                             ),
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Health \nScreening',
                                 url: 'https://cdn-icons-png.flaticon.com/128/3663/3663433.png',
                                 ontap: () {
@@ -225,7 +225,7 @@ class Home extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Emergency \nCases',
                                 url: 'https://cdn-icons-png.flaticon.com/128/2869/2869684.png',
                                 ontap: () {},
@@ -235,7 +235,7 @@ class Home extends StatelessWidget {
                               width: 8,
                             ),
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Donation \nTips',
                                 url: 'https://cdn-icons-png.flaticon.com/128/9908/9908208.png',
                                 ontap: () {},
@@ -261,7 +261,7 @@ class Home extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Blood \nRequests',
                                 url: 'https://cdn-icons-png.flaticon.com/128/10869/10869900.png',
                                 ontap: () {
@@ -278,7 +278,7 @@ class Home extends StatelessWidget {
                               width: 8,
                             ),
                             Expanded(
-                              child: CustomContainer(
+                              child: HomeMenuContainer(
                                 title: 'Appointment\nSchedule',
                                 url: 'https://cdn-icons-png.flaticon.com/128/9160/9160144.png',
                                 ontap: () {},

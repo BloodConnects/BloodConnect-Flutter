@@ -1,12 +1,11 @@
-import 'package:blood_donation_app/custom_cards/verification_card.dart';
-import 'package:blood_donation_app/controller/verification_controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/ui/auth/verification_card.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../api/api_fuctions/check_user_by_uid.dart';
+import '../../data/api/api_fuctions/check_user_by_uid.dart';
 
 class VerificationScreen extends StatelessWidget {
   final String verificationId;

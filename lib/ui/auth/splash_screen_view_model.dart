@@ -1,12 +1,11 @@
 import 'dart:developer';
-
-import 'package:blood_donation_app/share_preference/share_preference_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../api/model/userModel.dart';
+import '../../data/api/model/userModel.dart';
+import '../../domain/share_preference/share_preference_service.dart';
 import '../home_screen.dart';
 import 'opening_screen.dart';
 

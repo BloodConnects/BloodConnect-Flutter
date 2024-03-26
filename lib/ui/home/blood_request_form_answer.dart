@@ -1,6 +1,6 @@
-import 'package:blood_donation_app/controller/mycontroller.dart';
-import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/ui/home/banner_controller.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyController myController = Get.put(MyController());
+    BannerController myController = Get.put(BannerController());
 
     return Scaffold(
       appBar: AppBar(

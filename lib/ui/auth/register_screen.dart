@@ -1,14 +1,14 @@
-import 'package:blood_donation_app/api/api_fuctions/register_user.dart';
-import 'package:blood_donation_app/controller/controller.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
+import 'package:blood_donation_app/ui/home_controller.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../api/model/userModel.dart';
-import '../../controller/blood_group_controller.dart';
-import '../../enum_classes/blood_group.dart';
-import '../../enum_classes/gender.dart';
+import '../../data/api/api_fuctions/register_user.dart';
+import '../../data/api/model/userModel.dart';
+import '../../data/enum_classes/blood_group.dart';
+import '../../data/enum_classes/gender.dart';
+import '../donor/blood_group_controller.dart';
 
 class RegisterationScreen extends StatelessWidget {
   RegisterationScreen(this.userModel, {super.key}) {
@@ -34,7 +34,7 @@ class RegisterationScreen extends StatelessWidget {
   late TextEditingController fullNameController;
   late TextEditingController mobileNumberController;
   late TextEditingController emailController;
-  Controller myController = Get.put(Controller());
+  HomeController myController = Get.put(HomeController());
   BloodGroupController bloodGroupController = Get.put(BloodGroupController());
   UserModel userModel;
 

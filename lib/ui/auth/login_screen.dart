@@ -1,15 +1,16 @@
-import 'package:blood_donation_app/auth_methods/facebook_sign_in.dart';
-import 'package:blood_donation_app/auth_methods/google_sign_in.dart';
 import 'package:blood_donation_app/ui/auth/verification_screen.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_text_field.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../../api/api_fuctions/check_user_by_uid.dart';
+
+import '../../data/api/api_fuctions/check_user_by_uid.dart';
+import '../../domain/auth_methods/facebook_sign_in.dart';
+import '../../domain/auth_methods/google_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController mobileNumberController = TextEditingController();

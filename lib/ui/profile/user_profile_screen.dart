@@ -1,9 +1,10 @@
-import 'package:blood_donation_app/api/api_fuctions/donor_list.dart';
-import 'package:blood_donation_app/ui/home/blood_request_type__dialog.dart';
-import 'package:blood_donation_app/custom_cards/dynamic_info_widget.dart';
-import 'package:blood_donation_app/dynamic_widgets/dynamic_button.dart';
+import 'package:blood_donation_app/ui/home/blood_request_type_dialog.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../data/api/api_fuctions/donor_list.dart';
 
 class UserProfileScreen extends StatelessWidget {
   UserProfileScreen({super.key});
