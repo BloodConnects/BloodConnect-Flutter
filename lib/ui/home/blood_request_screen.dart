@@ -7,6 +7,7 @@ import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
@@ -188,6 +189,8 @@ class BloodRequestScreen extends StatelessWidget {
                             if (location?.latitude != null &&
                                 location?.longitude != null) {
                               var mapController = await controller.future;
+                              bloodRequestController.fullAddress.value =
+                                  '${location?.houseNo},${location?.street},${location?.address},${location?.city},${location?.state}-${location?.postalCode}';
                               mapController.animateCamera(
                                   CameraUpdate.newLatLngZoom(
                                       LatLng(location!.latitude!,
@@ -248,12 +251,16 @@ class BloodRequestScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        'Full Address \nWith Zip Code and State',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 12,
-                          color: Colors.black,
+                      Obx(
+                        () => Text(
+                          bloodRequestController.fullAddress.value.isEmpty
+                              ? 'Full Address \nWith Zip Code and State'
+                              : bloodRequestController.fullAddress.value,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],
