@@ -59,7 +59,8 @@ class Home extends StatelessWidget {
               backgroundColor: const Color.fromARGB(255, 221, 220, 220),
               child: IconButton(
                 onPressed: () {
-                  Get.to(ProfileScreen());
+                  doSomething(1);
+                  //Get.to(ProfileScreen());
                 },
                 icon: const Icon(
                   Icons.person,

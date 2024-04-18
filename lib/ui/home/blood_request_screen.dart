@@ -23,6 +23,7 @@ class BloodRequestScreen extends StatelessWidget {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController emailAddressController = TextEditingController();
   TextEditingController searchController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   UrgencySliderController urgencySliderController =
       Get.put(UrgencySliderController());
   BloodGroupController bloodGroupController = Get.put(BloodGroupController());
@@ -184,14 +185,16 @@ class BloodRequestScreen extends StatelessWidget {
                             searchController.selection =
                                 TextSelection.fromPosition(TextPosition(
                                     offset: prediction.description!.length));
-
+                            addressController.text = "${location?.address}, "
+                                "${location?.city}, ${location?.state}, "
+                                "${location?.country}, ${location?.postalCode}";
                             if (location?.latitude != null &&
                                 location?.longitude != null) {
                               var mapController = await controller.future;
                               mapController.animateCamera(
                                   CameraUpdate.newLatLngZoom(
                                       LatLng(location!.latitude!,
-                                          location!.longitude!),
+                                          location.longitude!),
                                       15));
                             } else {
                               Get.snackbar(
@@ -248,9 +251,8 @@ class BloodRequestScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        'Full Address \nWith Zip Code and State',
-                        style: TextStyle(
+                      Text(addressController.text,
+                        style: const TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 12,
                           color: Colors.black,

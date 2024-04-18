@@ -1,17 +1,20 @@
 import 'dart:async';
-import 'package:blood_donation_app/ui/explore/map_controller.dart';
+import 'dart:convert';
+import 'package:blood_donation_app/domain/location_manager.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-
+import '../../data/api/api_constant/api_constants.dart';
 import '../../data/api/api_fuctions/add_location.dart';
 import '../../data/api/model/LocationModel.dart';
-
+import '../../domain/share_preference/share_preference_service.dart';
+import 'package:http/http.dart' as http;
 
 class AddLocationScreen extends StatelessWidget {
   const AddLocationScreen({super.key});
@@ -22,9 +25,33 @@ class AddLocationScreen extends StatelessWidget {
     TextEditingController houseNoController = TextEditingController();
     TextEditingController streetController = TextEditingController();
     TextEditingController addressController = TextEditingController();
-    MapController mapController = Get.put(MapController());
+    Completer<GoogleMapController> mapController =
+        Completer<GoogleMapController>();
+    LocationModel locationModel = LocationModel();
+    GoogleMapController googleMapController;
 
-    Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+    LocationManager().getCurrentLocation().then((value) async {
+      if (value == null) return;
+      googleMapController = await mapController.future;
+      var userLocation = LatLng(value.latitude!, value.longitude!);
+      googleMapController
+          .animateCamera(CameraUpdate.newLatLngZoom(userLocation, 15));
+      var locationModel = await userLocation.toLocationModel();
+      if (locationModel == null) return;
+      houseNoController.text = locationModel.houseNo.toString();
+      streetController.text = locationModel.street.toString();
+      addressController.text = locationModel.address.toString();
+    });
+
+    Future<void> updateLocationData(LocationModel locationModels) async {
+      locationModel = locationModels;
+      googleMapController = await mapController.future;
+      googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(locationModel.latitude!, locationModel.longitude!), 15));
+      houseNoController.text = locationModel.houseNo.toString();
+      streetController.text = locationModel.street.toString();
+      addressController.text = locationModel.address.toString();
+    }
 
     return Dialog(
       child: Container(
@@ -82,26 +109,21 @@ class AddLocationScreen extends StatelessWidget {
                       border: InputBorder.none,
                       isDense: true,
                       hintText: 'Search Location',
-                      prefixIcon: Icon(Icons.search, size: 24,),
+                      prefixIcon: Icon(Icons.search, size: 24),
                     ),
                     debounceTime: 800,
                     countries: const ["in", "fr"],
                     isLatLngRequired: true,
-                    getPlaceDetailWithLatLng: (Prediction prediction) {
-                      print("placeDetails${prediction.lng}");
-                    },
                     itemClick: (Prediction prediction) async {
                       var location = await prediction.toLocationModel();
                       searchController.text = prediction.description!;
                       searchController.selection = TextSelection.fromPosition(
                           TextPosition(offset: prediction.description!.length));
 
-                      if (location?.latitude != null && location?.longitude != null) {
-                        var mapController = await controller.future;
-                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location!.longitude!),15));
-                        houseNoController.text = location.houseNo.toString();
-                        streetController.text = location.street.toString();
-                        addressController.text = location.address.toString();
+                      if (location?.latitude != null &&
+                          location?.longitude != null) {
+                        locationModel = location!;
+                        updateLocationData(locationModel);
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -142,10 +164,15 @@ class AddLocationScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     child: GoogleMap(
                       mapType: MapType.normal,
-                      initialCameraPosition: MapController.kGooglePlex,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                            locationModel.latitude ?? 0.0,
+                            locationModel.longitude ?? 0.0),
+                        zoom: 15,
+                      ),
                       zoomControlsEnabled: false,
                       onMapCreated: (GoogleMapController googleMapController) {
-                        controller.complete(googleMapController);
+                        mapController.complete(googleMapController);
                       },
                       myLocationButtonEnabled: true,
                     ),
@@ -183,19 +210,11 @@ class AddLocationScreen extends StatelessWidget {
                 ),
                 DynamicButton(
                   onPressed: () async {
-                    AddLocation().addLocationFunction(
-                        LocationModel(
-                          street: streetController.text,
-                          latitude: mapController.currentLatLng.value.latitude,
-                          longitude:
-                              mapController.currentLatLng.value.longitude,
-                          houseNo: houseNoController.text,
-                          address: addressController.text,
-                          city: '',
-                          country: '',
-                          state: '',
-                          type: LocationType.HOME,
-                        ), onClose: () {
+                    locationModel.street = streetController.text;
+                    locationModel.houseNo = houseNoController.text;
+                    locationModel.address = addressController.text;
+                    AddLocation().addLocationFunction(locationModel,
+                        onClose: () {
                       Get.back();
                     });
                   },
@@ -207,5 +226,26 @@ class AddLocationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension LatLngExtension on LatLng {
+  Future<LocationModel?> toLocationModel() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await SharePreferenceService().getUserToken()}'
+    };
+    try {
+      String placeUrl =
+          '${ApiConstants.baseUrl}${ApiConstants.getLocation}?latitude=$latitude&longitude=$longitude';
+      var response = await http.get(Uri.parse(placeUrl), headers: headers);
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+      return LocationModel.fromJson(data['data']);
+    } catch (e) {
+      if (kDebugMode) {
+        print("error message: $e");
+      }
+      return null;
+    }
   }
 }

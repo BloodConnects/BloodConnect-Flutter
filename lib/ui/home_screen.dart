@@ -1,5 +1,4 @@
 import 'package:blood_donation_app/ui/home_controller.dart';
-import 'package:blood_donation_app/ui/explore/map_controller.dart';
 import 'package:blood_donation_app/ui/profile/profile_screen.dart';
 import 'package:blood_donation_app/ui/updates/notification_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +7,26 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'explore/explore_screen.dart';
 import 'home/home.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   var markers = <Marker>[].obs;
-  MapController mapController = Get.put(MapController());
+
   HomeController controller = Get.put(HomeController());
+
+  int selectedTab = 0;
 
   @override
   Widget build(BuildContext context) {
+    controller.currentTab.update((val) {
+      selectedTab = val ?? 0;
+    });
+
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -32,9 +42,15 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         showUnselectedLabels: true,
+        currentIndex: controller.currentTab.value,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
-        onTap: controller.navigationTapped,
+        onTap: (tab){
+          controller.onTabChanged(tab);
+          setState(() {
+
+          });
+        },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(

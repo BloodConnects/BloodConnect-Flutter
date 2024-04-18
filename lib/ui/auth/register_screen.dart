@@ -34,7 +34,6 @@ class RegisterationScreen extends StatelessWidget {
   late TextEditingController fullNameController;
   late TextEditingController mobileNumberController;
   late TextEditingController emailController;
-  HomeController myController = Get.put(HomeController());
   BloodGroupController bloodGroupController = Get.put(BloodGroupController());
   UserModel userModel;
 

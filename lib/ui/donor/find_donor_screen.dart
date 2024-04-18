@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
+import 'package:blood_donation_app/data/api/model/LocationModel.dart';
 import 'package:blood_donation_app/ui/donor/slider_controller.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
+import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -15,12 +16,15 @@ import '../explore/map_controller.dart';
 import 'donor_list_screen.dart';
 
 class FindDonorScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
+    final DonorController controllers = Get.put(DonorController());
     final SliderController sliderController = Get.put(SliderController());
-    MapController mapController = Get.put(MapController());
     Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+    LatLng currentLatLng = const LatLng(0.0, 0.0);
+    RxList<Marker> markers = <Marker>[].obs;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +32,7 @@ class FindDonorScreen extends StatelessWidget {
           padding: const EdgeInsets.all(5.0),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            onPressed: (){
+            onPressed: () {
               Get.back();
             },
           ),
@@ -175,32 +179,35 @@ class FindDonorScreen extends StatelessWidget {
                         ),
                         child: GooglePlaceAutoCompleteTextField(
                           textEditingController: searchController,
-                          googleAPIKey: "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
+                          googleAPIKey:
+                              "AIzaSyBoEK1cMECtgHIm-VBpbdBKiyeTaGiXA6o",
                           boxDecoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                           ),
                           containerVerticalPadding: 1,
                           inputDecoration: const InputDecoration(
-                              border: InputBorder.none,
+                            border: InputBorder.none,
                             hintText: 'Search Location',
                             isDense: true,
-                            prefixIcon: Icon(Icons.search, size: 22,),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 22,
+                            ),
                           ),
                           debounceTime: 800,
                           countries: const ["in", "fr"],
                           isLatLngRequired: true,
-                          getPlaceDetailWithLatLng: (Prediction prediction) {
-                            print("placeDetails${prediction.lng}");
-                          },
                           itemClick: (Prediction prediction) async {
                             var location = await prediction.toLocationModel();
+                            controllers.updateText("${location?.address} ${location?.city} ${location?.state} ${location?.postalCode}");
                             searchController.text = prediction.description!;
-                            searchController.selection = TextSelection.fromPosition(
-                                TextPosition(offset: prediction.description!.length));
-
+                            searchController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description!.length));
                             if (location?.latitude != null && location?.longitude != null) {
                               var mapController = await controller.future;
-                              mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location.longitude!),15));
+                              currentLatLng = LatLng(location!.latitude!, location.longitude!);
+                              mapController.animateCamera(CameraUpdate.newLatLngZoom(currentLatLng, 15));
+                              markers.clear();
+                              markers.add(Marker(markerId: const MarkerId('1'),position: currentLatLng));
                             } else {
                               Get.snackbar('', "Can't get latitude and longitude");
                             }
@@ -218,7 +225,8 @@ class FindDonorScreen extends StatelessWidget {
                                   const SizedBox(
                                     width: 7,
                                   ),
-                                  Expanded(child: Text(prediction.description ?? ""))
+                                  Expanded(
+                                      child: Text(prediction.description ?? ""))
                                 ],
                               ),
                             );
@@ -239,28 +247,29 @@ class FindDonorScreen extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: GoogleMap(
-                            mapType: MapType.normal,
-                            initialCameraPosition: MapController.kGooglePlex,
-                            zoomControlsEnabled: false,
-                            onMapCreated: (GoogleMapController googleMapController) {
-                              controller.complete(googleMapController);
-                            },
-                            myLocationButtonEnabled: true,
+                          child: Obx(
+                            ()=> GoogleMap(
+                              mapType: MapType.normal,
+                              mapToolbarEnabled: false,
+                              initialCameraPosition: MapController.kGooglePlex,
+                              zoomControlsEnabled: false,
+                              markers: Set.from(markers),
+                              onMapCreated: (GoogleMapController googleMapController) {
+                                controller.complete(googleMapController);
+                              },
+                              myLocationButtonEnabled: false,
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        'Full Address \nWith Zip Code and State',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                      ),
+                      Obx(() => Text(controllers.text.value,
+                          style: const TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 12,
+                              color: Colors.black))),
                       const Divider(),
                       const Text(
                         'Distance',
@@ -320,6 +329,14 @@ class FindDonorScreen extends StatelessWidget {
 }
 
 class DonorController extends GetxController {
+
+  final text = ''.obs;
+  final location = Rx<LocationModel>(LocationModel());
+
+  void updateText(String value) {
+    text.value = value;
+  }
+
   RxList<bool> isSelectedList = List.generate(8, (index) => false).obs;
 
   bool isSelected(int index) {

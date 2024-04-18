@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:blood_donation_app/ui/explore/explore_list_container.dart';
+import 'package:blood_donation_app/domain/location_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -11,21 +11,29 @@ import 'package:http/http.dart' as http;
 import '../../data/api/api_constant/api_constants.dart';
 import '../../data/api/model/LocationModel.dart';
 import '../../domain/share_preference/share_preference_service.dart';
+import 'explore_list_container.dart';
 import 'map_controller.dart';
-import 'package:geolocator/geolocator.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
 
   TextEditingController search = TextEditingController();
   MapController mapController = Get.put(MapController());
-  // LocationController locationController = Get.put(LocationController());
   Completer<GoogleMapController> controller = Completer<GoogleMapController>();
-  Completer<GoogleMapController> completerController =
-      Completer<GoogleMapController>();
+  LatLng currentLatLng = const LatLng(0.0, 0.0);
+  RxList<Marker> markers = <Marker>[].obs;
 
   @override
   Widget build(BuildContext context) {
+
+    LocationManager().getCurrentLocation().then((value) async {
+      if (value == null) return;
+      var googleMapController = await controller.future;
+      var userLocation = LatLng(value.latitude!, value.longitude!);
+      googleMapController
+          .animateCamera(CameraUpdate.newLatLngZoom(userLocation, 15));
+    });
+
     return Scaffold(
       body: Stack(
         children: [
@@ -37,10 +45,14 @@ class ExploreScreen extends StatelessWidget {
               onMapCreated: (GoogleMapController googleMapController) {
                 controller.complete(googleMapController);
               },
-              myLocationEnabled: true,
-              markers: Set.from(mapController.markers),
-              myLocationButtonEnabled: true,
-              compassEnabled: true,
+              onLongPress: (LatLng latLng){
+                mapController.moveCameraToLatLng(latLng.longitude, latLng.latitude);
+                markers.add(Marker(markerId: const MarkerId('1'),position: latLng));
+              },
+              myLocationEnabled: false,
+              markers: Set.from(markers),
+              myLocationButtonEnabled: false,
+              compassEnabled: false,
             ),
           ),
           Stack(
@@ -92,7 +104,7 @@ class ExploreScreen extends StatelessWidget {
                       if (location?.latitude != null &&
                           location?.longitude != null) {
                         var mapController = await controller.future;
-                        // mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location.longitude!),15));
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location.longitude!),15));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
@@ -102,7 +114,6 @@ class ExploreScreen extends StatelessWidget {
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          // color: Colors.grey[300]
                         ),
                         padding: const EdgeInsets.all(10),
                         child: Row(
@@ -122,60 +133,6 @@ class ExploreScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Positioned(
-              //   right: 15,
-              //   top: 95,
-              //   child: SizedBox(
-              //     height: 60,
-              //     width: 60,
-              //     child: FloatingActionButton(
-              //       onPressed: () async{
-              //         Position position = await getUserCurrentLocation();
-              //         mapController.moveCameraToLatLng(position.latitude, position.longitude);
-              //         // getUserCurrentLocation().then((value) async {
-              //         //   print(value.latitude.toString() +
-              //         //       " " +
-              //         //       value.longitude.toString());
-              //         //
-              //         //   Position position =
-              //         //       await Geolocator.getCurrentPosition();
-              //         //   LatLng latLng =
-              //         //       LatLng(position.latitude, position.longitude);
-              //         //
-              //         //   // Move camera to user's current location
-              //         //   mapController.moveCameraToLatLng(latLng);
-              //         //
-              //         //   // Add marker for current user's location
-              //         //   mapController.markers.add(
-              //         //     Marker(
-              //         //       markerId: MarkerId("2"),
-              //         //       position: LatLng(value.latitude, value.longitude),
-              //         //       infoWindow: InfoWindow(
-              //         //         title: 'My Current Location',
-              //         //       ),
-              //         //     ),
-              //         //   );
-              //         //
-              //         //   // Specify current user's location
-              //         //   CameraPosition cameraPosition = CameraPosition(
-              //         //     target: LatLng(value.latitude, value.longitude),
-              //         //     zoom: 14,
-              //         //   );
-              //         //
-              //         //   final GoogleMapController controller =
-              //         //       await completerController.future;
-              //         //   controller.animateCamera(
-              //         //       CameraUpdate.newCameraPosition(cameraPosition));
-              //         //   Get.find<MapController>()
-              //         //       .updateCameraPosition(cameraPosition);
-              //         // });
-              //       },
-              //       child: const Center(
-              //         child: Icon(Icons.explore_outlined, size: 28,),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Stack(
                 children: [
                   Positioned(
@@ -247,12 +204,13 @@ extension PredictionExtension on Prediction {
       'Authorization': 'Bearer ${await SharePreferenceService().getUserToken()}'
     };
     try{
-      String placeUrl = ApiConstants.baseUrl + ApiConstants.getLocation + '?placeId=' + placeId.toString();
-      var reponse = await http.get(Uri.parse(placeUrl),headers: headers);
-      var data = jsonDecode(reponse.body) as Map<String, dynamic>;
+      String placeUrl = '${ApiConstants.baseUrl}${ApiConstants.getLocation}?placeId=$placeId';
+      var response = await http.get(Uri.parse(placeUrl),headers: headers);
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
       return LocationModel.fromJson(data['data']);
     }catch (e){
       print("error message: $e");
+      return null;
     }
   }
 }
