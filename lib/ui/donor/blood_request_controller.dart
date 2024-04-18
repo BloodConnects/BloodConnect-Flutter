@@ -7,6 +7,7 @@ class BloodRequestController extends GetxController {
   RxString selectedGender = 'Male'.obs;
   RxString selectedBloodUnits = '500 ml'.obs;
   RxString selectedReason = 'Accident'.obs;
+  RxString fullAddress = ''.obs;
 
   void onSelectedReason(String reason) {
     selectedReason.value = reason;

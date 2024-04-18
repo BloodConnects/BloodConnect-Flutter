@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:blood_donation_app/data/api/model/LocationModel.dart';
 import 'package:blood_donation_app/ui/donor/slider_controller.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
@@ -25,6 +24,7 @@ class FindDonorScreen extends StatelessWidget {
     Completer<GoogleMapController> controller = Completer<GoogleMapController>();
     LatLng currentLatLng = const LatLng(0.0, 0.0);
     RxList<Marker> markers = <Marker>[].obs;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -209,7 +209,8 @@ class FindDonorScreen extends StatelessWidget {
                               markers.clear();
                               markers.add(Marker(markerId: const MarkerId('1'),position: currentLatLng));
                             } else {
-                              Get.snackbar('', "Can't get latitude and longitude");
+                              Get.snackbar(
+                                  '', "Can't get latitude and longitude");
                             }
                           },
                           itemBuilder: (context, index, Prediction prediction) {
@@ -265,19 +266,29 @@ class FindDonorScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Obx(() => Text(controllers.text.value,
+                      Obx(
+                        () => Text(
+                          controllers.text.value.isEmpty
+                              ? "Full Address \nWith Zip code and Streets"
+                              : controllers.text.value,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                              color: Colors.black))),
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                       const Divider(),
                       const Text(
                         'Distance',
                         style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700),
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       Obx(
                         () => Slider(
@@ -338,6 +349,8 @@ class DonorController extends GetxController {
   }
 
   RxList<bool> isSelectedList = List.generate(8, (index) => false).obs;
+  RxString fullAddress = "".obs;
+  final location = Rx<LocationModel>(LocationModel());
 
   bool isSelected(int index) {
     return isSelectedList[index];
