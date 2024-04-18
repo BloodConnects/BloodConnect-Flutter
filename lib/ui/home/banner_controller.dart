@@ -35,7 +35,7 @@ class BannerController extends GetxController {
     super.onInit();
     _startTimer();
 
-    var useLocation = await SharePreferenceService().getLocationModel();
+    var useLocation = null;//await SharePreferenceService().getLocationModel();
     if(useLocation == null){
       var response = await getLocation();
       if(response.success && response.data != null){

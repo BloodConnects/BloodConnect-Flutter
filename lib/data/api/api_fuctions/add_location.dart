@@ -7,7 +7,6 @@ import '../model/UserRepositry.dart';
 class AddLocation{
   void addLocationFunction(LocationModel locationModel, {required Function onClose})async{
     var response = await addLocation(locationModel);
-
     switch (response.status) {
       case ApiStatus.SUCCESS:
         {

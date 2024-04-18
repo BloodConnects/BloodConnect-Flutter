@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  RxString selectedValue = 'A positive'.obs;
   var currentTab = 0.obs;
   late PageController pageController;
 
@@ -24,15 +23,13 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void onSelected(String value) {
-    selectedValue.value = value;
-  }
-
   void navigationTapped(int tab){
     pageController.jumpToPage(tab);
+    currentTab.value = tab;
   }
 
   void onTabChanged(int tab){
     currentTab.value = tab;
+    pageController.jumpToPage(tab);
   }
 }
