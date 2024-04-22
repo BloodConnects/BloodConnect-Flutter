@@ -6,6 +6,8 @@ class UpdatesController extends GetxController {
   final RxBool _articlesButtonPressed = false.obs;
   final RxBool _eventButtonPressed = false.obs;
 
+  final RxBool isEventCardPressed = false.obs;
+
   RxBool get requestedIsButtonPressed => _requestedIsButtonPressed;
   RxBool get articlesButtonPressed => _articlesButtonPressed;
   RxBool get eventButtonPressed => _eventButtonPressed;
@@ -26,6 +28,10 @@ class UpdatesController extends GetxController {
     _requestedIsButtonPressed.value = false;
     _articlesButtonPressed.value = false;
     _eventButtonPressed.toggle();
+  }
+
+  void toggleEventCard(){
+    isEventCardPressed.toggle();
   }
 
   var currentTab = 0.obs;

@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/ui/color_schemes.g.dart';
 import 'package:blood_donation_app/ui/home/blood_request_type_dialog.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
@@ -13,7 +14,7 @@ class UserProfileScreen extends StatelessWidget {
 
   int index = 0;
 
-  Future<String> getFullName() async{
+  Future<String> getFullName() async {
     var detail = donorListController.donor[index];
     return detail.fullName.toString() ?? '';
   }
@@ -82,7 +83,7 @@ class UserProfileScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Center(
+            const Center(
               child: Text(
                 'Jaypalsinh Barad',
                 style: TextStyle(
@@ -92,41 +93,67 @@ class UserProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Center(
-            //   child: FutureBuilder<String>(
-            //     future: getFullName(),
-            //     builder: (context, snapshot){
-            //       if(snapshot.connectionState == ConnectionState.waiting){
-            //         return const CircularProgressIndicator();
-            //       }else{
-            //         return Text(
-            //           '${snapshot.data}',
-            //           style: const TextStyle(
-            //             fontSize: 20,
-            //             fontFamily: 'Inter',
-            //             fontWeight: FontWeight.bold,
-            //             color: Colors.black,
-            //           ),
-            //         );
-            //       }
-            //     }
-            //   ),
-            // ),
             const SizedBox(
               height: 20,
             ),
-            DynamicButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const CustomDialogBox();
-                  },
-                );
-              },
-              width: 200,
-              borderRadius: BorderRadius.circular(22),
-              buttonText: 'Blood Request',
+            Row(
+              children: [
+                SizedBox(
+                  height: 45,
+                  width: 130,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                        Colors.white,
+                      ),
+                      side: MaterialStatePropertyAll(
+                        BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Chat',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Inter',
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 45,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                          lightColorScheme.primary,
+                        ),
+                        side: const MaterialStatePropertyAll(
+                          BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Blood Request',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Inter',
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 15,
@@ -136,38 +163,37 @@ class UserProfileScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.grey[300],
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(1.0, 2.0),
+                    blurRadius: 2.5,
+                    spreadRadius: 2.0,
+                  )
+                ],
               ),
-              child: Obx(
-                () => Column(
-                  children: [
-                    DynamicInfoWidget(
-                      title: 'Mobile Number',
-                      subtitle: getMobileNumber(),
-                    ),
-                    DynamicInfoWidget(
-                      title: 'Email Address',
-                      // subtitle: getEmailAddress(),
-                      subtitle: 'jaypalsinhbarad@gmail.com',
-                    ),
-                    DynamicInfoWidget(
-                      title: 'Age',
-                      // subtitle: getBirthData(),
-                      subtitle: '20',
-                    ),
-                    DynamicInfoWidget(
-                      title: 'Blood Group',
-                      // subtitle: getBloodGroup(),
-                      subtitle: 'O negative',
-                    ),
-                    DynamicInfoWidget(
-                      title: 'Address',
-                      // subtitle: getAddress(),
-                      subtitle: 'Aryavart Bunglows, Kalikund, Dholka, Gujarat - 382225',
-                    ),
-                  ],
-                ),
+              child: const Column(
+                children: [
+                  DynamicInfoWidget(
+                    title: 'Age',
+                    subtitle: '20',
+                  ),
+                  DynamicInfoWidget(
+                    title: 'Blood Group',
+                    subtitle: 'O negative',
+                  ),
+                  DynamicInfoWidget(
+                    title: 'Gender',
+                    subtitle: 'Male',
+                  ),
+                  DynamicInfoWidget(
+                    title: 'Address',
+                    subtitle:
+                        'Aryavart Bunglows, Kalikund, Dholka, Gujarat - 382225',
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),
