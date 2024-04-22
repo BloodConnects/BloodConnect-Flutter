@@ -256,9 +256,9 @@ class BloodRequestScreen extends StatelessWidget {
                       ),
                       Obx(
                         () => Text(
-                          addressController.text.value.isEmpty
+                          addressController.text.isEmpty
                               ? 'Full Address \nWith Zip Code and State'
-                              : addressController.text.value,
+                              : addressController.text,
                           style: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 12,
