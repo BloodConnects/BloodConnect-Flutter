@@ -3,7 +3,6 @@ import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'confirm_screen.dart';
 
 class BloodRequestFormAnswer extends StatelessWidget {
@@ -56,7 +55,7 @@ class BloodRequestFormAnswer extends StatelessWidget {
                   ],
                   color: Colors.white,
                 ),
-                child: Column(
+                child: const Column(
                   children: [
                     DynamicInfoWidget(
                       title: 'Full Name',

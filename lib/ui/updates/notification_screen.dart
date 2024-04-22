@@ -1,3 +1,6 @@
+import 'package:blood_donation_app/ui/updates/article_card.dart';
+import 'package:blood_donation_app/ui/updates/events_card.dart';
+import 'package:blood_donation_app/ui/updates/request_card.dart';
 import 'package:blood_donation_app/ui/updates/updates_chip.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +11,7 @@ import 'updates_controller.dart';
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
 
-  final UpdatesController controller =
-      Get.put(UpdatesController());
+  final UpdatesController controller = Get.put(UpdatesController());
 
   @override
   Widget build(BuildContext context) {
@@ -85,80 +87,87 @@ class NotificationScreen extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: PageView(
                 controller: controller.pageController,
                 onPageChanged: controller.onTabChanged,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[300],
-                    ),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 0),
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return const DynamicInfoWidget(
-                                  title:
-                                      'Jaypalsinh requested for B+ Blood from Dholka, Ahmedabad.',
-                                  fontWeight1: FontWeight.bold,
-                                  subtitle: 'Requested 10 min ago',
-                                  fontWeight2: FontWeight.normal,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                  //requests section
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 0),
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return const RequestCard(
+                                title:
+                                    'Jaypalsinh requested for B+ Blood from Dholka, Ahmedabad.',
+                                subtitle: 'Requested 10 min ago',
+                                titleFontWeight: FontWeight.bold,
+                                subTitleFontWeight: FontWeight.normal,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[300],
-                    ),
-                    child: const Column(
-                      children: [
-                        Text(
-                          'Page 2 Content',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: 'Inter',
+
+                  //article section
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 0),
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return const ArticleCard(
+                                title:
+                                    'Meta to label AI-generated content instead of removing it',
+                                description:
+                                    'The Internet Society supports and promotes the development of the Internet as a global technical ',
+                                postindTime: '10 minutes ago',
+                              );
+                            },
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[300],
-                    ),
-                    child: const Column(
-                      children: [
-                        Text(
-                          'Page 3 Content',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: 'Inter',
+
+                  //events section
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 0),
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return const EventsCard(
+                                month: 'may',
+                                day: '21',
+                                title:
+                                    'Blood Donation Camp for precaustions, and effects after donation blood',
+                                time: '12:00 PM - 2:00 PM',
+                              );
+                            },
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

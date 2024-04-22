@@ -8,12 +8,8 @@ class RadioButtonController extends GetxController{
     selectedVale.value = index;
   }
 
-  Color? backgroundColorOfContainer(int value){
-    if(selectedVale.value == value){
-      return Colors.red[200];
-    }else{
-      return Colors.transparent;
-    }
+  Color borderColor(int value){
+    return selectedVale.value == value ? Colors.red[500]! : Colors.black45;
   }
 
   Color? textColor(int value){
@@ -22,5 +18,9 @@ class RadioButtonController extends GetxController{
     }else{
       return Colors.black;
     }
+  }
+
+  void resetSelectedButton(){
+    selectedVale.value = 0;
   }
 }

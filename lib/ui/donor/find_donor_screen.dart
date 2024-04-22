@@ -350,7 +350,6 @@ class DonorController extends GetxController {
 
   RxList<bool> isSelectedList = List.generate(8, (index) => false).obs;
   RxString fullAddress = "".obs;
-  final location = Rx<LocationModel>(LocationModel());
 
   bool isSelected(int index) {
     return isSelectedList[index];
