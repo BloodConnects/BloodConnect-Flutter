@@ -1,11 +1,8 @@
+import 'package:blood_donation_app/data/api/model/userModel.dart';
 import 'package:flutter/material.dart';
 
 Widget ExploreListContainer({
-  required String name,
-  required String bloodType,
-  required String gender,
-  required String location,
-  required String imagePath,
+  required UserModel donor,
   required VoidCallback onContactPressed,
 }) {
   return Column(
@@ -19,6 +16,7 @@ Widget ExploreListContainer({
             color: Colors.red[0]),
       ),
       Container(
+        margin: const EdgeInsets.only(left: 8.0, right: 8.0),
         height: 130,
         width: 330,
         decoration: BoxDecoration(
@@ -33,28 +31,28 @@ Widget ExploreListContainer({
             )
           ],
         ),
-        child:  Stack(
+        child: Stack(
           clipBehavior: Clip.none,
           children: [
-            const Positioned(
+            Positioned(
               bottom: 80,
               left: 12,
               child: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1662695090012-24ccea960995?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  donor.profilePictureUrl.toString(),
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: 100,
               top: 6,
               child: SizedBox(
                 width: 175,
                 child: Text(
-                  'Priyanka Fulwariya Omprakash',
+                  "Priyanka Fulwari",
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Inter',
                     color: Colors.black,
                     fontSize: 16,
@@ -63,53 +61,47 @@ Widget ExploreListContainer({
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               right: 12,
               top: 6,
               child: Text(
-                'O+',
-                style: TextStyle(
+                donor.bloodGroup?.toShortText()??"",
+                style: const TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 24,
                     color: Colors.red,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const Positioned(
+            Positioned(
               top: 55,
               left: 12,
               child: SizedBox(
                 width: 305,
                 child: Text(
-                  'Science City Approach, Sola Bridge, Ghatlodia, Ahmedabad, Gujarat - 380061',
+                "Near Science City, Thaltej,\nAhemdabad",
                   maxLines: 2,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    color: Colors.black
-                  ),
+                  style:
+                      const TextStyle(fontFamily: 'Inter', color: Colors.black),
                 ),
               ),
             ),
             Positioned(
               bottom: 0,
               child: Container(
-                width: 330,
+                width: 330 - 16,
                 height: 30,
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12),
-                  ),
-                  color: Colors.grey[300]
-                ),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(12),
+                      bottomLeft: Radius.circular(12),
+                    ),
+                    color: Colors.grey[300]),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                   child: Text(
-                    'total health screening score',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      color: Colors.black
-                    ),
+                    'She got 76% in Health Screening',
+                    style: TextStyle(fontFamily: 'Inter', color: Colors.black),
                   ),
                 ),
               ),

@@ -17,6 +17,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       birthDate: json['birthDate'] as int?,
       weight: (json['weight'] as num?)?.toDouble(),
       locationKey: json['locationKey'] as String?,
+      location: json['location'] == null
+          ? null
+          : LocationModel.fromJson(json['location'] as Map<String, dynamic>),
       profilePictureUrl: json['profilePictureUrl'] as String?,
       deviceToken: json['deviceToken'] as String?,
       userToken: json['userToken'] as String?,
@@ -34,6 +37,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'birthDate': instance.birthDate,
       'weight': instance.weight,
       'locationKey': instance.locationKey,
+      'location': instance.location,
       'profilePictureUrl': instance.profilePictureUrl,
       'deviceToken': instance.deviceToken,
       'userToken': instance.userToken,
