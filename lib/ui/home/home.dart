@@ -39,11 +39,12 @@ class Home extends StatelessWidget {
                   return const CircularProgressIndicator();
                 } else {
                   return Text(
-                    'Hello \n${snapshot.data}',
+                    'Hello \nJaypalsinh Barad',
                     style: const TextStyle(
                       // color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
+                      fontWeight: FontWeight.bold,
                     ),
                   );
                 }

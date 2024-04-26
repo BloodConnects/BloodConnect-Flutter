@@ -6,6 +6,7 @@ class DynamicInfoWidget extends StatelessWidget {
   final double radius;
   final FontWeight fontWeight2;
   final FontWeight fontWeight1;
+  final IconData icon;
 
   const DynamicInfoWidget({
     super.key,
@@ -14,6 +15,7 @@ class DynamicInfoWidget extends StatelessWidget {
     this.radius = 22,
     this.fontWeight2 = FontWeight.bold,
     this.fontWeight1 = FontWeight.normal,
+    this.icon = Icons.abc
   });
 
   @override
@@ -23,6 +25,8 @@ class DynamicInfoWidget extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
+            child: Icon(icon),
+            foregroundColor: Colors.white,
             radius: radius,
             backgroundColor: Colors.red[300],
           ),

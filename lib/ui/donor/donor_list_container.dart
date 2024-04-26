@@ -1,24 +1,15 @@
+import 'package:blood_donation_app/data/api/model/userModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../profile/user_profile_screen.dart';
 
 class DonorListContainer extends StatelessWidget {
-  final String userName;
-  final String address;
-  final String distanceInfo;
-  final String healthInfo;
-  final String lastDonationDate;
-  final String imageUrl;
+  final UserModel donor;
 
   const DonorListContainer({
     Key? key,
-    required this.userName,
-    required this.address,
-    required this.distanceInfo,
-    required this.healthInfo,
-    required this.lastDonationDate,
-    required this.imageUrl,
+    required this.donor,
   }) : super(key: key);
 
   @override
@@ -35,7 +26,7 @@ class DonorListContainer extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Get.to(UserProfileScreen());
+                  Get.to(UserProfileScreen(donor: donor));
                 },
                 child: Container(
                   height: 170,
@@ -51,7 +42,7 @@ class DonorListContainer extends StatelessWidget {
                         left: -35,
                         child: CircleAvatar(
                           radius: 40,
-                          backgroundImage: NetworkImage(imageUrl),
+                          backgroundImage: NetworkImage(donor.profilePictureUrl.toString()),
                         ),
                       ),
                       Positioned(
@@ -62,7 +53,7 @@ class DonorListContainer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              userName,
+                              donor.fullName.toString(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -73,7 +64,7 @@ class DonorListContainer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              address,
+                              donor.location?.city?.toString()??"",
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -82,7 +73,7 @@ class DonorListContainer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              distanceInfo,
+                              "distanceInfo",
                               maxLines: 1,
                               style: const TextStyle(
                                 fontFamily: 'Inter',
@@ -90,7 +81,7 @@ class DonorListContainer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              healthInfo,
+                              "healthInfo",
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 14,
@@ -120,7 +111,7 @@ class DonorListContainer extends StatelessWidget {
                               right: 10,
                             ),
                             child: Text(
-                              lastDonationDate,
+                              "lastDonationDate",
                               style: const TextStyle(
                                 fontFamily: 'Inter',
                                 fontSize: 14,
