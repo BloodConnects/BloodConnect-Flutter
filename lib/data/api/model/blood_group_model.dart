@@ -1,14 +1,13 @@
+import '../../enum_classes/blood_group.dart';
+
 class BloodGroupModel{
   BloodGroupModel({
+    required this.bloodGroup,
     required this.image,
   });
 
   String image;
-
-  factory BloodGroupModel.fromJson(Map<String, dynamic> json) =>
-      BloodGroupModel(
-          image: json['image'],
-      );
+  BloodGroup bloodGroup;
 
   Map<String, dynamic> toJson() => {
     'image': image,
@@ -17,7 +16,7 @@ class BloodGroupModel{
   BloodGroupModel copyWith({
     int? quantity,
   }) => BloodGroupModel(
-      image: image,
+      image: image, bloodGroup: bloodGroup,
   );
 }
 

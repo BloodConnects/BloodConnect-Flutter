@@ -5,6 +5,7 @@ import 'package:blood_donation_app/ui/donor/urgency_slider_controller.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_text_field.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -178,7 +179,9 @@ class BloodRequestScreen extends StatelessWidget {
                           countries: const ["in", "fr"],
                           isLatLngRequired: true,
                           getPlaceDetailWithLatLng: (Prediction prediction) {
-                            print("placeDetails${prediction.lng}");
+                            if (kDebugMode) {
+                              print("placeDetails${prediction.lng}");
+                            }
                           },
                           itemClick: (Prediction prediction) async {
                             var location = await prediction.toLocationModel();
@@ -254,16 +257,14 @@ class BloodRequestScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Obx(
-                        () => Text(
-                          addressController.text.isEmpty
-                              ? 'Full Address \nWith Zip Code and State'
-                              : addressController.text,
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
+                      Text(
+                        addressController.value.text.isEmpty
+                            ? 'Full Address \nWith Zip Code and State'
+                            : addressController.value.text,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          color: Colors.black,
                         ),
                       ),
                     ],

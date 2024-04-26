@@ -9,6 +9,29 @@ enum BloodGroup {
   abNegative,
   unknown;
 
+  String toShortText() {
+    switch(this) {
+      case BloodGroup.oPositive:
+        return "O+";
+      case BloodGroup.oNegative:
+        return "O-";
+      case BloodGroup.aPositive:
+        return "A+";
+      case BloodGroup.aNegative:
+        return "A-";
+      case BloodGroup.bPositive:
+        return "B+";
+      case BloodGroup.bNegative:
+        return "B-";
+      case BloodGroup.abPositive:
+        return "AB+";
+      case BloodGroup.abNegative:
+        return "AB-";
+      default: return "";
+    }
+  }
+
+
   String toDisplayText() {
     switch(this) {
       case BloodGroup.oPositive:{

@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/data/api/model/userModel.dart';
 import 'package:blood_donation_app/ui/color_schemes.g.dart';
 import 'package:blood_donation_app/ui/home/blood_request_type_dialog.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_info_widget.dart';
@@ -8,40 +9,36 @@ import 'package:get/get.dart';
 import '../../data/api/api_fuctions/donor_list.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  UserProfileScreen({super.key});
+  UserProfileScreen({super.key,required this.donor});
+  
+  final UserModel donor;
 
   DonorListController donorListController = Get.put(DonorListController());
 
   int index = 0;
 
   Future<String> getFullName() async {
-    var detail = donorListController.donor[index];
-    return detail.fullName.toString() ?? '';
+    return donor.fullName.toString() ?? '';
   }
 
   String getMobileNumber() {
-    var detail = donorListController.donor[index];
-    return detail.mobileNumber.toString();
+    return donor.mobileNumber.toString();
   }
 
   String getEmailAddress() {
-    var detail = donorListController.donor[index];
-    return detail.mailAddress.toString();
+    return donor.mailAddress.toString();
   }
 
   String getBirthData() {
-    var detail = donorListController.donor[index];
-    return detail.birthDate.toString();
+    return donor.birthDate.toString();
   }
 
   String getBloodGroup() {
-    var detail = donorListController.donor[index];
-    return detail.bloodGroup.toString();
+    return donor.bloodGroup.toString();
   }
 
   String getAddress() {
-    var detail = donorListController.donor[index];
-    return detail.locationKey.toString();
+    return donor.locationKey.toString();
   }
 
   @override
@@ -161,32 +158,36 @@ class UserProfileScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(12),
+                color: Color(0xFFFEF7FF),
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.grey,
-                    offset: Offset(1.0, 2.0),
+                    offset: Offset(1.0, 1.0),
                     blurRadius: 2.5,
-                    spreadRadius: 2.0,
+                    spreadRadius: 0.5,
                   )
                 ],
               ),
               child: const Column(
                 children: [
                   DynamicInfoWidget(
+                    icon: Icons.cake,
                     title: 'Age',
                     subtitle: '20',
                   ),
                   DynamicInfoWidget(
+                    icon: Icons.bloodtype,
                     title: 'Blood Group',
                     subtitle: 'O negative',
                   ),
                   DynamicInfoWidget(
+                    icon: Icons.person,
                     title: 'Gender',
                     subtitle: 'Male',
                   ),
                   DynamicInfoWidget(
+                    icon: Icons.location_city,
                     title: 'Address',
                     subtitle:
                         'Aryavart Bunglows, Kalikund, Dholka, Gujarat - 382225',

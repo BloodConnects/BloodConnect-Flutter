@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:blood_donation_app/data/api/model/LocationModel.dart';
+import 'package:blood_donation_app/data/enum_classes/blood_group.dart';
 import 'package:blood_donation_app/ui/donor/slider_controller.dart';
 import 'package:blood_donation_app/ui/explore/explore_screen.dart';
 import 'package:blood_donation_app/ui/utils/dynamic_button.dart';
@@ -87,9 +88,7 @@ class FindDonorScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 45, bottom: 10),
-                      child: GetBuilder<DonorController>(
-                        init: DonorController(),
-                        builder: (controller) => GridView.builder(
+                      child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: 8,
@@ -105,13 +104,13 @@ class FindDonorScreen extends StatelessWidget {
                             return Obx(
                               () => GestureDetector(
                                 onTap: () {
-                                  controller.toggleSelection(index);
+                                  controllers.toggleSelection(index);
                                 },
                                 child: Container(
                                   height: 50,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: controller.isSelected(index)
+                                    color: controllers.isSelected(index)
                                         ? Colors.redAccent[100]
                                         : Colors.grey[300],
                                   ),
@@ -127,7 +126,6 @@ class FindDonorScreen extends StatelessWidget {
                             );
                           },
                         ),
-                      ),
                     )
                   ],
                 ),
@@ -313,7 +311,13 @@ class FindDonorScreen extends StatelessWidget {
               ),
               DynamicButton(
                 onPressed: () {
-                  Get.to(DonorListScreen());
+                  BloodGroup? bloodGroup;
+                  if (controllers.selectedIndex.value==-1) {
+                    bloodGroup = null;
+                  } else {
+                    bloodGroup = bloodGroupList[controllers.selectedIndex.value].bloodGroup;
+                  }
+                  Get.to(DonorListScreen(bloodGroup: bloodGroup,latLng: currentLatLng));
                 },
                 buttonText: 'Continue',
               ),
@@ -328,14 +332,14 @@ class FindDonorScreen extends StatelessWidget {
   }
 
   List<BloodGroupModel> bloodGroupList = [
-    BloodGroupModel(image: 'Assets/Images/o nagative.svg'),
-    BloodGroupModel(image: 'Assets/Images/o positive.svg'),
-    BloodGroupModel(image: 'Assets/Images/a negative.svg'),
-    BloodGroupModel(image: 'Assets/Images/A positive.svg'),
-    BloodGroupModel(image: 'Assets/Images/b nagative.svg'),
-    BloodGroupModel(image: 'Assets/Images/b positive.svg'),
-    BloodGroupModel(image: 'Assets/Images/ab nagative.svg'),
-    BloodGroupModel(image: 'Assets/Images/ab positive.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.oNegative, image: 'Assets/Images/o nagative.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.oPositive, image: 'Assets/Images/o positive.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.aNegative, image: 'Assets/Images/a negative.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.aPositive, image: 'Assets/Images/A positive.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.bNegative, image: 'Assets/Images/b nagative.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.bPositive, image: 'Assets/Images/b positive.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.abNegative, image: 'Assets/Images/ab nagative.svg'),
+    BloodGroupModel(bloodGroup: BloodGroup.abPositive, image: 'Assets/Images/ab positive.svg'),
   ];
 }
 
@@ -348,16 +352,14 @@ class DonorController extends GetxController {
     text.value = value;
   }
 
-  RxList<bool> isSelectedList = List.generate(8, (index) => false).obs;
+  RxInt selectedIndex = RxInt(-1);
   RxString fullAddress = "".obs;
 
   bool isSelected(int index) {
-    return isSelectedList[index];
+    return selectedIndex==index;
   }
 
   void toggleSelection(int index) {
-    for (int i = 0; i < isSelectedList.length; i++) {
-      isSelectedList[i] = (i == index);
-    }
+    selectedIndex.value = index;
   }
 }

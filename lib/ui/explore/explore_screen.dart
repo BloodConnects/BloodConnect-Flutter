@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:blood_donation_app/data/api/api_fuctions/donor_list.dart';
 import 'package:blood_donation_app/domain/location_manager.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -19,9 +22,9 @@ class ExploreScreen extends StatelessWidget {
 
   TextEditingController search = TextEditingController();
   MapController mapController = Get.put(MapController());
+  DonorListController donorListController = Get.put(DonorListController());
   Completer<GoogleMapController> controller = Completer<GoogleMapController>();
   LatLng currentLatLng = const LatLng(0.0, 0.0);
-  RxList<Marker> markers = <Marker>[].obs;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,8 @@ class ExploreScreen extends StatelessWidget {
       if (value == null) return;
       var googleMapController = await controller.future;
       var userLocation = LatLng(value.latitude!, value.longitude!);
-      googleMapController
-          .animateCamera(CameraUpdate.newLatLngZoom(userLocation, 15));
+      donorListController.fetchApiFile(null,userLocation);
+      googleMapController.animateCamera(CameraUpdate.newLatLngZoom(userLocation, 15));
     });
 
     return Scaffold(
@@ -45,12 +48,12 @@ class ExploreScreen extends StatelessWidget {
               onMapCreated: (GoogleMapController googleMapController) {
                 controller.complete(googleMapController);
               },
-              onLongPress: (LatLng latLng){
-                mapController.moveCameraToLatLng(latLng.longitude, latLng.latitude);
-                markers.add(Marker(markerId: const MarkerId('1'),position: latLng));
+              onLongPress: (LatLng latLng) {
+                mapController.moveCameraToLatLng(
+                    latLng.longitude, latLng.latitude);
               },
               myLocationEnabled: false,
-              markers: Set.from(markers),
+              markers: Set.from(donorListController.markers),
               myLocationButtonEnabled: false,
               compassEnabled: false,
             ),
@@ -59,7 +62,8 @@ class ExploreScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 15, right: 15,
+                  left: 15,
+                  right: 15,
                   top: 60,
                 ),
                 child: Container(
@@ -92,7 +96,9 @@ class ExploreScreen extends StatelessWidget {
                     countries: const ["in", "fr"],
                     isLatLngRequired: true,
                     getPlaceDetailWithLatLng: (Prediction prediction) {
-                      print("placeDetails${prediction.lng}");
+                      if (kDebugMode) {
+                        print("placeDetails${prediction.lng}");
+                      }
                     },
                     itemClick: (Prediction prediction) async {
                       var location = await prediction.toLocationModel();
@@ -104,11 +110,12 @@ class ExploreScreen extends StatelessWidget {
                       if (location?.latitude != null &&
                           location?.longitude != null) {
                         var mapController = await controller.future;
-                        mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(location!.latitude!, location.longitude!),15));
+                        mapController.animateCamera(CameraUpdate.newLatLngZoom(
+                            LatLng(location!.latitude!, location.longitude!),
+                            15));
                       } else {
                         Get.snackbar('', "Can't get latitude and longitude");
                       }
-
                     },
                     itemBuilder: (context, index, Prediction prediction) {
                       return Container(
@@ -139,42 +146,31 @@ class ExploreScreen extends StatelessWidget {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        child: Row(
-                          children: [
-                            ExploreListContainer(
-                              name: 'Priyanka Fulwari',
-                              bloodType: 'A positive',
-                              gender: 'Female',
-                              location: 'Ahmedabad, Gujarat',
-                              imagePath: 'Assets/Images/images.jpeg',
-                              onContactPressed: () {},
-                            ),
-                            const SizedBox(width: 10),
-                            ExploreListContainer(
-                              name: 'Priyanka Fulwari',
-                              bloodType: 'A positive',
-                              gender: 'Female',
-                              location: 'Ahmedabad, Gujarat',
-                              imagePath: 'Assets/Images/images.jpeg',
-                              onContactPressed: () {},
-                            ),
-                            const SizedBox(width: 10),
-                            ExploreListContainer(
-                              name: 'Priyanka Fulwari',
-                              bloodType: 'A positive',
-                              gender: 'Female',
-                              location: 'Ahmedabad, Gujarat',
-                              imagePath: 'Assets/Images/images.jpeg',
-                              onContactPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ),
+                    child: Obx( ()=> CarouselSlider.builder(
+                          itemCount: donorListController.donor.length,
+                          itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) =>
+                              Container(
+                                child: ExploreListContainer(
+                                    donor: donorListController.donor[itemIndex],
+                                    onContactPressed: () {}),
+                              ),
+                          options: CarouselOptions(
+                            height: 200,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            reverse: false,
+                            scrollDirection: Axis.horizontal,
+                            onPageChanged: (index, reason) async {
+                              var googleMapController = await controller.future;
+                              googleMapController.animateCamera(
+                                  CameraUpdate.newLatLngZoom(
+                                      donorListController.markers[index].position,
+                                      15));
+                            },
+                          )),
                     ),
                   ),
                 ],
@@ -191,7 +187,9 @@ class ExploreScreen extends StatelessWidget {
         .then((value) {})
         .onError((error, stackTrace) async {
       await Geolocator.requestPermission();
-      print("ERROR" + error.toString());
+      if (kDebugMode) {
+        print("ERROR$error");
+      }
     });
     return await Geolocator.getCurrentPosition();
   }
@@ -203,13 +201,16 @@ extension PredictionExtension on Prediction {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await SharePreferenceService().getUserToken()}'
     };
-    try{
-      String placeUrl = '${ApiConstants.baseUrl}${ApiConstants.getLocation}?placeId=$placeId';
-      var response = await http.get(Uri.parse(placeUrl),headers: headers);
+    try {
+      String placeUrl =
+          '${ApiConstants.baseUrl}${ApiConstants.getLocation}?placeId=$placeId';
+      var response = await http.get(Uri.parse(placeUrl), headers: headers);
       var data = jsonDecode(response.body) as Map<String, dynamic>;
       return LocationModel.fromJson(data['data']);
-    }catch (e){
-      print("error message: $e");
+    } catch (e) {
+      if (kDebugMode) {
+        print("error message: $e");
+      }
       return null;
     }
   }

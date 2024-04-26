@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/data/api/model/LocationModel.dart';
 import 'package:blood_donation_app/data/api/model/UserRepositry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -18,6 +19,7 @@ class UserModel {
   int? birthDate;
   double? weight;
   String? locationKey;
+  LocationModel? location;
   String? profilePictureUrl;
   String? deviceToken;
   String? userToken;
@@ -34,6 +36,7 @@ class UserModel {
         this.birthDate,
         this.weight,
         this.locationKey,
+        this.location,
         this.profilePictureUrl,
         this.deviceToken,
         this.userToken,
